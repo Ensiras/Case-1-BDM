@@ -15,10 +15,12 @@ class RegistrerenGebruikerTest {
     @Test
     void whenRegisterGebruikerEmailAndBezorgwijzenShouldBeSavedAdresMayBeEmpty() {
         Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
+        String[] adres = new String[3];
+
         bezorgwijzen.add(AFHALEN_MAGAZIJN);
         bezorgwijzen.add(VERSTUREN_VOORBET);
 
-        Gebruiker gebruiker = RegistrerenGebruiker.registreerGebruiker("Test@example.com", bezorgwijzen);
+        Gebruiker gebruiker = RegistrerenGebruiker.registreerGebruiker("Test@example.com", bezorgwijzen, adres, true);
 
         assertThat(gebruiker.getEmail()).isEqualTo("Test@example.com");
         assertThat(gebruiker.getBezorgWijzen()).contains(AFHALEN_MAGAZIJN, VERSTUREN_VOORBET);

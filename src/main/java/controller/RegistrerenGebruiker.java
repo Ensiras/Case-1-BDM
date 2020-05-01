@@ -17,14 +17,10 @@ public class RegistrerenGebruiker {
     private RegistrerenGebruiker() {
     }
 
-    public static Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres) {
-        Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres);
+    public static Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
+        Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
         dao.insert(gebruiker);
         return gebruiker;
-    }
-
-    public static Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen) {
-        return new Gebruiker(email, bezorgwijzen);
     }
 
     public static boolean checkAdres(String[] adres) {
@@ -53,5 +49,15 @@ public class RegistrerenGebruiker {
 
     public static boolean checkBezorgwijzen(Set<Bezorgwijze> bezorgwijzen) {
         return bezorgwijzen.contains(AFHALEN_THUIS);
+    }
+
+    public static boolean checkToestemmging(String toestemmingInput) {
+        if (toestemmingInput.equals("1")) {
+            return true;
+        } else if (toestemmingInput.equals("2")) {
+            return false;
+        } else {
+            return false;
+        }
     }
 }

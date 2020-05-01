@@ -18,23 +18,19 @@ public class Gebruiker {
     private String straat;
     private String huisnummer;
     private String postcode;
+    private boolean toestemming;
 
     @ElementCollection(targetClass = Bezorgwijze.class)
     @Enumerated(STRING)
     private Set<Bezorgwijze> bezorgWijzen = new HashSet<>();
 
-    public Gebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres) {
+    public Gebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
         this.email = email;
         this.bezorgWijzen = bezorgwijzen;
         this.straat = adres[0];
         this.huisnummer = adres[1];
         this.postcode = adres[2];
-    }
-
-    public Gebruiker(String email, Set<Bezorgwijze> bezorgwijzen) {
-        this(email, bezorgwijzen, new String[3]);
-        this.email = email;
-        this.bezorgWijzen = bezorgwijzen;
+        this.toestemming = toestemming;
     }
 
     public Gebruiker() {

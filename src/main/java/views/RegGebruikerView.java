@@ -2,6 +2,7 @@ package views;
 
 import controller.RegistrerenGebruiker;
 import domain.Bezorgwijze;
+import util.Regelement;
 
 import java.util.HashSet;
 import java.util.Scanner;
@@ -23,20 +24,25 @@ public class RegGebruikerView {
     public static void registreerGebruiker() {
         String email;
         String[] adres = new String[3];
-        boolean bezorgCheck = false;
+        boolean bezorgCheck;
 
         email = vraagEmail();
-
         Set<Bezorgwijze> ondersteundeBw = vraagBezorgwijzen();
-        bezorgCheck = RegistrerenGebruiker.checkBezorgwijzen(ondersteundeBw);
 
+        bezorgCheck = RegistrerenGebruiker.checkBezorgwijzen(ondersteundeBw);
         if (bezorgCheck) {
             adres = vraagAdres();
-        } else {
-            RegistrerenGebruiker.registreerGebruiker(email, ondersteundeBw);
         }
 
-        RegistrerenGebruiker.registreerGebruiker(email, ondersteundeBw, adres);
+        boolean toestemming = vraagToestemming();
+        RegistrerenGebruiker.registreerGebruiker(email, ondersteundeBw, adres, toestemming);
+
+    }
+
+    private static boolean vraagToestemming() {
+        Regelement.toonRegelement(true);
+        String toestemmingInput = scanner.nextLine();
+        return RegistrerenGebruiker.checkToestemmging(toestemmingInput);
 
     }
 
