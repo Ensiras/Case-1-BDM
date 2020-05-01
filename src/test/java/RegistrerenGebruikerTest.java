@@ -8,13 +8,12 @@ import java.util.Set;
 
 import static domain.Bezorgwijze.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RegistrerenGebruikerTest {
 
     @Test
-    void whenRegisterGebruikerEmailAndBezorgwijzenShouldBeSavedAdresIsEmpty() {
+    void whenRegisterGebruikerEmailAndBezorgwijzenShouldBeSavedAdresMayBeEmpty() {
         Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
         bezorgwijzen.add(AFHALEN_MAGAZIJN);
         bezorgwijzen.add(VERSTUREN_VOORBET);
@@ -23,20 +22,9 @@ class RegistrerenGebruikerTest {
 
         assertThat(gebruiker.getEmail()).isEqualTo("Test@example.com");
         assertThat(gebruiker.getBezorgWijzen()).contains(AFHALEN_MAGAZIJN, VERSTUREN_VOORBET);
-        assertThat(gebruiker.getAdres()).isNull();
-
-    }
-
-    //TODO: manier vinden om dit te testen
-    @Test
-    void whenBezorgWijzeAfhalenThuisIsSupportedAdresIsRequired() {
-        Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
-        bezorgwijzen.add(AFHALEN_THUIS);
-        bezorgwijzen.add(VERSTUREN_VOORBET);
-
-        Gebruiker gebruiker = RegistrerenGebruiker.registreerGebruiker("Test@example.com", bezorgwijzen);
-
-//        assertThat(gebruiker.getAdres()).isNotNull();
+        assertNull(gebruiker.getStraat());
+        assertNull(gebruiker.getHuisnummer());
+        assertNull(gebruiker.getPostcode());
     }
 
     @Test
@@ -80,4 +68,30 @@ class RegistrerenGebruikerTest {
 
         assertFalse(result);
     }
+
+    @Test
+    void whenPostcodeIsInvalidShouldReturnFalse() {
+        String[] adres1 = {"Pianoweg", "34A", "1444rer"};
+        String[] adres2 = {"Pianoweg", "34A", "144re"};
+        String[] adres3 = {"Pianoweg", "34A", "14444re"};
+
+        boolean result = RegistrerenGebruiker.checkAdres(adres1);
+        boolean result2 = RegistrerenGebruiker.checkAdres(adres2);
+        boolean result3 = RegistrerenGebruiker.checkAdres(adres3);
+
+        assertFalse(result);
+        assertFalse(result2);
+        assertFalse(result3);
+    }
+
+    @Test
+    void whenPostcodeIsValidShouldReturnTrue() {
+        String[] adres1 = {"Pianoweg", "34A", "1444xy"};
+
+        boolean result = RegistrerenGebruiker.checkAdres(adres1);
+
+        assertTrue(result);
+    }
+
+
 }

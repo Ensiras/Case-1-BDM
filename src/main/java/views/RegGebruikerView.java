@@ -22,7 +22,7 @@ public class RegGebruikerView {
     // TODO: regelement toevoegen
     public static void registreerGebruiker() {
         String email;
-        String adres = "";
+        String[] adres = new String[3];
         boolean bezorgCheck = false;
 
         email = vraagEmail();
@@ -67,26 +67,28 @@ public class RegGebruikerView {
         return onderSteundeBw;
     }
 
-    public static String vraagAdres() {
+    public static String[] vraagAdres() {
         scanner = new Scanner(System.in);
+        System.out.println("Voer uw adres in");
         boolean adresCheck = false;
-        String adres = "";
+        String[] adres = new String[3];
 
         while (!adresCheck) {
-            System.out.println("Voer uw adres in");
 
             System.out.println("Straat: ");
-            adres = scanner.nextLine();
+            adres[0] = scanner.nextLine().trim();;
 
-            System.out.println("/Huisnummer: ");
-            adres += " " + scanner.nextLine();
+            System.out.println("Huisnummer: ");
+            adres[1] = scanner.nextLine().trim();;
 
-            System.out.println("/Postcode: ");
-            adres += " " + scanner.nextLine();
+            System.out.println("Postcode: ");
+            adres[2] = scanner.nextLine().trim();;
 
             adresCheck = RegistrerenGebruiker.checkAdres(adres);
+
         }
         return adres;
     }
+
 
 }
