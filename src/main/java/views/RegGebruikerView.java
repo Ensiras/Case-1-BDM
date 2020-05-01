@@ -20,7 +20,7 @@ public class RegGebruikerView {
     private RegGebruikerView() {
     }
 
-    // TODO: regelement toevoegen
+
     public static void registreerGebruiker() {
         String email;
         String[] adres = new String[3];
@@ -34,15 +34,20 @@ public class RegGebruikerView {
             adres = vraagAdres();
         }
 
+        // TODO: regelement nog een kans toevoegen
         boolean toestemming = vraagToestemming();
-        RegistrerenGebruiker.registreerGebruiker(email, ondersteundeBw, adres, toestemming);
+        if(toestemming) {
+            RegistrerenGebruiker.registreerGebruiker(email, ondersteundeBw, adres, true);
+        } else {
+            System.out.println("Zonder in te stemmen met het regelement kunt u geen gebruik maken van BDM.");
+        }
 
     }
 
     private static boolean vraagToestemming() {
         Regelement.toonRegelement(true);
-        String toestemmingInput = scanner.nextLine();
-        return RegistrerenGebruiker.checkToestemmging(toestemmingInput);
+        String toestemmingInput = scanner.nextLine().trim();
+        return RegistrerenGebruiker.checkToestemming(toestemmingInput);
 
     }
 
@@ -73,7 +78,7 @@ public class RegGebruikerView {
         return onderSteundeBw;
     }
 
-    public static String[] vraagAdres() {
+    private static String[] vraagAdres() {
         scanner = new Scanner(System.in);
         System.out.println("Voer uw adres in");
         boolean adresCheck = false;

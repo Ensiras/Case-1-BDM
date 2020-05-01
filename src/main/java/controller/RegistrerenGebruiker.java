@@ -51,7 +51,7 @@ public class RegistrerenGebruiker {
         return bezorgwijzen.contains(AFHALEN_THUIS);
     }
 
-    public static boolean checkToestemmging(String toestemmingInput) {
+    public static boolean checkToestemming(String toestemmingInput) {
         if (toestemmingInput.equals("1")) {
             return true;
         } else if (toestemmingInput.equals("2")) {
