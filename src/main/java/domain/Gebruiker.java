@@ -7,6 +7,8 @@ import java.util.Set;
 import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static javax.persistence.EnumType.STRING;
 
+//TODO Toestemming naleven regelement
+
 @Entity
 public class Gebruiker {
 

@@ -10,36 +10,35 @@ import static domain.Bezorgwijze.AFHALEN_THUIS;
 
 public class RegistrerenGebruiker {
 
-    private RegistrerenGebruiker() {};
+    private RegistrerenGebruiker() {
+    }
 
-    public static Gebruiker registreren(String email, Set<Bezorgwijze> bezorgwijzen) {
-        checkEmail(email);
-        String adres = bepaalAdres(bezorgwijzen);
-        if (adres != null) {
-            checkAdres(adres);
-        }
+    public static Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String adres) {
         return new Gebruiker(email, bezorgwijzen, adres);
     }
 
-    private static String bepaalAdres(Set<Bezorgwijze> bezorgwijzen) {
-        String adres;
-        if (bezorgwijzen.contains(AFHALEN_THUIS)) {
-            adres = RegGebruikerView.vraagAdres();
-        } else {
-            adres = null;
-        }
-        return adres;
+    public static Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen) {
+        return new Gebruiker(email, bezorgwijzen, null);
     }
 
-    private static void checkAdres(String adres) {
+    // TODO valideren adres inbouwen
+    public static boolean checkAdres(String adres) {
+        System.out.println("Checken van adres is nog niet geïmplementeerd.");
         /*String[] adresSplit = adres.split("/");
         adresSplit[1].matches("\\p{L}");
         adresSplit[2].matches("[0-9]+")*/
+        return true;
     }
 
-    private static void checkEmail(String email) {
-        System.out.println("Checken van email is nog niet geïmplementeerd.");
+    public static boolean checkEmail(String email) {
+        if (email.contains("@") && email.contains(".")) {
+            return true;
+        }
+        System.out.println("Dit is geen geldig e-mailadres");
+        return false;
     }
 
-
+    public static boolean checkBezorgwijzen(Set<Bezorgwijze> bezorgwijzen) {
+        return bezorgwijzen.contains(AFHALEN_THUIS);
+    }
 }
