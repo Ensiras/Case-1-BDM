@@ -14,36 +14,42 @@ import static util.Regelement.getRegelementVoet;
 
 public class RegistrerenGebruiker {
 
-    private final RegGebruikerView view;
+    private RegGebruikerView view;
+    private GebruikerDao dao;
+
+    public RegistrerenGebruiker() {
+    }
 
     public RegistrerenGebruiker(RegGebruikerView view) {
         this.view = view;
+        this.dao = new GebruikerDao(getEntityManager());
     }
 
     public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
-        GebruikerDao dao = new GebruikerDao(getEntityManager());
         Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
         dao.insert(gebruiker);
         return gebruiker;
     }
 
-    public void startRegistratie() {
+    public boolean startRegistratie() {
         String[] adres = new String[3];
 
         String email = vraagEmail();
         Set<Bezorgwijze> bezorgwijzen = vraagBezorgwijzen();
 
-        // Als thuis afhalen wordt ondersteund vraag dan het adres:
+        // Als thuis afhalen wordt ondersteund vraag dan het adres
         if (checkBezorgwijzen(bezorgwijzen)) {
             adres = vraagAdres();
         }
-        // Als toestemming gegeven wordt, registreer dan een gebruiker
-        if(vraagToestemming()) {
-            Gebruiker gebruiker = registreerGebruiker(email, bezorgwijzen, adres, true);
-            view.toonBericht("Registratie van gebruiker " + gebruiker.getEmail() + " succesvol!");
-        } else {
+        // Als toestemming niet gegeven wordt, breek registratie af
+        if (!vraagToestemming()) {
             view.toonBericht("Registratie wordt afgebroken.");
+            return false;
         }
+
+        Gebruiker gebruiker = registreerGebruiker(email, bezorgwijzen, adres, true);
+        view.toonBericht("Registratie van gebruiker " + gebruiker.getEmail() + " succesvol!");
+        return true;
     }
 
     private boolean vraagToestemming() {
@@ -52,7 +58,7 @@ public class RegistrerenGebruiker {
         String input = "";
 
         view.toonRegelement();
-        while(!valideInput) {
+        while (!valideInput) {
             input = view.vraagInput(getRegelementVoet());
             valideInput = checkInput(input, opties);
         }
@@ -114,6 +120,7 @@ public class RegistrerenGebruiker {
         return adres;
     }
 
+    // Zorgt ervoor dat alle velden ingevuld zijn en de postcode uit 4 getallen en 2 letters bestaat
     public boolean checkAdres(String[] adres) {
         String straat = adres[0];
         String huisnummer = adres[1];
