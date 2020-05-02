@@ -95,10 +95,4 @@ class RegistrerenGebruikerTest {
         assertTrue(result);
     }
 
-    @Test
-    void whenToestemmingisGivenShouldReturnTrue() {
-        boolean result = RegistrerenGebruiker.checkToestemming("1");
-
-        assertTrue(result);
-    }
 }
