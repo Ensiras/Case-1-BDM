@@ -14,7 +14,7 @@ public class MainApp {
         int keuze = Integer.parseInt(scanner.nextLine());
         switch(keuze) {
             case 1:
-                RegGebruikerView.show();
+                new RegGebruikerView().show();
                 break;
             default:
                 System.out.println("Actie niet herkend of ondersteund, jammer!");

@@ -7,30 +7,30 @@ import java.util.Scanner;
 
 public class RegGebruikerView {
 
-    private static Scanner scanner;
+    private final Scanner scanner;
 
-    public static void show() {
-        scanner = new Scanner(System.in);
-        registreerGebruikerNieuw();
+    public void show() {
+        registreerGebruiker();
     }
 
-    private RegGebruikerView() {
+    public RegGebruikerView() {
+        this.scanner = new Scanner(System.in);
     }
 
-    public static void registreerGebruikerNieuw() {
-        RegistrerenGebruiker.startRegistratie();
+    public void registreerGebruiker() {
+        new RegistrerenGebruiker(this).startRegistratie();
     }
 
-    public static String vraagInput(String bericht) {
+    public String vraagInput(String bericht) {
         System.out.println(bericht);
         return scanner.nextLine().trim().toLowerCase();
     }
 
-    public static void toonBericht(String bericht) {
+    public void toonBericht(String bericht) {
         System.out.println(bericht);
     }
 
-    public static void toonRegelement() {
+    public void toonRegelement() {
         Regelement.toon(true);
     }
 }
