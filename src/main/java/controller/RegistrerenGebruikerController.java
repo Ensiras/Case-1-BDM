@@ -52,7 +52,7 @@ public class RegistrerenGebruikerController {
         return gebruiker;
     }
 
-    private boolean vraagToestemming() {
+    boolean vraagToestemming() {
         boolean valideInput = false;
         String[] opties = {"j", "n"};
         String input = "";
@@ -65,7 +65,7 @@ public class RegistrerenGebruikerController {
         return input.equals("j");
     }
 
-    private String vraagEmail() {
+    String vraagEmail() {
         boolean emailCheck = false;
         String email = "";
         while (!emailCheck) {
@@ -75,7 +75,18 @@ public class RegistrerenGebruikerController {
         return email;
     }
 
-    private Set<Bezorgwijze> vraagBezorgwijzen() {
+    boolean checkEmail(String email) {
+        if (email.contains("@")) {
+            String postfix = email.substring(email.indexOf("@"));
+            if (postfix.contains(".")) {
+                return true;
+            }
+        }
+        System.out.println("Dit is geen geldig e-mailadres");
+        return false;
+    }
+
+    Set<Bezorgwijze> vraagBezorgwijzen() {
         Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
         view.toonBericht("Ondersteunt u de volgende bezorgwijzen (j/n)?");
         String[] opties = {"j", "n"};
@@ -95,8 +106,13 @@ public class RegistrerenGebruikerController {
         return bezorgwijzen;
     }
 
+    public boolean checkBezorgwijzen(Set<Bezorgwijze> bezorgwijzen) {
+        return bezorgwijzen.contains(AFHALEN_THUIS);
+    }
+
     // TODO naar (abstracte) superklasse
-    private boolean checkInput(String input, String[] opties) {
+
+    boolean checkInput(String input, String[] opties) {
         for (String optie : opties) {
             if (optie.equals(input)) {
                 return true;
@@ -105,8 +121,7 @@ public class RegistrerenGebruikerController {
         view.toonBericht("Input: " + input + " werd niet herkend.");
         return false;
     }
-
-    private String[] vraagAdres() {
+    String[] vraagAdres() {
         String[] adres = new String[3];
         boolean adresCheck = false;
 
@@ -121,7 +136,8 @@ public class RegistrerenGebruikerController {
     }
 
     // Zorgt ervoor dat alle velden ingevuld zijn en de postcode uit 4 getallen en 2 letters bestaat
-    public boolean checkAdres(String[] adres) {
+
+    boolean checkAdres(String[] adres) {
         String straat = adres[0];
         String huisnummer = adres[1];
         String postcode = adres[2];
@@ -135,21 +151,6 @@ public class RegistrerenGebruikerController {
         } else {
             return true;
         }
-    }
-
-    public boolean checkEmail(String email) {
-        if (email.contains("@")) {
-            String postfix = email.substring(email.indexOf("@"));
-            if (postfix.contains(".")) {
-                return true;
-            }
-        }
-        System.out.println("Dit is geen geldig e-mailadres");
-        return false;
-    }
-
-    public boolean checkBezorgwijzen(Set<Bezorgwijze> bezorgwijzen) {
-        return bezorgwijzen.contains(AFHALEN_THUIS);
     }
 
 }

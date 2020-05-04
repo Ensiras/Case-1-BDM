@@ -1,4 +1,5 @@
-import controller.RegistrerenGebruikerController;
+package controller;
+
 import dao.GebruikerDao;
 import domain.Bezorgwijze;
 import domain.Gebruiker;
@@ -42,54 +43,52 @@ class RegistrerenGebruikerControllerTest {
         assertTrue(registratieSucces);
     }
 
-    // TODO: Test maken
-    @Test
-    void whenAfhalenThuisIsSupportedAddressShouldBeGiven() {
-    }
-
-
-
-
-    // Test using public methods that should be private(?)
-    @Test
-    void whenRegisterGebruikerEmailAndBezorgwijzenShouldBeSavedAdresMayBeEmpty() {
-        Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
-        String[] adres = new String[3];
-
-        bezorgwijzen.add(AFHALEN_MAGAZIJN);
-        bezorgwijzen.add(VERSTUREN_VOORBET);
-
-        Gebruiker gebruiker = regGebr.registreerGebruiker("Test@example.com", bezorgwijzen, adres, true);
-
-        assertThat(gebruiker.getEmail()).isEqualTo("Test@example.com");
-        assertThat(gebruiker.getBezorgWijzen()).contains(AFHALEN_MAGAZIJN, VERSTUREN_VOORBET);
-        assertNull(gebruiker.getStraat());
-        assertNull(gebruiker.getHuisnummer());
-        assertNull(gebruiker.getPostcode());
-    }
 
     @Test
     void whenInvalidEmailIsGivenShouldReturnFalse() {
         String email1 = "invalidemail@noperiod";
         String email2 = "invalidemail.noAtSymbol";
+        String email3 = "invalidemail.dotbefore@com";
 
         boolean noPeriod = regGebr.checkEmail(email1);
         boolean noAtSymbol = regGebr.checkEmail(email2);
+        boolean periodBeforeAt = regGebr.checkEmail(email3);
 
-        assertFalse(noPeriod && noAtSymbol);
+        assertFalse(noPeriod && noAtSymbol && periodBeforeAt);
     }
 
     @Test
-    void whenValidEmailIsGivenShouldReturnTrue() {
-        String email = "validemail@goodjob.com";
+    void whenValidEmailIsGivenReturnEmailString() {
+        when(mockedView.vraagInput(anyString())).thenReturn("valid@email.com");
 
-        boolean result = regGebr.checkEmail(email);
+        String email = regGebr.vraagEmail();
 
-        assertTrue(result);
+        assertThat(email).isEqualTo("valid@email.com").isNotNull().isInstanceOf(String.class);
     }
 
     @Test
-    void whenSetContainsAfhalenThuisShouldReturnTrue() {
+    void whenVraagBezorgwijzenIsCalledShouldOnlyReturnedSupportedBezorgwijzen() {
+        when(mockedView.vraagInput(anyString())).thenReturn("n", "j", "n", "j");
+
+        Set<Bezorgwijze> bezorgwijzen = regGebr.vraagBezorgwijzen();
+
+        assertThat(bezorgwijzen).containsOnly(AFHALEN_THUIS, VERSTUREN_REMBOURS);
+    }
+
+    @Test
+    void whenBezorgwijzenDoesNotContainAfhalenThuisShouldReturnFalse() {
+        Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
+
+        bezorgwijzen.add(AFHALEN_MAGAZIJN);
+        bezorgwijzen.add(VERSTUREN_VOORBET);
+
+        boolean result = regGebr.checkBezorgwijzen(bezorgwijzen);
+
+        assertFalse(result);
+    }
+
+    @Test
+    void whenBezorgwijzenContainsAfhalenThuisShouldReturnTrue() {
         Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
         bezorgwijzen.add(AFHALEN_THUIS);
         bezorgwijzen.add(VERSTUREN_VOORBET);
@@ -100,14 +99,12 @@ class RegistrerenGebruikerControllerTest {
     }
 
     @Test
-    void whenSetDoesNotContainAfhalenThuisShouldReturnFalse() {
-        Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
-        bezorgwijzen.add(AFHALEN_MAGAZIJN);
-        bezorgwijzen.add(VERSTUREN_VOORBET);
+    void whenValidAdresIsGivenShouldReturnAdresInStringArray() {
+        when(mockedView.vraagInput(anyString())).thenReturn("Teststraat", "45", "4323TY");
 
-        boolean result = regGebr.checkBezorgwijzen(bezorgwijzen);
+        String[] result = regGebr.vraagAdres();
 
-        assertFalse(result);
+        assertThat(result).containsExactly("Teststraat", "45", "4323TY");
     }
 
     @Test
@@ -115,14 +112,17 @@ class RegistrerenGebruikerControllerTest {
         String[] adres1 = {"Pianoweg", "34A", "1444rer"};
         String[] adres2 = {"Pianoweg", "34A", "144re"};
         String[] adres3 = {"Pianoweg", "34A", "14444re"};
+        String[] adres4 = {"", "34A", "14444re"};
 
         boolean result = regGebr.checkAdres(adres1);
         boolean result2 = regGebr.checkAdres(adres2);
         boolean result3 = regGebr.checkAdres(adres3);
+        boolean result4 = regGebr.checkAdres(adres4);
 
         assertFalse(result);
         assertFalse(result2);
         assertFalse(result3);
+        assertFalse(result4);
     }
 
     @Test
