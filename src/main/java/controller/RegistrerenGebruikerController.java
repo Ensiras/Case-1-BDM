@@ -3,7 +3,7 @@ package controller;
 import dao.GebruikerDao;
 import domain.Bezorgwijze;
 import domain.Gebruiker;
-import views.RegGebruikerView;
+import views.RegistrerenGebruikerView;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,17 +12,18 @@ import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static util.DBUtil.getEntityManager;
 import static util.Regelement.getRegelementVoet;
 
-public class RegistrerenGebruikerController {
+public class RegistrerenGebruikerController extends AbstractController{
 
-    private RegGebruikerView view;
-    private GebruikerDao dao;
+    RegistrerenGebruikerView view;
+    GebruikerDao dao;
 
     public RegistrerenGebruikerController() {
     }
 
-    public RegistrerenGebruikerController(RegGebruikerView view) {
+    public RegistrerenGebruikerController(RegistrerenGebruikerView view) {
         this.view = view;
         this.dao = new GebruikerDao(getEntityManager());
+        view.toonBericht("Registeren nieuwe gebruiker");
     }
 
     public boolean startRegistratie() {
@@ -49,6 +50,7 @@ public class RegistrerenGebruikerController {
     public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
         Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
         dao.insert(gebruiker);
+        view.sluitScanner();
         return gebruiker;
     }
 
@@ -112,7 +114,7 @@ public class RegistrerenGebruikerController {
 
     // TODO naar (abstracte) superklasse
 
-    boolean checkInput(String input, String[] opties) {
+/*    boolean checkInput(String input, String[] opties) {
         for (String optie : opties) {
             if (optie.equals(input)) {
                 return true;
@@ -120,7 +122,8 @@ public class RegistrerenGebruikerController {
         }
         view.toonBericht("Input: " + input + " werd niet herkend.");
         return false;
-    }
+    }*/
+
     String[] vraagAdres() {
         String[] adres = new String[3];
         boolean adresCheck = false;

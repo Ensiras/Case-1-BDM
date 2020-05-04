@@ -1,9 +1,10 @@
 package apps;
 
-import views.RegGebruikerView;
+import views.RegistrerenGebruikerView;
 
 import java.util.Scanner;
 
+// TODO: mainapp laten praten met controllers, niet met de view
 public class MainApp {
 
     public static void main(String[] args) {
@@ -17,7 +18,7 @@ public class MainApp {
         int keuze = Integer.parseInt(scanner.nextLine());
         switch(keuze) {
             case 1:
-                new RegGebruikerView().toon();
+                new RegistrerenGebruikerView().toon();
                 break;
             case 2:
                 // new AanbiedenArtikelView().toon();

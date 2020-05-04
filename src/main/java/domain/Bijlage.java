@@ -39,7 +39,7 @@ public class Bijlage {
             System.out.println(fileType);
             System.out.println(fileType2);
             System.out.println(fileType3);
-            File fileInput = new File("D:\\Documents\\Werk\\Java Training\\Casus\\img\\dekameel.png");
+            File fileInput = new File("D:\\Documents\\Werk\\Java Training\\Casus\\img\\01 - Bilateral.mp3");
             data = new byte[(int) fileInput.length()];
             FileInputStream fileInputStream = new FileInputStream(fileInput);
             fileInputStream.read(data);

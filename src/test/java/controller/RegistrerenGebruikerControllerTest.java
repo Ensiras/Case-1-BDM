@@ -9,7 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import views.RegGebruikerView;
+import views.AbstractView;
+import views.RegistrerenGebruikerView;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -25,7 +27,7 @@ import static org.mockito.Mockito.*;
 class RegistrerenGebruikerControllerTest {
 
     @Mock
-    RegGebruikerView mockedView;
+    RegistrerenGebruikerView mockedView;
 
     @Mock
     GebruikerDao mockedDao = mock(GebruikerDao.class);
