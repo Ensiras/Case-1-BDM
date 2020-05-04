@@ -1,14 +1,5 @@
 package apps;
 
-import domain.ArtikelSoort;
-import domain.Categorie;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-
-import static domain.ArtikelSoort.DIENST;
-import static domain.ArtikelSoort.PRODUCT;
-
 public class CategorieApp {
 
     public static void main(String[] args) {

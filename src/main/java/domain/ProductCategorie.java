@@ -7,7 +7,7 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Inheritance(strategy = SINGLE_TABLE)
 @Entity
-public class ProductCategorie extends Categorie {
+public class ProductCategorie extends AbstractCategorie {
 
     public ProductCategorie(String naam, String omschrijving) {
         super(naam, omschrijving);

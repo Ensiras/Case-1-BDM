@@ -12,7 +12,7 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
 @Inheritance(strategy = SINGLE_TABLE)
-public class Dienst extends Artikel {
+public class Dienst extends AbstractArtikel {
 
     @ManyToOne @Cascade(CascadeType.PERSIST)
     private DienstCategorie dienstCategorie;

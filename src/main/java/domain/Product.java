@@ -12,17 +12,17 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
 @Inheritance(strategy = SINGLE_TABLE)
-public class Product extends Artikel {
+public class Product extends AbstractArtikel {
 
     @ManyToOne @Cascade(CascadeType.PERSIST)
-    private ProductCategorie productCat;
+    private ProductCategorie productCategorie;
 
     public Product() {
     }
 
-    public Product(Gebruiker aanbieder, String naam, BigDecimal prijs,ProductCategorie productCat) {
+    public Product(Gebruiker aanbieder, String naam, BigDecimal prijs, ProductCategorie productCategorie) {
         super(aanbieder, naam, prijs);
-        this.productCat = productCat;
+        this.productCategorie = productCategorie;
     }
 }
 
