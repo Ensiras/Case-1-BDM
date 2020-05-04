@@ -12,23 +12,17 @@ import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static util.DBUtil.getEntityManager;
 import static util.Regelement.getRegelementVoet;
 
-public class RegistrerenGebruiker {
+public class RegistrerenGebruikerController {
 
     private RegGebruikerView view;
     private GebruikerDao dao;
 
-    public RegistrerenGebruiker() {
+    public RegistrerenGebruikerController() {
     }
 
-    public RegistrerenGebruiker(RegGebruikerView view) {
+    public RegistrerenGebruikerController(RegGebruikerView view) {
         this.view = view;
         this.dao = new GebruikerDao(getEntityManager());
-    }
-
-    public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
-        Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
-        dao.insert(gebruiker);
-        return gebruiker;
     }
 
     public boolean startRegistratie() {
@@ -50,6 +44,12 @@ public class RegistrerenGebruiker {
         Gebruiker gebruiker = registreerGebruiker(email, bezorgwijzen, adres, true);
         view.toonBericht("Registratie van gebruiker " + gebruiker.getEmail() + " succesvol!");
         return true;
+    }
+
+    public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
+        Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
+        dao.insert(gebruiker);
+        return gebruiker;
     }
 
     private boolean vraagToestemming() {
@@ -84,7 +84,7 @@ public class RegistrerenGebruiker {
             boolean valideInput = false;
             String input = "";
             while (!valideInput) {
-                input = view.vraagInput(b.toString());
+                input = view.vraagInput(b.getTypePrintbaar());
                 valideInput = checkInput(input, opties);
             }
 
@@ -138,8 +138,11 @@ public class RegistrerenGebruiker {
     }
 
     public boolean checkEmail(String email) {
-        if (email.contains("@") && email.contains(".")) {
-            return true;
+        if (email.contains("@")) {
+            String postfix = email.substring(email.indexOf("@"));
+            if (postfix.contains(".")) {
+                return true;
+            }
         }
         System.out.println("Dit is geen geldig e-mailadres");
         return false;

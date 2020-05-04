@@ -1,6 +1,6 @@
 package views;
 
-import controller.RegistrerenGebruiker;
+import controller.RegistrerenGebruikerController;
 
 import util.Regelement;
 import java.util.Scanner;
@@ -18,7 +18,7 @@ public class RegGebruikerView {
     }
 
     public void registreerGebruiker() {
-        new RegistrerenGebruiker(this).startRegistratie();
+        new RegistrerenGebruikerController(this).startRegistratie();
     }
 
     public String vraagInput(String bericht) {

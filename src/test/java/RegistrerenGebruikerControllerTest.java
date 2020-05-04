@@ -1,13 +1,13 @@
-import controller.RegistrerenGebruiker;
+import controller.RegistrerenGebruikerController;
 import dao.GebruikerDao;
 import domain.Bezorgwijze;
 import domain.Gebruiker;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Stubber;
 import views.RegGebruikerView;
 
 import java.util.HashSet;
@@ -20,10 +20,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
-// TODO tests fixen
-
 @ExtendWith(MockitoExtension.class)
-class RegistrerenGebruikerTest {
+class RegistrerenGebruikerControllerTest {
 
     @Mock
     RegGebruikerView mockedView;
@@ -32,7 +30,7 @@ class RegistrerenGebruikerTest {
     GebruikerDao mockedDao = mock(GebruikerDao.class);
 
     @InjectMocks
-    RegistrerenGebruiker regGebr = new RegistrerenGebruiker();
+    RegistrerenGebruikerController regGebr = new RegistrerenGebruikerController();
 
     @Test
     void whenValidInputIsGivenNewGebruikerShouldBeCreated() {
@@ -49,6 +47,10 @@ class RegistrerenGebruikerTest {
     void whenAfhalenThuisIsSupportedAddressShouldBeGiven() {
     }
 
+
+
+
+    // Test using public methods that should be private(?)
     @Test
     void whenRegisterGebruikerEmailAndBezorgwijzenShouldBeSavedAdresMayBeEmpty() {
         Set<Bezorgwijze> bezorgwijzen = new HashSet<>();

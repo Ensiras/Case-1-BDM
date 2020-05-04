@@ -16,6 +16,8 @@ public class MainApp {
             case 1:
                 new RegGebruikerView().show();
                 break;
+            case 2:
+                System.exit(0);
             default:
                 System.out.println("Actie niet herkend of ondersteund, jammer!");
         }

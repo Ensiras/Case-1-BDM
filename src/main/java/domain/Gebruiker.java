@@ -1,12 +1,12 @@
 package domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import java.util.HashSet;
 import java.util.Set;
 
 import static javax.persistence.EnumType.STRING;
 
-//TODO Toestemming naleven regelement
 
 @Entity
 public class Gebruiker {
@@ -14,23 +14,25 @@ public class Gebruiker {
     @Id
     @GeneratedValue
     private int id;
+
+    @Email
     private String email;
     private String straat;
     private String huisnummer;
     private String postcode;
-    private boolean toestemming;
+    private boolean toestemmingRegelement;
 
     @ElementCollection(targetClass = Bezorgwijze.class)
     @Enumerated(STRING)
     private Set<Bezorgwijze> bezorgWijzen = new HashSet<>();
 
-    public Gebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
+    public Gebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemmingRegelement) {
         this.email = email;
         this.bezorgWijzen = bezorgwijzen;
         this.straat = adres[0];
         this.huisnummer = adres[1];
         this.postcode = adres[2];
-        this.toestemming = toestemming;
+        this.toestemmingRegelement = toestemmingRegelement;
     }
 
     public Gebruiker() {
