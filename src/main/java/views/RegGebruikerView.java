@@ -9,7 +9,7 @@ public class RegGebruikerView {
 
     private final Scanner scanner;
 
-    public void show() {
+    public void toon() {
         registreerGebruiker();
     }
 
