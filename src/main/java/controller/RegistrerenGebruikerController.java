@@ -12,10 +12,7 @@ import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static util.DBUtil.getEntityManager;
 import static util.Regelement.getRegelementVoet;
 
-public class RegistrerenGebruikerController extends AbstractController{
-
-    RegistrerenGebruikerView view;
-    GebruikerDao dao;
+public class RegistrerenGebruikerController extends AbstractController<GebruikerDao, RegistrerenGebruikerView>{
 
     public RegistrerenGebruikerController() {
     }
@@ -49,7 +46,7 @@ public class RegistrerenGebruikerController extends AbstractController{
 
     public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
         Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
-        dao.insert(gebruiker);
+        dao.opslaan(gebruiker);
         view.sluitScanner();
         return gebruiker;
     }
@@ -112,18 +109,6 @@ public class RegistrerenGebruikerController extends AbstractController{
         return bezorgwijzen.contains(AFHALEN_THUIS);
     }
 
-    // TODO naar (abstracte) superklasse
-
-/*    boolean checkInput(String input, String[] opties) {
-        for (String optie : opties) {
-            if (optie.equals(input)) {
-                return true;
-            }
-        }
-        view.toonBericht("Input: " + input + " werd niet herkend.");
-        return false;
-    }*/
-
     String[] vraagAdres() {
         String[] adres = new String[3];
         boolean adresCheck = false;
@@ -139,7 +124,6 @@ public class RegistrerenGebruikerController extends AbstractController{
     }
 
     // Zorgt ervoor dat alle velden ingevuld zijn en de postcode uit 4 getallen en 2 letters bestaat
-
     boolean checkAdres(String[] adres) {
         String straat = adres[0];
         String huisnummer = adres[1];

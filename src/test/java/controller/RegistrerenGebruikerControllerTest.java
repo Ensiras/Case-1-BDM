@@ -3,22 +3,20 @@ package controller;
 import dao.GebruikerDao;
 import domain.Bezorgwijze;
 import domain.Gebruiker;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import views.AbstractView;
 import views.RegistrerenGebruikerView;
-
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static domain.Bezorgwijze.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -38,7 +36,7 @@ class RegistrerenGebruikerControllerTest {
     @Test
     void whenValidInputIsGivenNewGebruikerShouldBeCreated() {
         when(mockedView.vraagInput(anyString())).thenReturn("email@email.com", "j", "n", "j", "n", "j");
-        doNothing().when(mockedDao).insert(any(Gebruiker.class));
+        doNothing().when(mockedDao).opslaan(any(Gebruiker.class));
 
         boolean registratieSucces = regGebr.startRegistratie();
 

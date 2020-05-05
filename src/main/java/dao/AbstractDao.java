@@ -11,10 +11,21 @@ public abstract class AbstractDao<T> {
     }
 
     // Todo: Nederlandse naam??
-    public abstract void insert(T toInsert);
+    public void opslaan(T toInsert) {
+        em.getTransaction().begin();
+        em.persist(toInsert);
+        em.getTransaction().commit();
+    };
 
     // TODO: manier vinden om implementatie hetzelfde te hebben (dus niet abstract) maar return type wel variabel
-    public abstract T zoek(int id);
+    public T zoek(int id, Class<T> classType) {
+        return em.find(classType, id);
+    };
+
+//    zoekalles
+    // Zoek op naam
+
+    public abstract void printAlles();
 
     // TODO: meer methodes toevoegen die elke dao gaat gebruiken
 

@@ -10,15 +10,9 @@ public class GebruikerDao extends AbstractDao<Gebruiker>{
         super(em);
     }
 
-    public void insert(Gebruiker gebruiker) {
-        em.getTransaction().begin();
-        em.persist(gebruiker);
-        em.getTransaction().commit();
-    }
-
     @Override
-    public Gebruiker zoek(int id) {
-        return null;
+    public void printAlles() {
+        System.out.println("Nog geen implementatie");
     }
 
 }

@@ -1,5 +1,8 @@
 package views;
 
+import dao.AbstractDao;
+import domain.AbstractArtikel;
+
 import java.util.Scanner;
 
 public abstract class AbstractView {
