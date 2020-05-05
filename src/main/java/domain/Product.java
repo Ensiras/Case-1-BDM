@@ -20,6 +20,8 @@ public class Product extends AbstractArtikel {
     public Product() {
     }
 
+
+
     public Product(Gebruiker aanbieder, String naam, BigDecimal prijs, ProductCategorie productCategorie) {
         super(aanbieder, naam, prijs);
         this.productCategorie = productCategorie;

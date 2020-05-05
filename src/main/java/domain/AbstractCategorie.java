@@ -22,4 +22,7 @@ public abstract class AbstractCategorie {
     public AbstractCategorie() {
     }
 
+    public String getNaam() {
+        return naam;
+    }
 }

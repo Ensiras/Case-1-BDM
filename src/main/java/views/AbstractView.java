@@ -1,8 +1,5 @@
 package views;
 
-import dao.AbstractDao;
-import domain.AbstractArtikel;
-
 import java.util.Scanner;
 
 public abstract class AbstractView {
@@ -19,6 +16,10 @@ public abstract class AbstractView {
 
     public String vraagInput(String bericht) {
         System.out.println(bericht);
+        return scanner.nextLine().trim().toLowerCase();
+    }
+
+    public String vraagInput() {
         return scanner.nextLine().trim().toLowerCase();
     }
 
