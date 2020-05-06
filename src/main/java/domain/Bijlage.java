@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import static javax.persistence.EnumType.STRING;
+
 
 @Entity
 public class Bijlage {
@@ -16,6 +18,8 @@ public class Bijlage {
     @GeneratedValue
     private int id;
     private String bestandsNaam;
+
+    @Enumerated(STRING)
     private BijlageType type;
 
     @ManyToOne
@@ -24,15 +28,19 @@ public class Bijlage {
     @Lob
     private byte[] data;
 
+    @Transient
+    private final int MAX_GROOTTE = 10485760;
+
     public Bijlage() {
     }
 
+    // TODO: Dit fixen
     public Bijlage(String pad) {
+        boolean typeCheck = false;
         File fileInput = new File(pad);
-        try(FileInputStream stream = new FileInputStream(fileInput)) {
+        try (FileInputStream stream = new FileInputStream(fileInput)) {
             this.data = new byte[(int) fileInput.length()];
             this.bestandsNaam = fileInput.getName();
-
             stream.read(data);
 
         } catch (FileNotFoundException e) {
@@ -42,10 +50,23 @@ public class Bijlage {
         }
     }
 
+
     // TODO: Implementeren dat alleen videos, afbeeldingen en audiobestanden toegevoegd kunnen worden. Evt. max grootte.
     // TODO: ook bijlagetype setten
-    private boolean checkBijlage(String pad) {
+    private boolean setType(String pad) throws IOException {
+        String fileType = Files.probeContentType(Paths.get(pad));
+        for (BijlageType type : BijlageType.values()) {
+            if (fileType.contains(type.toString().toLowerCase())) {
+                this.type = type;
+                return true;
+            }
+        }
+
         return false;
+    }
+
+    private boolean checkGrootte(String pad, File fileInput) {
+        return fileInput.length() <= MAX_GROOTTE;
     }
 
     public void setArtikel(AbstractArtikel artikel) {

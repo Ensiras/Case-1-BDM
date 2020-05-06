@@ -1,10 +1,7 @@
 package apps;
 
 import controller.AanbiedenArtikelController;
-import domain.AbstractCategorie;
 import views.AanbiedenArtikelView;
-
-import static domain.ArtikelSoort.PRODUCT;
 
 public class AanbiedenApp {
 
