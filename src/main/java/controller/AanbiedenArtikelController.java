@@ -44,14 +44,14 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         }
     }
 
-    void maakDienst(String naam, BigDecimal prijs, AbstractCategorie categorie, String omschrijving, List<Bijlage> bijlagen) {
+    private void maakDienst(String naam, BigDecimal prijs, AbstractCategorie categorie, String omschrijving, List<Bijlage> bijlagen) {
         DienstCategorie dienstCat = (DienstCategorie) categorie;
 
         dao.opslaan(new Dienst(huidigeGebruiker, naam, prijs, omschrijving, bijlagen, dienstCat));
         view.toonBericht("Uw dienst is opgeslagen.");
     }
 
-    void maakProduct(String naam, BigDecimal prijs, AbstractCategorie categorie, String omschrijving, List<Bijlage> bijlagen) {
+    private void maakProduct(String naam, BigDecimal prijs, AbstractCategorie categorie, String omschrijving, List<Bijlage> bijlagen) {
         ProductCategorie prodCat = (ProductCategorie) categorie;
         Set<Bezorgwijze> bezorgwijzen = vraagBezorgwijzen(huidigeGebruiker);
 
@@ -96,7 +96,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         while(bezorgWijzenProd.isEmpty()) {
             for (Bezorgwijze bezorgwijze : bezorgWijzenGebr) {
                 String input = vraagInput(opties, bezorgwijze.getTypePrintbaar());
-                if (input.equals("n")) {
+                if (input.equals("j")) {
                     bezorgWijzenProd.add(bezorgwijze);
                 }
             }
@@ -105,7 +105,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
             }
         }
 
-        return bezorgWijzenGebr;
+        return bezorgWijzenProd;
     }
 
     AbstractCategorie vraagCategorie(ArtikelSoort soort) {
@@ -123,7 +123,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
 
     }
 
-    private ArtikelSoort vraagArtikelSoort() {
+    ArtikelSoort vraagArtikelSoort() {
         // TODO: dit stukje evt. nog in een eigen methode zetten
         view.toonBericht("Wilt u een product of dienst aanbieden?");
         String[] opties = {"1", "2"};
@@ -137,7 +137,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
     }
 
     // TODO: Zou dit nog als een overloaded methode kunnen?
-    private BigDecimal vraagPrijs() {
+    BigDecimal vraagPrijs() {
         BigDecimal prijs = null;
         while (prijs == null) {
             String prijsString = view.vraagInput("Geef een prijs op: ");

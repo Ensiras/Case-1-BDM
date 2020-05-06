@@ -6,10 +6,12 @@ import views.AbstractView;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static java.math.BigDecimal.ZERO;
 
-// TODO: somehow make sure that the right dao is put into the right controller
+
 public abstract class AbstractController<T extends AbstractDao<?>, Y extends AbstractView> {
 
+    // TODO: Dao niet als veld, maar als lokale variabele. Alleen bij het opslaan.
     protected T dao;
     protected Y view;
 
@@ -45,7 +47,11 @@ public abstract class AbstractController<T extends AbstractDao<?>, Y extends Abs
         BigDecimal prijs;
         try {
             prijs = new BigDecimal(prijsInput);
-            return prijs;
+            if (prijs.compareTo(ZERO) > 0) {
+                return prijs;
+            } else {
+                return null;
+            }
         } catch (NumberFormatException e) {
             System.err.println("De ingevoerde waarde kon niet geconverteerd worden, probeer het nog eens.");
             return null;

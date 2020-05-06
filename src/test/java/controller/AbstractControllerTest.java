@@ -50,7 +50,9 @@ class AbstractControllerTest {
 
         BigDecimal result = controller.converteerPrijs(input);
 
-        assertThat(result).isNotNull().isEqualTo(BigDecimal.valueOf(231.56));
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(BigDecimal.valueOf(231.56));
     }
 
     @Test
@@ -59,8 +61,19 @@ class AbstractControllerTest {
 
         BigDecimal result = controller.checkPrijsInput(input);
 
-        assertThat(result).isNotNull().isEqualTo(BigDecimal.valueOf(45.32));
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(BigDecimal.valueOf(45.32));
 
+    }
+
+    @Test
+    void whenNumberSmallerOrEqualTo0IsGivenShouldReturnNull() {
+        String input = "0";
+
+        BigDecimal result = controller.checkPrijsInput(input);
+
+        assertThat(result).isNull();
     }
 
     @Test
@@ -71,6 +84,33 @@ class AbstractControllerTest {
 
         String input = controller.vraagInput(opties);
 
-        assertThat(input).isNotNull().isEqualTo("1");
+        assertThat(input)
+                .isNotNull()
+                .isEqualTo("1");
+    }
+
+    @Test
+    void whenAnyInputIsGivenShouldReturnInput() {
+        String input = "maaktnietheelveeluit";
+        when(mockedView.vraagInput()).thenReturn(input);
+
+        String result = controller.vraagInput("Maakt ook niets uit");
+
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(input);
+    }
+
+    @Test
+    void whenNoInputIsGivenShouldAskAgainAndReturnInputIfAnyIsGiven() {
+        String input1 = "";
+        String input2 = "maaktnietheelveeluit";
+        when(mockedView.vraagInput()).thenReturn(input1, input2);
+
+        String result = controller.vraagInput("Maakt ook niets uit");
+
+        assertThat(result)
+                .isNotNull()
+                .isEqualTo(input2);
     }
 }

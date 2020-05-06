@@ -2,7 +2,6 @@ package controller;
 
 import dao.GebruikerDao;
 import domain.Bezorgwijze;
-import domain.Gebruiker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +16,6 @@ import static domain.Bezorgwijze.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
@@ -34,15 +32,22 @@ class RegistrerenGebruikerControllerTest {
     RegistrerenGebruikerController regGebr = new RegistrerenGebruikerController();
 
     @Test
-    void whenValidInputIsGivenNewGebruikerShouldBeCreated() {
-        when(mockedView.vraagInput(anyString())).thenReturn("email@email.com", "j", "n", "j", "n", "j");
-        doNothing().when(mockedDao).opslaan(any(Gebruiker.class));
+    void whenInputIsJShouldReturnTrue() {
+        when(mockedView.vraagInput()).thenReturn("j");
 
-        boolean registratieSucces = regGebr.startRegistratie();
+        boolean result = regGebr.vraagToestemming();
 
-        assertTrue(registratieSucces);
+        assertTrue(result);
     }
 
+    @Test
+    void whenInputIsNShouldReturnFalse() {
+        when(mockedView.vraagInput()).thenReturn("n");
+
+        boolean result = regGebr.vraagToestemming();
+
+        assertFalse(result);
+    }
 
     @Test
     void whenInvalidEmailIsGivenShouldReturnFalse() {
