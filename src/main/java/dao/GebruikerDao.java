@@ -1,8 +1,10 @@
 package dao;
 
+import domain.Bezorgwijze;
 import domain.Gebruiker;
 
 import javax.persistence.EntityManager;
+import java.util.HashSet;
 
 public class GebruikerDao extends AbstractDao<Gebruiker>{
 
@@ -10,9 +12,5 @@ public class GebruikerDao extends AbstractDao<Gebruiker>{
         super(em);
     }
 
-    @Override
-    public void printAlles() {
-        System.out.println("Nog geen implementatie");
-    }
 
 }

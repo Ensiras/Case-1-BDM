@@ -3,9 +3,11 @@ package domain;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static javax.persistence.EnumType.STRING;
+import static javax.persistence.FetchType.EAGER;
 
 
 @Entity
@@ -22,13 +24,13 @@ public class Gebruiker {
     private String postcode;
     private boolean toestemmingRegelement;
 
-    @ElementCollection(targetClass = Bezorgwijze.class)
+    @ElementCollection(targetClass = Bezorgwijze.class, fetch = EAGER)
     @Enumerated(STRING)
-    private Set<Bezorgwijze> bezorgWijzen = new HashSet<>();
+    private Set<Bezorgwijze> bezorgwijzen = new LinkedHashSet<>();
 
     public Gebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemmingRegelement) {
         this.email = email;
-        this.bezorgWijzen = bezorgwijzen;
+        this.bezorgwijzen = bezorgwijzen;
         this.straat = adres[0];
         this.huisnummer = adres[1];
         this.postcode = adres[2];
@@ -54,8 +56,12 @@ public class Gebruiker {
         return postcode;
     }
 
-    public Set<Bezorgwijze> getBezorgWijzen() {
-        return bezorgWijzen;
+    public Set<Bezorgwijze> getBezorgwijzen() {
+        return bezorgwijzen;
+    }
+
+    public void addBezorgwijze(Bezorgwijze bezorgwijze) {
+        bezorgwijzen.add(bezorgwijze);
     }
 
     @Override
@@ -63,7 +69,7 @@ public class Gebruiker {
         return "Gebruiker{" +
                 "email='" + email + '\'' +
                 ", adres='" + straat + " " + huisnummer + " " + postcode + '\'' +
-                ", bezorgWijzen=" + bezorgWijzen +
+                ", bezorgWijzen=" + bezorgwijzen +
                 '}';
     }
 }

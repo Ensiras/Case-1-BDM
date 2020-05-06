@@ -11,6 +11,7 @@ import views.AanbiedenArtikelView;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AbstractControllerTest {
@@ -60,5 +61,16 @@ class AbstractControllerTest {
 
         assertThat(result).isNotNull().isEqualTo(BigDecimal.valueOf(45.32));
 
+    }
+
+    @Test
+    void whenValidInputIsGivenShouldReturnInput() {
+        when(mockedView.vraagInput()).thenReturn("1");
+
+        String[] opties = {"1", "2"};
+
+        String input = controller.vraagInput(opties);
+
+        assertThat(input).isNotNull().isEqualTo("1");
     }
 }

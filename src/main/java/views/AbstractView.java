@@ -1,5 +1,6 @@
 package views;
 
+import java.util.List;
 import java.util.Scanner;
 
 public abstract class AbstractView {
@@ -25,6 +26,12 @@ public abstract class AbstractView {
 
     public void sluitScanner() {
         scanner.close();
+    }
+
+    public void toonLijst(List<?> lijst) {
+        for (int i = 0; i < lijst.size(); i++) {
+            System.out.println("(" + i + ") " + lijst.get(i));
+        }
     }
 
 }

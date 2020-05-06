@@ -8,13 +8,14 @@ import util.DBUtil;
 import views.AanbiedenArtikelView;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static domain.ArtikelSoort.DIENST;
 import static domain.ArtikelSoort.PRODUCT;
 
 public class AanbiedenArtikelController extends AbstractController<ArtikelDao, AanbiedenArtikelView> {
-
 
     public AanbiedenArtikelController(AanbiedenArtikelView view) {
         this.view = view;
@@ -23,60 +24,87 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
     }
 
     public void aanbiedenArtikel() {
-        String naam = vraagNaam();
+        String naam = vraagInput("Geef een artikelnaam op: ");
         BigDecimal prijs = vraagPrijs();
         ArtikelSoort artikelSoort = vraagArtikelSoort();
         AbstractCategorie categorie = vraagCategorie(artikelSoort);
 
+        String omschrijving = view.vraagInput("Geef een omschrijving van uw product (optioneel)");
+
+        List<Bijlage> bijlagen = vraagBijlagen();
+
         GebruikerDao gebDao = new GebruikerDao(DBUtil.getEntityManager());
         Gebruiker gebruiker = gebDao.zoek(1, Gebruiker.class);
+        gebDao.sluitEntityManager();
 
         if (artikelSoort == PRODUCT) {
-            ProductCategorie categorie1 = (ProductCategorie) vraagCategorie(PRODUCT);
-            new Product(gebruiker, naam, prijs, categorie1);
+            ProductCategorie prodCat = (ProductCategorie) categorie;
+            Set<Bezorgwijze> bezorgwijzen = vraagBezorgwijzen(gebruiker);
+            dao.opslaan(new Product(gebruiker, naam, prijs, omschrijving, bijlagen, bezorgwijzen, prodCat));
+        } else {
+            System.out.println("Diensten zijn nog niet geïmplementeerd, goedendag!");
         }
 
+    }
 
+    private List<Bijlage> vraagBijlagen() {
+        List<Bijlage> bijlagen = new ArrayList<>();
+        String input = view.vraagInput("Wilt u bijlagen toevoegen aan uw product (j/n)?");
+
+        if (input.equals("n")) {
+            return null;
+        } else {
+            return toevoegenBijlagen(bijlagen);
+        }
+    }
+
+    private List<Bijlage> toevoegenBijlagen(List<Bijlage> bijlagen) {
+        String input = view.vraagInput("Voer het volledige pad naar het bestand dat u wilt toevoegen in (ja dit is omslachtig, deal with it)");
+        bijlagen.add(new Bijlage(input));
+        return bijlagen;
+    }
+
+    private String vraagOmschrijving() {
+        return view.vraagInput("Geef een omschrijving van uw product (optioneel)");
+    }
+
+    // TODO: check invoegen dat bezorgwijzen niet leeg kan zijn
+    Set<Bezorgwijze> vraagBezorgwijzen(Gebruiker gebruiker) {
+        view.toonBericht("Welke bezorgwijzen wilt u ondersteunen voor uw product?");
+        Set<Bezorgwijze> bezorgWijzen = gebruiker.getBezorgwijzen();
+        String[] opties = {"j", "n"};
+        for (Bezorgwijze bezorgwijze : bezorgWijzen) {
+            String input = vraagInput(opties, bezorgwijze.getTypePrintbaar());
+            if (input.equals("n")) {
+                bezorgWijzen.remove(bezorgwijze);
+            }
+        }
+        return bezorgWijzen;
     }
 
     // TODO: public naar package zetten
     public AbstractCategorie vraagCategorie(ArtikelSoort soort) {
         view.toonBericht("Kies de subcategorie van uw " + soort + ".");
+
         CategorieDao catDao = new CategorieDao(DBUtil.getEntityManager());
         List<AbstractCategorie> categorieen = catDao.zoekAlles(soort);
-        int[] opties = new int[categorieen.size()];
+        String[] opties = bepaalOpties(categorieen);
+        view.toonLijst(categorieen);
 
-        // TODO: printen van een lijst (vaker nodig) naar abstractView
-        // TODO: fixen twee keer printen en moeten kiezen van lijst
-        for (int i = 0; i < categorieen.size(); i++) {
-            String naam = categorieen.get(i).getNaam();
-            System.out.println("(" + i + ") " + naam);
+        String input = vraagInput(opties);
 
-            // TODO: dit naar aparte methode
-            opties[i] = i;
-        }
-
-        String input = view.vraagInput();
-        // TODO: fixen. 1: overloaded methode, 2: werken met list<?> of opties converteren naar String[]
-//        boolean valideInput = checkInput(input, opties)
-        // TODO: manier om entitymanager vanaf de dao te sluiten
-//        catDao.close();
+        catDao.sluitEntityManager();
         return categorieen.get(Integer.parseInt(input));
-
 
     }
 
-    // TODO: dit soort methodes misschien in een proppen, anders vrij veel duplicate code
     private ArtikelSoort vraagArtikelSoort() {
+
+        // TODO: dit stukje evt. nog in een eigen methode zetten
         view.toonBericht("Kies de categorie van uw artikel.");
         String[] opties = {"1", "2"};
-        String input = "";
-        boolean valideInput = false;
+        String input = vraagInput(opties, "(1) Product of (2) Dienst.");
 
-        while (!valideInput) {
-            input = view.vraagInput("(1) Product of (2) Dienst.");
-            valideInput = checkInput(input, opties);
-        }
         if (input.equals("1")) {
             return PRODUCT;
         } else {
@@ -84,6 +112,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         }
     }
 
+    // Zou dit nog als een overloaded methode kunnen?
     private BigDecimal vraagPrijs() {
         BigDecimal prijs = null;
         while (prijs == null) {
@@ -94,12 +123,6 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
     }
 
     private String vraagNaam() {
-        String naam = "";
-        boolean valideInput = false;
-        while (!valideInput) {
-            naam = view.vraagInput("Geef een artikelnaam op: ");
-            valideInput = checkInputNietLeeg(naam);
-        }
-        return naam;
+        return vraagInput("Geef een artikelnaam op: ");
     }
 }

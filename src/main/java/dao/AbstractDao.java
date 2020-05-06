@@ -10,7 +10,6 @@ public abstract class AbstractDao<T> {
         this.em = em;
     }
 
-    // Todo: Nederlandse naam??
     public void opslaan(T toInsert) {
         em.getTransaction().begin();
         em.persist(toInsert);
@@ -25,7 +24,9 @@ public abstract class AbstractDao<T> {
 //    zoekalles
     // Zoek op naam
 
-    public abstract void printAlles();
+    public void sluitEntityManager() {
+        em.close();
+    }
 
     // TODO: meer methodes toevoegen die elke dao gaat gebruiken
 

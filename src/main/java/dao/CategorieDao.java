@@ -26,8 +26,5 @@ public class CategorieDao extends AbstractDao<AbstractCategorie> {
         return query.getResultList();
     }
 
-    @Override
-    public void printAlles() {
 
-    }
 }

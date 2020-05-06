@@ -25,4 +25,9 @@ public abstract class AbstractCategorie {
     public String getNaam() {
         return naam;
     }
+
+    @Override
+    public String toString() {
+        return naam;
+    }
 }

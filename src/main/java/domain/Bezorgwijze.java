@@ -15,4 +15,5 @@ public enum Bezorgwijze {
     public String getTypePrintbaar() {
         return typePrintbaar;
     }
+
 }

@@ -1,32 +1,56 @@
 package domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Entity
 public class Bijlage {
 
-    public Bijlage() {
-    }
-
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
-    private String naam;
+    private String bestandsNaam;
+    private BijlageType type;
+
+    @ManyToOne
+    private AbstractArtikel artikel;
 
     @Lob
     private byte[] data;
+
+    public Bijlage() {
+    }
+
+    public Bijlage(String pad) {
+        File fileInput = new File(pad);
+        try(FileInputStream stream = new FileInputStream(fileInput)) {
+            this.data = new byte[(int) fileInput.length()];
+            this.bestandsNaam = fileInput.getName();
+
+            stream.read(data);
+
+        } catch (FileNotFoundException e) {
+            System.err.println("Bestand kon niet gevonden worden." + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Bestand kon niet gelezen worden: " + e.getMessage());
+        }
+    }
+
+    // TODO: Implementeren dat alleen videos, afbeeldingen en audiobestanden toegevoegd kunnen worden. Evt. max grootte.
+    // TODO: ook bijlagetype setten
+    private boolean checkBijlage(String pad) {
+        return false;
+    }
+
+    public void setArtikel(AbstractArtikel artikel) {
+        this.artikel = artikel;
+    }
 
     public void setBijlage() {
 

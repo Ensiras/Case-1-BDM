@@ -12,8 +12,5 @@ public class ArtikelDao extends AbstractDao<AbstractArtikel> {
         super(em);
     }
 
-    @Override
-    public void printAlles() {
 
-    }
 }

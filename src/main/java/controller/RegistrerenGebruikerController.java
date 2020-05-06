@@ -12,7 +12,9 @@ import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static util.DBUtil.getEntityManager;
 import static util.Regelement.getRegelementVoet;
 
-public class RegistrerenGebruikerController extends AbstractController<GebruikerDao, RegistrerenGebruikerView>{
+
+// TODO: input-loops vervangen met vraagInput() methode
+public class RegistrerenGebruikerController extends AbstractController<GebruikerDao, RegistrerenGebruikerView> {
 
     public RegistrerenGebruikerController() {
     }
@@ -52,15 +54,10 @@ public class RegistrerenGebruikerController extends AbstractController<Gebruiker
     }
 
     boolean vraagToestemming() {
-        boolean valideInput = false;
         String[] opties = {"j", "n"};
-        String input = "";
-
         view.toonRegelement();
-        while (!valideInput) {
-            input = view.vraagInput(getRegelementVoet());
-            valideInput = checkInput(input, opties);
-        }
+
+        String input = vraagInput(opties, getRegelementVoet());
         return input.equals("j");
     }
 
@@ -85,14 +82,17 @@ public class RegistrerenGebruikerController extends AbstractController<Gebruiker
         return false;
     }
 
+    // TODO: misschien ook naar superklasse want hergebruikt (deels) in aanbieden artikel
     Set<Bezorgwijze> vraagBezorgwijzen() {
         Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
         view.toonBericht("Ondersteunt u de volgende bezorgwijzen (j/n)?");
         String[] opties = {"j", "n"};
 
+        // TODO: aparte methode in superklasse want hergebruikt in aanbieden artikel
         for (Bezorgwijze b : Bezorgwijze.values()) {
             boolean valideInput = false;
             String input = "";
+
             while (!valideInput) {
                 input = view.vraagInput(b.getTypePrintbaar());
                 valideInput = checkInput(input, opties);

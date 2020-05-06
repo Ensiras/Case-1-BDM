@@ -17,10 +17,10 @@ public class Dienst extends AbstractArtikel {
     @ManyToOne @Cascade(CascadeType.PERSIST)
     private DienstCategorie dienstCategorie;
 
-    public Dienst(Gebruiker aanbieder, String naam, BigDecimal prijs, String soort, DienstCategorie dienstCategorie) {
+/*    public Dienst(Gebruiker aanbieder, String naam, BigDecimal prijs, String soort, DienstCategorie dienstCategorie) {
         super(aanbieder, naam, prijs);
         this.dienstCategorie = dienstCategorie;
-    }
+    }*/
 
     public Dienst() {
     }
