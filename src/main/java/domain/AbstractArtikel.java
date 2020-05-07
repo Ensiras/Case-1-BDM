@@ -43,6 +43,8 @@ public abstract class AbstractArtikel {
         addBijlagen(bijlagen);
     }
 
+
+
     public void addBijlagen(List<Bijlage> bijlagen) {
         if (!(bijlagen == null)) {
             for (Bijlage bijlage : bijlagen) {

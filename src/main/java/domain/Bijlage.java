@@ -28,14 +28,22 @@ public class Bijlage {
     @Lob
     private byte[] data;
 
-    @Transient
-    private final int MAX_GROOTTE = 10485760;
 
     public Bijlage() {
     }
 
-    // TODO: Dit fixen
-    public Bijlage(String pad) {
+    public Bijlage(String bestandsNaam, BijlageType type, byte[] data) {
+        this.bestandsNaam = bestandsNaam;
+        this.type = type;
+        this.data = data;
+    }
+
+    public void setArtikel(AbstractArtikel artikel) {
+        this.artikel = artikel;
+    }
+
+
+/*    public Bijlage(String pad) {
         boolean typeCheck = false;
         File fileInput = new File(pad);
         try (FileInputStream stream = new FileInputStream(fileInput)) {
@@ -48,12 +56,10 @@ public class Bijlage {
         } catch (IOException e) {
             System.err.println("Bestand kon niet gelezen worden: " + e.getMessage());
         }
-    }
+    }*/
 
 
-    // TODO: Implementeren dat alleen videos, afbeeldingen en audiobestanden toegevoegd kunnen worden. Evt. max grootte.
-    // TODO: ook bijlagetype setten
-    private boolean setType(String pad) throws IOException {
+/*    private boolean setType(String pad) throws IOException {
         String fileType = Files.probeContentType(Paths.get(pad));
         for (BijlageType type : BijlageType.values()) {
             if (fileType.contains(type.toString().toLowerCase())) {
@@ -67,11 +73,7 @@ public class Bijlage {
 
     private boolean checkGrootte(String pad, File fileInput) {
         return fileInput.length() <= MAX_GROOTTE;
-    }
-
-    public void setArtikel(AbstractArtikel artikel) {
-        this.artikel = artikel;
-    }
+    }*/
 
     public void setBijlage() {
 

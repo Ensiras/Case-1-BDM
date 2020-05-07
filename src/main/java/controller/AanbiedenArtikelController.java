@@ -3,6 +3,7 @@ package controller;
 import dao.ArtikelDao;
 import dao.CategorieDao;
 import domain.*;
+import util.BijlageUtil;
 import util.DBUtil;
 import views.AanbiedenArtikelView;
 
@@ -14,8 +15,9 @@ import java.util.Set;
 
 import static domain.ArtikelSoort.DIENST;
 import static domain.ArtikelSoort.PRODUCT;
+import static util.BijlageUtil.ERROR_MESSAGE;
+import static util.BijlageUtil.maakBijlage;
 import static util.GebruikerUtil.huidigeGebruiker;
-import static util.GebruikerUtil.setHuidigeGebruikerById;
 
 public class AanbiedenArtikelController extends AbstractController<ArtikelDao, AanbiedenArtikelView> {
 
@@ -69,9 +71,35 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
     }
 
     private List<Bijlage> toevoegenBijlagen(List<Bijlage> bijlagen) {
-        String input = view.vraagInput("Voer het volledige pad naar het bestand dat u wilt toevoegen in (ja dit is omslachtig, deal with it)");
-        bijlagen.add(new Bijlage(input));
+        while(bijlagen.size() < 3) {
+            Bijlage bijlage = toevoegenBijlage();
+
+            // Als toevoegen van een bijlage wordt afgebroken, stop dan het hele proces en return al bestaande bijlagen
+            if (bijlage == null) {
+                return bijlagen;
+            }
+            bijlagen.add(bijlage);
+        }
         return bijlagen;
+    }
+
+    private Bijlage toevoegenBijlage() {
+        Bijlage bijlage = null;
+        String input = view.vraagInput("Voer het volledige pad naar het bestand dat u wilt toevoegen in. " +
+                "Maximale grootte: 10mb");
+
+        // Zolang er geen bijlage toegevoegd (kan) worden blijf vragen, tenzij gebruiker 'n' invoert.
+        while(bijlage == null) {
+            bijlage = maakBijlage(input);
+            if (bijlage == null) {
+                input = view.vraagInput(ERROR_MESSAGE + " Bijlage kon niet toegevoegd worden. Probeert u het nog eens" +
+                        " of (n) voeg geen bijlage toe en ga door met het aanbieden van uw product");
+                if (input.equals("n")) {
+                    return null;
+                }
+            }
+        }
+        return bijlage;
     }
 
 
