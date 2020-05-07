@@ -54,15 +54,6 @@ public class BijlageUtil {
         return new Bijlage(bestandsnaam, type, data);
     }
 
-    static boolean checkGrootte(File fileInput) {
-        if (fileInput.length() <= MAX_GROOTTE) {
-            return true;
-        } else {
-            ERROR_MESSAGE = "Bestand is te groot.";
-            return false;
-        }
-    }
-
     static BijlageType setType(String pad) throws IOException {
         String fileType = Files.probeContentType(Paths.get(pad));
 
@@ -81,6 +72,15 @@ public class BijlageUtil {
             }
         }
         return null;
+    }
+
+    static boolean checkGrootte(File fileInput) {
+        if (fileInput.length() <= MAX_GROOTTE) {
+            return true;
+        } else {
+            ERROR_MESSAGE = "Bestand is te groot.";
+            return false;
+        }
     }
 
     static byte[] getData(File fileInput, FileInputStream stream) throws IOException {
