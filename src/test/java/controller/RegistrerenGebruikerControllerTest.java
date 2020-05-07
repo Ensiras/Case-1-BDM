@@ -25,9 +25,6 @@ class RegistrerenGebruikerControllerTest {
     @Mock
     RegistrerenGebruikerView mockedView;
 
-    @Mock
-    GebruikerDao mockedDao = mock(GebruikerDao.class);
-
     @InjectMocks
     RegistrerenGebruikerController regGebr = new RegistrerenGebruikerController();
 

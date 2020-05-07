@@ -26,10 +26,6 @@ public abstract class AbstractView {
         return scanner.nextLine().trim().toLowerCase();
     }
 
-    public void sluitScanner() {
-        scanner.close();
-    }
-
     public void toonLijst(List<?> lijst) {
         for (int i = 0; i < lijst.size(); i++) {
             System.out.println("(" + i + ") " + lijst.get(i));

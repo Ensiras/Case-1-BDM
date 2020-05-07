@@ -9,8 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static domain.Bezorgwijze.AFHALEN_THUIS;
-import static util.DBUtil.getEntityManager;
 import static domain.Regelement.getRegelementVoet;
+import static util.DBUtil.getEntityManager;
 
 
 // TODO: input-loops vervangen met vraagInput() methode
@@ -25,7 +25,7 @@ public class RegistrerenGebruikerController extends AbstractController<Gebruiker
         view.toonBericht("Registeren nieuwe gebruiker");
     }
 
-    public boolean startRegistratie() {
+    public void startRegistratie() {
         String[] adres = new String[3];
 
         String email = vraagEmail();
@@ -35,21 +35,21 @@ public class RegistrerenGebruikerController extends AbstractController<Gebruiker
         if (checkBezorgwijzen(bezorgwijzen)) {
             adres = vraagAdres();
         }
+
         // Als toestemming niet gegeven wordt, breek registratie af
         if (!vraagToestemming()) {
             view.toonBericht("Registratie wordt afgebroken.");
-            return false;
+            stop();
+        } else {
+            Gebruiker gebruiker = registreerGebruiker(email, bezorgwijzen, adres, true);
+            view.toonBericht("Registratie van gebruiker " + gebruiker.getEmail() + " succesvol!");
+            stop();
         }
-
-        Gebruiker gebruiker = registreerGebruiker(email, bezorgwijzen, adres, true);
-        view.toonBericht("Registratie van gebruiker " + gebruiker.getEmail() + " succesvol!");
-        return true;
     }
 
     public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
         Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
         dao.opslaan(gebruiker);
-        view.sluitScanner();
         return gebruiker;
     }
 

@@ -29,6 +29,8 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
 
     public void aanbiedenArtikel() {
         ArtikelSoort artikelSoort = vraagArtikelSoort();
+
+        // TODO: zorgen dat aanbieden ook echt afgebroken wordt als deze check niet slaagt
         if (artikelSoort == PRODUCT) {
             checkBezorgwijzen();
         }
@@ -36,9 +38,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         String naam = vraagInput("Geef een artikelnaam op: ");
         BigDecimal prijs = vraagPrijs();
         AbstractCategorie categorie = vraagCategorie(artikelSoort);
-
         String omschrijving = view.vraagInput("Geef een omschrijving van uw product (optioneel)");
-
         List<Bijlage> bijlagen = vraagBijlagen();
 
         if (artikelSoort == PRODUCT) {
@@ -53,6 +53,8 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
             view.toonBericht("U kunt geen producten aanbieden als u geen bezorgwijzen ondersteunt.");
             String[] opties = {"1", "2"};
             String input = vraagInput(opties, "U kunt (1) terug naar het hoofdmenu of (2) uw bezorgwijzen aanpassen (niet geïmplementeerd)");
+
+            // TODO: zorgen dat de methode aanbieden product ook echt afloopt
             if (input.equals("1")) {
                 Hoofdmenu.toon();
             } else {

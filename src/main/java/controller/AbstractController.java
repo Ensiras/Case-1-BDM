@@ -1,13 +1,14 @@
 package controller;
 
 import dao.AbstractDao;
-import domain.Bezorgwijze;
+
+
 import views.AbstractView;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
+
 import java.util.List;
-import java.util.Set;
+
 
 import static java.math.BigDecimal.ZERO;
 
@@ -17,6 +18,10 @@ public abstract class AbstractController<T extends AbstractDao<?>, Y extends Abs
     // TODO: Dao niet als veld, maar als lokale variabele. Alleen bij het opslaan.
     protected T dao;
     protected Y view;
+
+    void stop() {
+        dao.sluitEntityManager();
+    }
 
     boolean checkInput(String input, String[] opties) {
         for (String optie : opties) {
