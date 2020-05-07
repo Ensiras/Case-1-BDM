@@ -11,6 +11,8 @@ public abstract class AbstractView {
         this.scanner = new Scanner(System.in);
     }
 
+    public abstract void toon();
+
     public void toonBericht(String bericht) {
         System.out.println(bericht);
     }

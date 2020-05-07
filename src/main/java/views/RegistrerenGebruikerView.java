@@ -2,8 +2,7 @@ package views;
 
 import controller.RegistrerenGebruikerController;
 
-import util.Regelement;
-import java.util.Scanner;
+import domain.Regelement;
 
 public class RegistrerenGebruikerView extends AbstractView {
 

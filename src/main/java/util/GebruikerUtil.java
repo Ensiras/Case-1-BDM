@@ -16,4 +16,6 @@ public class GebruikerUtil {
         huidigeGebruiker = gebDao.zoek(1, Gebruiker.class);
 //        gebDao.sluitEntityManager();
     }
+
+
 }

@@ -17,12 +17,14 @@ public class BijlageUtil {
     static final int MAX_GROOTTE = 10485760;
     public static String ERROR_MESSAGE;
 
+    // TODO: misschien wat refactoren zodat methode wat kleiner wordt
     public static Bijlage maakBijlage(String pad) {
         String bestandsnaam = "";
         BijlageType type = null;
         byte[] data = null;
 
-        if (!Files.exists(Paths.get(pad))) {
+        File fileInput = new File(pad);
+        if (!fileInput.exists() || fileInput.isDirectory()) {
             ERROR_MESSAGE = "Bestand kon niet gevonden worden.";
             return null;
         }
@@ -32,7 +34,7 @@ public class BijlageUtil {
                 return null;
             }
 
-            File fileInput = new File(pad);
+
             if (!checkGrootte(fileInput)) { // als bestand te groot is dan...
                 return null;
             }
@@ -59,7 +61,7 @@ public class BijlageUtil {
 
         BijlageType type = checkType(fileType);
         if (type == null) {
-            ERROR_MESSAGE = "Bestandstype " + fileType + " wordt niet ondersteund.";
+            ERROR_MESSAGE = "Bestandstype wordt niet ondersteund. U kunt alleen afbeeldingen, video's of audiobestanden toevoegen.";
             return null;
         }
         return type;

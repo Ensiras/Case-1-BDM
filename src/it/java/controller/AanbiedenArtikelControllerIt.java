@@ -2,6 +2,7 @@ package controller;
 
 import dao.CategorieDao;
 import domain.AbstractCategorie;
+import domain.Bijlage;
 import domain.DienstCategorie;
 import domain.ProductCategorie;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import javax.persistence.EntityManager;
 
 import static domain.ArtikelSoort.PRODUCT;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static util.DBUtil.*;
 
@@ -56,5 +58,14 @@ class AanbiedenArtikelControllerIt {
                 .isInstanceOf(ProductCategorie.class)
                 .isNotNull()
                 .isEqualTo(pc2);
+    }
+
+    @Test
+    void whenValidFilePathIsGivenReturnBijlage() {
+        when(mockedView.vraagInput(anyString())).thenReturn("C:\\Users\\Thomas\\IdeaProjects\\BDM\\src\\it\\resources\\testFiles\\dekameel.png");
+
+        Bijlage bijlage = controller.toevoegenBijlage();
+
+        assertThat(bijlage).isInstanceOf(Bijlage.class).isNotNull();
     }
 }

@@ -10,7 +10,7 @@ import java.util.Set;
 
 import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static util.DBUtil.getEntityManager;
-import static util.Regelement.getRegelementVoet;
+import static domain.Regelement.getRegelementVoet;
 
 
 // TODO: input-loops vervangen met vraagInput() methode

@@ -3,9 +3,10 @@ package controller;
 import dao.ArtikelDao;
 import dao.CategorieDao;
 import domain.*;
-import util.BijlageUtil;
 import util.DBUtil;
+import util.NotImplementedException;
 import views.AanbiedenArtikelView;
+import views.Hoofdmenu;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -24,13 +25,16 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
     public AanbiedenArtikelController(AanbiedenArtikelView view) {
         this.view = view;
         this.dao = new ArtikelDao(DBUtil.getEntityManager("MySQL"));
-
     }
 
     public void aanbiedenArtikel() {
+        ArtikelSoort artikelSoort = vraagArtikelSoort();
+        if (artikelSoort == PRODUCT) {
+            checkBezorgwijzen();
+        }
+
         String naam = vraagInput("Geef een artikelnaam op: ");
         BigDecimal prijs = vraagPrijs();
-        ArtikelSoort artikelSoort = vraagArtikelSoort();
         AbstractCategorie categorie = vraagCategorie(artikelSoort);
 
         String omschrijving = view.vraagInput("Geef een omschrijving van uw product (optioneel)");
@@ -41,6 +45,19 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
             maakProduct(naam, prijs, categorie, omschrijving, bijlagen);
         } else {
             maakDienst(naam, prijs, categorie, omschrijving, bijlagen);
+        }
+    }
+
+    private void checkBezorgwijzen() {
+        if (huidigeGebruiker.getBezorgwijzen().isEmpty()) {
+            view.toonBericht("U kunt geen producten aanbieden als u geen bezorgwijzen ondersteunt.");
+            String[] opties = {"1", "2"};
+            String input = vraagInput(opties, "U kunt (1) terug naar het hoofdmenu of (2) uw bezorgwijzen aanpassen (niet geïmplementeerd)");
+            if (input.equals("1")) {
+                Hoofdmenu.toon();
+            } else {
+                throw new NotImplementedException("Deze functie is nog niet geïmplementeerd!");
+            }
         }
     }
 
@@ -71,28 +88,35 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
     }
 
     private List<Bijlage> toevoegenBijlagen(List<Bijlage> bijlagen) {
-        while(bijlagen.size() < 3) {
+        while (bijlagen.size() < 3) {
             Bijlage bijlage = toevoegenBijlage();
 
             // Als toevoegen van een bijlage wordt afgebroken, stop dan het hele proces en return al bestaande bijlagen
             if (bijlage == null) {
                 return bijlagen;
+            } else {
+                bijlagen.add(bijlage);
+                String input = view.vraagInput("Bijlage toegevoegd. U heeft " + bijlagen.size() + " bijlage(n) toegevoegd aan uw artikel." +
+                        " Wilt u nog een bijlage toevoegen (j/n)?");
+                if (input.equals("n")) {
+                    return bijlagen; // Als gebruiker geen bijlagen meer wilt toevoegen, dan
+                }
             }
-            bijlagen.add(bijlage);
         }
+        view.toonBericht("U heeft het maximale aantal bijlagen toegevoegd aan uw artikel.");
         return bijlagen;
     }
 
-    private Bijlage toevoegenBijlage() {
+    Bijlage toevoegenBijlage() {
         Bijlage bijlage = null;
         String input = view.vraagInput("Voer het volledige pad naar het bestand dat u wilt toevoegen in. " +
                 "Maximale grootte: 10mb");
 
-        // Zolang er geen bijlage toegevoegd (kan) worden blijf vragen, tenzij gebruiker 'n' invoert.
-        while(bijlage == null) {
+        // Zolang bijlage null is, blijf vragen tenzij gebruiker 'n' invoert.
+        while (bijlage == null) {
             bijlage = maakBijlage(input);
             if (bijlage == null) {
-                input = view.vraagInput(ERROR_MESSAGE + " Bijlage kon niet toegevoegd worden. Probeert u het nog eens" +
+                input = view.vraagInput(ERROR_MESSAGE + " Bijlage niet toegevoegd. Probeert u het nog eens" +
                         " of (n) voeg geen bijlage toe en ga door met het aanbieden van uw product");
                 if (input.equals("n")) {
                     return null;
@@ -104,30 +128,12 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
 
 
     Set<Bezorgwijze> vraagBezorgwijzen(Gebruiker gebruiker) {
-        view.toonBericht("Welke bezorgwijzen wilt u ondersteunen voor uw product?");
+        view.toonBericht("Welke bezorgwijzen wilt u ondersteunen voor uw product (j/n)?");
         Set<Bezorgwijze> bezorgWijzenGebr = gebruiker.getBezorgwijzen();
         Set<Bezorgwijze> bezorgWijzenProd = new LinkedHashSet<>();
-
         String[] opties = {"j", "n"};
 
-        // TODO: Deze check verplaatsen direct na of tijdens keuze product/dienst + exception netter maken
-        /*if (bezorgWijzenGebr.isEmpty()) {
-            view.toonBericht("U kunt geen product aanbieden als u geen bezorgwijzen ondersteunt." +
-                    "Ga naar uw profiel om daar aan te geven welke bezorgwijzen u ondersteunt" +
-                    "Dit is, uiteraard, nog niet geïmplementeerd, vette pech!");
-            throw new RuntimeException("Deze fout wordt nog niet helemaal lekker afgehandeld");
-        }*/
-
-
-
-        for (Bezorgwijze bezorgwijze : bezorgWijzenGebr) {
-            String input = vraagInput(opties, bezorgwijze.getTypePrintbaar());
-            if (input.equals("j")) {
-                bezorgWijzenProd.add(bezorgwijze);
-            }
-        }
-        // TODO: misschien naar een aparte methode knallen en dit werkt ook nog niet goed?
-        /*while(bezorgWijzenProd.isEmpty()) {
+        while (bezorgWijzenProd.isEmpty()) {
             for (Bezorgwijze bezorgwijze : bezorgWijzenGebr) {
                 String input = vraagInput(opties, bezorgwijze.getTypePrintbaar());
                 if (input.equals("j")) {
@@ -137,7 +143,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
             if (bezorgWijzenProd.isEmpty()) {
                 view.toonBericht("U moet minimaal een bezorgwijze ondersteunen voor dit product.");
             }
-        }*/
+        }
 
         return bezorgWijzenProd;
     }

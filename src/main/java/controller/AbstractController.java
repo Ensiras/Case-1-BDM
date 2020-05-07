@@ -1,10 +1,13 @@
 package controller;
 
 import dao.AbstractDao;
+import domain.Bezorgwijze;
 import views.AbstractView;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static java.math.BigDecimal.ZERO;
 
@@ -58,6 +61,7 @@ public abstract class AbstractController<T extends AbstractDao<?>, Y extends Abs
         }
     }
 
+
     // TODO: dit stukje code implementeren in de rest van de methodes
     String[] bepaalOpties(List<?> lijst) {
         String[] opties = new String[lijst.size()];
@@ -71,7 +75,7 @@ public abstract class AbstractController<T extends AbstractDao<?>, Y extends Abs
     String vraagInput(String[] opties) {
         boolean valideInput = false;
         String input = "";
-        while(!valideInput) {
+        while (!valideInput) {
             input = view.vraagInput();
             valideInput = checkInput(input, opties);
         }
@@ -81,10 +85,8 @@ public abstract class AbstractController<T extends AbstractDao<?>, Y extends Abs
     String vraagInput(String[] opties, String bericht) {
         boolean valideInput = false;
         String input = "";
-        view.toonBericht(bericht);
-
-        while(!valideInput) {
-            input = view.vraagInput();
+        while (!valideInput) {
+            input = view.vraagInput(bericht);
             valideInput = checkInput(input, opties);
         }
         return input;
@@ -95,10 +97,12 @@ public abstract class AbstractController<T extends AbstractDao<?>, Y extends Abs
         String input = "";
 
         System.out.println(bericht);
-        while(!valideInput) {
+        while (!valideInput) {
             input = view.vraagInput();
             valideInput = checkInputNietLeeg(input);
         }
         return input;
     }
+
+
 }
