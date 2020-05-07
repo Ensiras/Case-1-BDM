@@ -12,8 +12,8 @@ public class GebruikerUtil {
     // Sluiten nodig omdat anders de collection bezorgwijzen in twee sessies openstaat, dit gaat mis bij het persisten
     // van een nieuw artikel.
     public static void setHuidigeGebruikerById(int id) {
-        GebruikerDao gebDao = new GebruikerDao(DBUtil.getEntityManager());
+        GebruikerDao gebDao = new GebruikerDao(DBUtil.getEntityManager("MySQL"));
         huidigeGebruiker = gebDao.zoek(1, Gebruiker.class);
-        gebDao.sluitEntityManager();
+//        gebDao.sluitEntityManager();
     }
 }

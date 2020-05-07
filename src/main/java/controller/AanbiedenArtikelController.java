@@ -21,10 +21,8 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
 
     public AanbiedenArtikelController(AanbiedenArtikelView view) {
         this.view = view;
-        this.dao = new ArtikelDao(DBUtil.getEntityManager());
-        setHuidigeGebruikerById(1); // Methode om ingelogde gebruiker te simuleren
+        this.dao = new ArtikelDao(DBUtil.getEntityManager("MySQL"));
 
-        view.toonBericht("Nieuw artikel aanbieden als gebruiker: " + huidigeGebruiker.getEmail());
     }
 
     public void aanbiedenArtikel() {
@@ -85,15 +83,23 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         String[] opties = {"j", "n"};
 
         // TODO: Deze check verplaatsen direct na of tijdens keuze product/dienst + exception netter maken
-        if (bezorgWijzenGebr.isEmpty()) {
+        /*if (bezorgWijzenGebr.isEmpty()) {
             view.toonBericht("U kunt geen product aanbieden als u geen bezorgwijzen ondersteunt." +
                     "Ga naar uw profiel om daar aan te geven welke bezorgwijzen u ondersteunt" +
                     "Dit is, uiteraard, nog niet geïmplementeerd, vette pech!");
             throw new RuntimeException("Deze fout wordt nog niet helemaal lekker afgehandeld");
-        }
+        }*/
 
-        // TODO: misschien naar een aparte methode knallen?
-        while(bezorgWijzenProd.isEmpty()) {
+
+
+        for (Bezorgwijze bezorgwijze : bezorgWijzenGebr) {
+            String input = vraagInput(opties, bezorgwijze.getTypePrintbaar());
+            if (input.equals("j")) {
+                bezorgWijzenProd.add(bezorgwijze);
+            }
+        }
+        // TODO: misschien naar een aparte methode knallen en dit werkt ook nog niet goed?
+        /*while(bezorgWijzenProd.isEmpty()) {
             for (Bezorgwijze bezorgwijze : bezorgWijzenGebr) {
                 String input = vraagInput(opties, bezorgwijze.getTypePrintbaar());
                 if (input.equals("j")) {
@@ -103,7 +109,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
             if (bezorgWijzenProd.isEmpty()) {
                 view.toonBericht("U moet minimaal een bezorgwijze ondersteunen voor dit product.");
             }
-        }
+        }*/
 
         return bezorgWijzenProd;
     }
@@ -111,14 +117,13 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
     AbstractCategorie vraagCategorie(ArtikelSoort soort) {
         view.toonBericht("Kies de subcategorie van uw " + soort + ".");
 
-        CategorieDao catDao = new CategorieDao(DBUtil.getEntityManager());
+        CategorieDao catDao = new CategorieDao(DBUtil.getEntityManager("MySQL"));
         List<AbstractCategorie> categorieen = catDao.zoekAlles(soort);
         String[] opties = bepaalOpties(categorieen);
 
         view.toonLijst(categorieen);
         String input = vraagInput(opties);
 
-        catDao.sluitEntityManager();
         return categorieen.get(Integer.parseInt(input));
 
     }

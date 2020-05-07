@@ -37,23 +37,15 @@ public class Gebruiker {
         this.toestemmingRegelement = toestemmingRegelement;
     }
 
+    public Gebruiker(String email) {
+        this.email = email;
+    }
+
     public Gebruiker() {
     }
 
     public String getEmail() {
         return email;
-    }
-
-    public String getStraat() {
-        return straat;
-    }
-
-    public String getHuisnummer() {
-        return huisnummer;
-    }
-
-    public String getPostcode() {
-        return postcode;
     }
 
     public Set<Bezorgwijze> getBezorgwijzen() {

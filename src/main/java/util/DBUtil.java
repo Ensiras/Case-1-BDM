@@ -5,7 +5,22 @@ import javax.persistence.Persistence;
 
 public class DBUtil {
 
-    public static EntityManager getEntityManager() {
-        return Persistence.createEntityManagerFactory("MySQL").createEntityManager();
+    // TODO: in aparte singleton klasse
+    private static EntityManager instance;
+
+    public static EntityManager getEntityManager(String type) {
+        if (instance != null) {
+            return instance;
+        }
+        instance = Persistence.createEntityManagerFactory(type).createEntityManager();
+        return instance;
     }
+
+    public static void closeEntityManager() {
+        if (instance != null) {
+            instance.close();
+            instance = null;
+        }
+    }
+
 }

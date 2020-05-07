@@ -21,7 +21,7 @@ public class RegistrerenGebruikerController extends AbstractController<Gebruiker
 
     public RegistrerenGebruikerController(RegistrerenGebruikerView view) {
         this.view = view;
-        this.dao = new GebruikerDao(getEntityManager());
+        this.dao = new GebruikerDao(getEntityManager("MySQL"));
         view.toonBericht("Registeren nieuwe gebruiker");
     }
 
