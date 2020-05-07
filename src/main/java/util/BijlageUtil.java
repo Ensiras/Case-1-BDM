@@ -28,12 +28,12 @@ public class BijlageUtil {
             ERROR_MESSAGE = "Bestand kon niet gevonden worden.";
             return null;
         }
+
         try {
             type = setType(pad); // check en set het type
             if (type == null) {
                 return null;
             }
-
 
             if (!checkGrootte(fileInput)) { // als bestand te groot is dan...
                 return null;

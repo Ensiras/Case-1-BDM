@@ -41,6 +41,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         String omschrijving = view.vraagInput("Geef een omschrijving van uw product (optioneel)");
         List<Bijlage> bijlagen = vraagBijlagen();
 
+        // TODO iets met een dao doen hier: of hier maken en dan aan methodes geven of in iedere methode apart maken
         if (artikelSoort == PRODUCT) {
             maakProduct(naam, prijs, categorie, omschrijving, bijlagen);
         } else {
@@ -177,7 +178,6 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         }
     }
 
-    // TODO: Zou dit nog als een overloaded methode kunnen?
     BigDecimal vraagPrijs() {
         BigDecimal prijs = null;
         while (prijs == null) {

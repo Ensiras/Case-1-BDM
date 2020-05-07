@@ -18,6 +18,7 @@ import static domain.ArtikelSoort.PRODUCT;
 import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static domain.Bezorgwijze.VERSTUREN_VOORBET;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -32,7 +33,7 @@ class AanbiedenArtikelControllerTest {
 
     @Test
     void whenBezorgwijzeNotSupportedShouldReturnSetWithoutIt() {
-        when(mockedView.vraagInput()).thenReturn("j", "n");
+        when(mockedView.vraagInput(anyString())).thenReturn("j", "n");
         Gebruiker gebruiker = new Gebruiker();
         gebruiker.addBezorgwijze(AFHALEN_THUIS);
         gebruiker.addBezorgwijze(VERSTUREN_VOORBET);
@@ -59,7 +60,7 @@ class AanbiedenArtikelControllerTest {
 
     @Test
     void whenInputIs1ShouldReturnPRODUCT() {
-        when(mockedView.vraagInput()).thenReturn("1");
+        when(mockedView.vraagInput(anyString())).thenReturn("1");
 
         ArtikelSoort result = controller.vraagArtikelSoort();
 
@@ -68,7 +69,7 @@ class AanbiedenArtikelControllerTest {
 
     @Test
     void whenInputIs2ShouldReturnDIENST() {
-        when(mockedView.vraagInput()).thenReturn("2");
+        when(mockedView.vraagInput(anyString())).thenReturn("2");
 
         ArtikelSoort result = controller.vraagArtikelSoort();
 

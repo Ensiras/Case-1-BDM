@@ -30,7 +30,7 @@ class RegistrerenGebruikerControllerTest {
 
     @Test
     void whenInputIsJShouldReturnTrue() {
-        when(mockedView.vraagInput()).thenReturn("j");
+        when(mockedView.vraagInput(anyString())).thenReturn("j");
 
         boolean result = regGebr.vraagToestemming();
 
@@ -39,7 +39,7 @@ class RegistrerenGebruikerControllerTest {
 
     @Test
     void whenInputIsNShouldReturnFalse() {
-        when(mockedView.vraagInput()).thenReturn("n");
+        when(mockedView.vraagInput(anyString())).thenReturn("n");
 
         boolean result = regGebr.vraagToestemming();
 

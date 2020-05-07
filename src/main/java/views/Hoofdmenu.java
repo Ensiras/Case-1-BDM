@@ -17,15 +17,12 @@ public class Hoofdmenu {
             int keuze = Integer.parseInt(scanner.nextLine());
             switch (keuze) {
                 case 1:
-                    scanner.close();
                     new RegistrerenGebruikerView().toon();
                     break;
                 case 2:
-                    scanner.close();
                     new AanbiedenArtikelView().toon();
                     break;
                 case 3:
-                    scanner.close();
                     System.out.println("Tot ziens!");
                     System.exit(0);
                     break;

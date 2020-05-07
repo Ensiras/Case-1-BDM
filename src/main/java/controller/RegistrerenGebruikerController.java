@@ -13,7 +13,6 @@ import static domain.Regelement.getRegelementVoet;
 import static util.DBUtil.getEntityManager;
 
 
-// TODO: input-loops vervangen met vraagInput() methode
 public class RegistrerenGebruikerController extends AbstractController<GebruikerDao, RegistrerenGebruikerView> {
 
     public RegistrerenGebruikerController() {
@@ -21,7 +20,6 @@ public class RegistrerenGebruikerController extends AbstractController<Gebruiker
 
     public RegistrerenGebruikerController(RegistrerenGebruikerView view) {
         this.view = view;
-        this.dao = new GebruikerDao(getEntityManager("MySQL"));
         view.toonBericht("Registeren nieuwe gebruiker");
     }
 
@@ -39,17 +37,17 @@ public class RegistrerenGebruikerController extends AbstractController<Gebruiker
         // Als toestemming niet gegeven wordt, breek registratie af
         if (!vraagToestemming()) {
             view.toonBericht("Registratie wordt afgebroken.");
-            stop();
         } else {
             Gebruiker gebruiker = registreerGebruiker(email, bezorgwijzen, adres, true);
             view.toonBericht("Registratie van gebruiker " + gebruiker.getEmail() + " succesvol!");
-            stop();
         }
     }
 
     public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
         Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
+        GebruikerDao dao = new GebruikerDao(getEntityManager("MySQL"));
         dao.opslaan(gebruiker);
+        dao.sluitEntityManager();
         return gebruiker;
     }
 
@@ -82,22 +80,16 @@ public class RegistrerenGebruikerController extends AbstractController<Gebruiker
         return false;
     }
 
-    // TODO: misschien ook naar superklasse want hergebruikt (deels) in aanbieden artikel
     Set<Bezorgwijze> vraagBezorgwijzen() {
         Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
         view.toonBericht("Ondersteunt u de volgende bezorgwijzen (j/n)?");
         String[] opties = {"j", "n"};
 
-        // TODO: aparte methode in superklasse want hergebruikt in aanbieden artikel
         for (Bezorgwijze b : Bezorgwijze.values()) {
             boolean valideInput = false;
             String input = "";
 
-            while (!valideInput) {
-                input = view.vraagInput(b.getTypePrintbaar());
-                valideInput = checkInput(input, opties);
-            }
-
+            input = vraagInput(opties, b.getTypePrintbaar());
             if (input.equals("j")) {
                 bezorgwijzen.add(b);
             }
@@ -123,7 +115,6 @@ public class RegistrerenGebruikerController extends AbstractController<Gebruiker
         return adres;
     }
 
-    // Zorgt ervoor dat alle velden ingevuld zijn en de postcode uit 4 getallen en 2 letters bestaat
     boolean checkAdres(String[] adres) {
         String straat = adres[0];
         String huisnummer = adres[1];

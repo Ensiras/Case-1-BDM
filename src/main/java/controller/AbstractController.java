@@ -66,8 +66,6 @@ public abstract class AbstractController<T extends AbstractDao<?>, Y extends Abs
         }
     }
 
-
-    // TODO: dit stukje code implementeren in de rest van de methodes
     String[] bepaalOpties(List<?> lijst) {
         String[] opties = new String[lijst.size()];
         for (int i = 0; i < lijst.size(); i++) {
@@ -76,7 +74,6 @@ public abstract class AbstractController<T extends AbstractDao<?>, Y extends Abs
         return opties;
     }
 
-    // TODO: dit stukje code implementeren in de rest van de methodes
     String vraagInput(String[] opties) {
         boolean valideInput = false;
         String input = "";
