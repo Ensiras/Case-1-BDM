@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 // Utility klasse voor het maken van een nieuwe bijlage vanaf een opgegeven pad
 public class BijlageUtil {
 
-    private static final int MAX_GROOTTE = 10485760;
+    static final int MAX_GROOTTE = 10485760;
     public static String ERROR_MESSAGE;
 
     public static Bijlage maakBijlage(String pad) {
@@ -54,7 +54,7 @@ public class BijlageUtil {
         return new Bijlage(bestandsnaam, type, data);
     }
 
-    private static boolean checkGrootte(File fileInput) {
+    static boolean checkGrootte(File fileInput) {
         if (fileInput.length() <= MAX_GROOTTE) {
             return true;
         } else {
@@ -63,18 +63,27 @@ public class BijlageUtil {
         }
     }
 
-    private static BijlageType setType(String pad) throws IOException {
+    static BijlageType setType(String pad) throws IOException {
         String fileType = Files.probeContentType(Paths.get(pad));
+
+        BijlageType type = checkType(fileType);
+        if (type == null) {
+            ERROR_MESSAGE = "Bestandstype " + fileType + " wordt niet ondersteund.";
+            return null;
+        }
+        return type;
+    }
+
+    static BijlageType checkType(String fileType) {
         for (BijlageType type : BijlageType.values()) {
             if (fileType.contains(type.toString().toLowerCase())) {
                 return type;
             }
         }
-        ERROR_MESSAGE = "Bestandstype " + fileType + " wordt niet ondersteund.";
         return null;
     }
 
-    private static byte[] getData(File fileInput, FileInputStream stream) throws IOException {
+    static byte[] getData(File fileInput, FileInputStream stream) throws IOException {
         byte[] data = new byte[(int) fileInput.length()];
         stream.read(data);
         return data;
