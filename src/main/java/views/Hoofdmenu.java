@@ -2,17 +2,28 @@ package views;
 
 import java.util.Scanner;
 
-public class Hoofdmenu {
+public class Hoofdmenu extends AbstractView {
 
-    public static void toon() {
+    private static Hoofdmenu instance;
+
+    public static Hoofdmenu getInstance() {
+        if(instance == null) {
+            instance = new Hoofdmenu();
+        }
+        return instance;
+    }
+
+    private Hoofdmenu() {};
+
+    public void toon() {
         System.out.println("Welkom bij BDM!");
 
         while(true) {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Maak een keuze");
             System.out.println("1) Registreren");
-            System.out.println("2) Artikelen aanbieden");
-            System.out.println("3) Haal mij hier vandaan!");
+            System.out.println("2) Artikel aanbieden");
+            System.out.println("3) Ik wil weg");
 
             int keuze = Integer.parseInt(scanner.nextLine());
             switch (keuze) {

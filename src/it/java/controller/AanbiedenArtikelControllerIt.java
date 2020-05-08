@@ -63,7 +63,7 @@ class AanbiedenArtikelControllerIt {
 
     @Test
     void whenValidFilePathIsGivenReturnBijlage() {
-        when(mockedView.vraagInput(anyString())).thenReturn("C:\\Users\\Thomas\\IdeaProjects\\BDM\\src\\it\\resources\\testFiles\\dekameel.png");
+        when(mockedView.vraagInput()).thenReturn("C:\\Users\\Thomas\\IdeaProjects\\BDM\\src\\it\\resources\\testFiles\\dekameel.png");
 
         Bijlage bijlage = controller.toevoegenBijlage();
 
@@ -73,7 +73,7 @@ class AanbiedenArtikelControllerIt {
     @Test
     void whenMaxAmountOfBijlagenIsAddedReturnBijlagen() {
         int maxAmount = 3;
-        when(mockedView.vraagInput(anyString())).thenReturn("C:\\Users\\Thomas\\IdeaProjects\\BDM\\src\\it\\resources\\testFiles\\dekameel.png");
+        when(mockedView.vraagInput()).thenReturn("C:\\Users\\Thomas\\IdeaProjects\\BDM\\src\\it\\resources\\testFiles\\dekameel.png");
 
         List<Bijlage> result = controller.toevoegenBijlagen();
 

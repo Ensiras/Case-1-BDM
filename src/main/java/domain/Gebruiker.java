@@ -55,12 +55,4 @@ public class Gebruiker {
         bezorgwijzen.add(bezorgwijze);
     }
 
-    @Override
-    public String toString() {
-        return "Gebruiker{" +
-                "email='" + email + '\'' +
-                ", adres='" + straat + " " + huisnummer + " " + postcode + '\'' +
-                ", bezorgWijzen=" + bezorgwijzen +
-                '}';
-    }
 }

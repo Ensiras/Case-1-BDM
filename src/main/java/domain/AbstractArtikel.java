@@ -3,6 +3,7 @@ package domain;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,11 @@ public abstract class AbstractArtikel {
     @Id
     @GeneratedValue
     private int id;
+
+    @NotNull
     private String naam;
+
+    @NotNull
     private BigDecimal prijs;
 
     @OneToOne

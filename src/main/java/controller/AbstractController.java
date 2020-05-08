@@ -16,24 +16,55 @@ import static java.math.BigDecimal.ZERO;
 public abstract class AbstractController<Y extends AbstractView> {
 
     protected Y view;
+    private final String[] STANDAARD_INPUT_OPTIES = {"1", "2"};
 
     public AbstractController(Y view) {
         this.view = view;
     }
 
+    String vraagInput(String bericht, String[] opties) {
+        boolean valideInput = false;
+        String input = "";
+        while (!valideInput) {
+            input = view.vraagInput(bericht);
+            valideInput = checkInput(input, opties);
+        }
+        return input;
+    }
+
+    String vraagInput(String bericht) {
+        return vraagInput(bericht, STANDAARD_INPUT_OPTIES);
+    }
+
+    String vraagInput(String[] opties) {
+        return vraagInput("", opties);
+    }
+
+    String vraagInputNietLeeg(String bericht) {
+        boolean valideInput = false;
+        String input = "";
+
+        view.toonBericht(bericht);
+        while (!valideInput) {
+            input = view.vraagInput();
+            valideInput = checkInputNietLeeg(input);
+        }
+        return input;
+    }
+
     boolean checkInput(String input, String[] opties) {
         for (String optie : opties) {
-            if (optie.equals(input)) {
+            if (optie.equals(input.toLowerCase())) {
                 return true;
             }
         }
-        System.out.println("Input: " + input + " werd niet herkend.");
+        view.toonBericht("Input: " + input + " werd niet herkend.");
         return false;
     }
 
     boolean checkInputNietLeeg(String input) {
         if (input.isEmpty()) {
-            System.out.println("U heeft niets ingevoerd, voert u a.u.b. een waarde in.");
+            view.toonBericht("U heeft niets ingevoerd, voert u a.u.b. een waarde in.");
             return false;
         } else {
             return true;
@@ -70,32 +101,6 @@ public abstract class AbstractController<Y extends AbstractView> {
             opties[i] = Integer.toString(i);
         }
         return opties;
-    }
-
-    String vraagInput(String[] opties, String bericht) {
-        boolean valideInput = false;
-        String input = "";
-        while (!valideInput) {
-            input = view.vraagInput(bericht);
-            valideInput = checkInput(input, opties);
-        }
-        return input;
-    }
-
-    String vraagInput(String[] opties) {
-        return vraagInput(opties, "");
-    }
-
-    String vraagInput(String bericht) {
-        boolean valideInput = false;
-        String input = "";
-
-        System.out.println(bericht);
-        while (!valideInput) {
-            input = view.vraagInput();
-            valideInput = checkInputNietLeeg(input);
-        }
-        return input;
     }
 
 

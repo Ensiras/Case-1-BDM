@@ -21,7 +21,7 @@ public abstract class AbstractView {
         if (!bericht.isEmpty()) {
             System.out.println(bericht);
         }
-        return scanner.nextLine().trim().toLowerCase();
+        return scanner.nextLine().trim();
     }
 
     public String vraagInput() {

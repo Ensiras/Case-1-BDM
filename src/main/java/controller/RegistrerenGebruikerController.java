@@ -40,27 +40,11 @@ public class RegistrerenGebruikerController extends AbstractController<Registrer
         }
     }
 
-    public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
-        Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
-        GebruikerDao dao = new GebruikerDao(getEntityManager("MySQL"));
-        dao.opslaan(gebruiker);
-        dao.sluitEntityManager();
-        return gebruiker;
-    }
-
-    boolean vraagToestemming() {
-        String[] opties = {"j", "n"};
-        view.toonRegelement();
-
-        String input = vraagInput(opties, getRegelementVoet());
-        return input.equals("j");
-    }
-
     String vraagEmail() {
         boolean emailCheck = false;
         String email = "";
         while (!emailCheck) {
-            email = view.vraagInput("Voer uw e-mailadres in");
+            email = vraagInputNietLeeg("Voer uw e-mailadres in");
             emailCheck = checkEmail(email);
         }
         return email;
@@ -80,14 +64,10 @@ public class RegistrerenGebruikerController extends AbstractController<Registrer
     Set<Bezorgwijze> vraagBezorgwijzen() {
         Set<Bezorgwijze> bezorgwijzen = new HashSet<>();
         view.toonBericht("Ondersteunt u de volgende bezorgwijzen (j/n)?");
-        String[] opties = {"j", "n"};
 
         for (Bezorgwijze b : Bezorgwijze.values()) {
-            boolean valideInput = false;
-            String input = "";
-
-            input = vraagInput(opties, b.getTypePrintbaar());
-            if (input.equals("j")) {
+            String input = vraagInput(b.getTypePrintbaar() + ": (1) Ondesteunen, (2) Niet ondersteunen.");
+            if (input.equals("1")) {
                 bezorgwijzen.add(b);
             }
         }
@@ -126,6 +106,20 @@ public class RegistrerenGebruikerController extends AbstractController<Registrer
         } else {
             return true;
         }
+    }
+
+    boolean vraagToestemming() {
+        view.toonRegelement();
+        String input = vraagInput(getRegelementVoet());
+        return input.equals("1");
+    }
+
+    public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
+        Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
+        GebruikerDao dao = new GebruikerDao(getEntityManager("MySQL"));
+        dao.opslaan(gebruiker);
+        dao.sluitEntityManager();
+        return gebruiker;
     }
 
 }

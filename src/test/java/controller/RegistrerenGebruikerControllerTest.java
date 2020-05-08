@@ -28,8 +28,8 @@ class RegistrerenGebruikerControllerTest {
     RegistrerenGebruikerController controller = new RegistrerenGebruikerController(new RegistrerenGebruikerView());
 
     @Test
-    void whenInputIsJShouldReturnTrue() {
-        when(mockedView.vraagInput(anyString())).thenReturn("j");
+    void whenInputIs1ShouldReturnTrue() {
+        when(mockedView.vraagInput(anyString())).thenReturn("1");
 
         boolean result = controller.vraagToestemming();
 
@@ -37,8 +37,8 @@ class RegistrerenGebruikerControllerTest {
     }
 
     @Test
-    void whenInputIsNShouldReturnFalse() {
-        when(mockedView.vraagInput(anyString())).thenReturn("n");
+    void whenInputIs2ShouldReturnFalse() {
+        when(mockedView.vraagInput(anyString())).thenReturn("2");
 
         boolean result = controller.vraagToestemming();
 
@@ -60,7 +60,7 @@ class RegistrerenGebruikerControllerTest {
 
     @Test
     void whenValidEmailIsGivenReturnEmailString() {
-        when(mockedView.vraagInput(anyString())).thenReturn("valid@email.com");
+        when(mockedView.vraagInput()).thenReturn("valid@email.com");
 
         String email = controller.vraagEmail();
 
@@ -69,7 +69,7 @@ class RegistrerenGebruikerControllerTest {
 
     @Test
     void whenVraagBezorgwijzenIsCalledShouldOnlyReturnedSupportedBezorgwijzen() {
-        when(mockedView.vraagInput(anyString())).thenReturn("n", "j", "n", "j");
+        when(mockedView.vraagInput(anyString())).thenReturn("2", "1", "2", "1");
 
         Set<Bezorgwijze> bezorgwijzen = controller.vraagBezorgwijzen();
 

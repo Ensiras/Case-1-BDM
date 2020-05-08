@@ -30,7 +30,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
             return false; // Afbreken aanbieden product als gebruiker geen bezorgwijzen ondersteunt
         }
 
-        String naam = vraagInput("Geef de naam van uw " + artikelSoort + " op: ");
+        String naam = vraagInputNietLeeg("Geef de naam van uw " + artikelSoort + " op: ");
         BigDecimal prijs = vraagPrijs();
         AbstractCategorie categorie = vraagCategorie(artikelSoort);
         String omschrijving = view.vraagInput("Geef een omschrijving van uw product (optioneel)");
@@ -48,9 +48,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
 
     ArtikelSoort vraagArtikelSoort() {
         view.toonBericht("Wilt u een product of dienst aanbieden?");
-        String[] opties = {"1", "2"};
-        String input = vraagInput(opties, "(1) Product (2) Dienst.");
-
+        String input = vraagInput("(1) Product (2) Dienst.");
         if (input.equals("1")) {
             if(!checkBezorgwijzen()) {
                     return null;
@@ -64,8 +62,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
     private boolean checkBezorgwijzen() {
         if (huidigeGebruiker.getBezorgwijzen().isEmpty()) {
             view.toonBericht("U kunt geen producten aanbieden als u geen bezorgwijzen ondersteunt.");
-            String[] opties = {"1", "2"};
-            String input = vraagInput(opties, "U kunt (1) terug naar het hoofdmenu of (2) uw bezorgwijzen aanpassen (niet geïmplementeerd)");
+            String input = vraagInput("U kunt (1) terug naar het hoofdmenu of (2) uw bezorgwijzen aanpassen (niet geïmplementeerd)");
 
             if (input.equals("1")) {
                 return false;
@@ -101,9 +98,8 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
 
     List<Bijlage> vraagBijlagen() {
         List<Bijlage> bijlagen = new ArrayList<>();
-        String input = view.vraagInput("Wilt u bijlagen toevoegen aan uw product (j/n)?");
-
-        if (input.equals("n")) {
+        String input = vraagInput("Wilt u bijlagen toevoegen aan uw product? (1) Ja, (2) Nee");
+        if (input.equals("2")) {
             return null;
         } else {
             return toevoegenBijlagen();
@@ -120,9 +116,9 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
                 return bijlagen;
             } else {
                 bijlagen.add(bijlage);
-                String input = view.vraagInput("Bijlage toegevoegd. U heeft " + bijlagen.size() + " bijlage(n) toegevoegd aan uw artikel." +
-                        " Wilt u nog een bijlage toevoegen (j/n)?");
-                if (input.equals("n")) {
+                String input = vraagInputNietLeeg("Bijlage toegevoegd. U heeft " + bijlagen.size() + " bijlage(n) toegevoegd aan uw artikel." +
+                        " (1) Nog een bijlage toevoegen, (2) Door met aanbieden. ");
+                if (input.equals("2")) {
                     return bijlagen;
                 }
             }
@@ -133,16 +129,16 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
 
     Bijlage toevoegenBijlage() {
         Bijlage bijlage = null;
-        String input = view.vraagInput("Voer het volledige pad naar het bestand dat u wilt toevoegen in. " +
-                "Maximale grootte: 10mb");
+        String input = vraagInputNietLeeg("Voer het volledige pad naar het bestand dat u wilt toevoegen in. " +
+                "Maximale grootte: 10MB");
 
         // Zolang bijlage null is, blijf vragen tenzij gebruiker 'n' invoert.
         while (bijlage == null) {
             bijlage = maakBijlage(input);
             if (bijlage == null) {
-                input = view.vraagInput(getErrorMessage() + " Bijlage niet toegevoegd. Probeert u het nog eens" +
-                        " of (n) voeg geen bijlage toe en ga door met het aanbieden van uw product");
-                if (input.equals("n")) {
+                input = vraagInputNietLeeg(getErrorMessage() + " Bijlage niet toegevoegd. Probeert u het nog eens" +
+                        " of (1) voeg geen bijlage toe en ga door met het aanbieden van uw product");
+                if (input.equals("1")) {
                     return null;
                 }
             }
@@ -151,15 +147,15 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
     }
 
     Set<Bezorgwijze> vraagBezorgwijzen(Gebruiker gebruiker) {
-        view.toonBericht("Welke bezorgwijzen wilt u ondersteunen voor uw product (j/n)?");
+        view.toonBericht("Welke bezorgwijzen wilt u ondersteunen voor uw product?");
         Set<Bezorgwijze> bezorgWijzenGebr = gebruiker.getBezorgwijzen();
         Set<Bezorgwijze> bezorgWijzenProd = new LinkedHashSet<>();
-        String[] opties = {"j", "n"};
 
         while (bezorgWijzenProd.isEmpty()) {
             for (Bezorgwijze bezorgwijze : bezorgWijzenGebr) {
-                String input = vraagInput(opties, bezorgwijze.getTypePrintbaar());
-                if (input.equals("j")) {
+                String input = vraagInput(bezorgwijze.getTypePrintbaar() +
+                        ": (1) Ondesteunen, (2) Niet ondersteunen.");
+                if (input.equals("1")) {
                     bezorgWijzenProd.add(bezorgwijze);
                 }
             }

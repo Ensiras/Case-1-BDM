@@ -80,9 +80,7 @@ class AbstractControllerTest {
     void whenValidInputIsGivenShouldReturnInput() {
         when(mockedView.vraagInput(anyString())).thenReturn("1");
 
-        String[] opties = {"1", "2"};
-
-        String input = controller.vraagInput(opties);
+        String input = controller.vraagInput("Dit is een testbericht.");
 
         assertThat(input)
                 .isNotNull()
@@ -94,7 +92,7 @@ class AbstractControllerTest {
         String input = "maaktnietheelveeluit";
         when(mockedView.vraagInput()).thenReturn(input);
 
-        String result = controller.vraagInput("Maakt ook niets uit");
+        String result = controller.vraagInputNietLeeg("Maakt ook niets uit");
 
         assertThat(result)
                 .isNotNull()
@@ -107,7 +105,7 @@ class AbstractControllerTest {
         String input2 = "maaktnietheelveeluit";
         when(mockedView.vraagInput()).thenReturn(input1, input2);
 
-        String result = controller.vraagInput("Maakt ook niets uit");
+        String result = controller.vraagInputNietLeeg("Maakt ook niets uit");
 
         assertThat(result)
                 .isNotNull()
