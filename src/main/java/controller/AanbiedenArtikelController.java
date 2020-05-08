@@ -51,7 +51,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
         view.toonBericht("Wilt u een product of dienst aanbieden?");
         String input = vraagInput("(1) Product (2) Dienst.");
         if (input.equals("1")) {
-            if (!checkBezorgwijzen()) {
+            if (!checkBezorgwijzen(huidigeGebruiker)) {
                 return null;
             }
             return PRODUCT;
@@ -60,7 +60,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
         }
     }
 
-    private boolean checkBezorgwijzen() {
+    boolean checkBezorgwijzen(Gebruiker huidigeGebruiker) {
         if (huidigeGebruiker.getBezorgwijzen().isEmpty()) {
             view.toonBericht("U kunt geen producten aanbieden als u geen bezorgwijzen ondersteunt.");
             String input = vraagInput("U kunt (1) terug naar het hoofdmenu of (2) uw bezorgwijzen aanpassen (niet geïmplementeerd)");
@@ -133,7 +133,6 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
 
         List<Bijlage> bijlagen = vraagBijlagen();
         artikel.addBijlagen(bijlagen);
-
     }
 
     List<Bijlage> vraagBijlagen() {

@@ -20,6 +20,9 @@ import static domain.ArtikelSoort.PRODUCT;
 import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static domain.Bezorgwijze.VERSTUREN_VOORBET;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -75,6 +78,26 @@ class AanbiedenArtikelControllerTest {
         List<Bijlage> result = controller.vraagBijlagen();
 
         assertThat(result).isNull();
+    }
+
+    @Test
+    void whenGebruikerDoesntHaveBezorgwijzenAndInputIs1ReturnFalse() {
+        Gebruiker gebruiker = new Gebruiker();
+        when(mockedView.vraagInput(anyString())).thenReturn("1");
+
+        boolean result = controller.checkBezorgwijzen(gebruiker);
+
+        assertFalse(result);
+    }
+
+    @Test
+    void whenGebruikerDoesHaveBezorgwijzenReturnTrue() {
+        Gebruiker gebruiker = new Gebruiker();
+        gebruiker.addBezorgwijze(AFHALEN_THUIS);
+
+        boolean result = controller.checkBezorgwijzen(gebruiker);
+
+        assertTrue(result);
     }
 
 }

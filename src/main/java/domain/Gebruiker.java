@@ -43,6 +43,10 @@ public class Gebruiker {
     public Gebruiker() {
     }
 
+    public String getAdres() {
+        return straat + " " + huisnummer + " " + postcode;
+    }
+
     public String getEmail() {
         return email;
     }
