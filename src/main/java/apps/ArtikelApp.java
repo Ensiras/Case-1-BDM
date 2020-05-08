@@ -1,13 +1,5 @@
 package apps;
 
-import domain.*;
-
-import javax.persistence.EntityManager;
-
-import java.math.BigDecimal;
-
-import static util.DBUtil.getEntityManager;
-
 public class ArtikelApp {
     public static void main(String[] args) {
 /*        EntityManager em = getEntityManager();

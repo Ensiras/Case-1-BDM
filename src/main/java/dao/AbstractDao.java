@@ -1,5 +1,7 @@
 package dao;
 
+import util.EntityManagerWrapper;
+
 import javax.persistence.EntityManager;
 
 public abstract class AbstractDao<T> {
@@ -22,7 +24,7 @@ public abstract class AbstractDao<T> {
     }
 
     public void sluitEntityManager() {
-        em.close();
+        EntityManagerWrapper.sluitEntityManager();
     }
 
 }

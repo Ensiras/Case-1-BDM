@@ -45,7 +45,7 @@ class BijlageUtilTest {
         BijlageType[] results = new BijlageType[3];
 
         for (int i = 0; i < 3; i++) {
-            results[i] = checkType(supportedTypes[i].toString());
+            results[i] = checkType(supportedTypes[i]);
         }
 
         assertThat(results).hasSize(3).contains(AUDIO, VIDEO, IMAGE);

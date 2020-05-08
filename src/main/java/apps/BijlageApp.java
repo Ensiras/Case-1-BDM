@@ -4,7 +4,7 @@ import domain.Bijlage;
 
 import javax.persistence.EntityManager;
 
-import static util.DBUtil.getEntityManager;
+import static util.EntityManagerWrapper.getEntityManager;
 
 public class BijlageApp {
     public static void main(String[] args) {

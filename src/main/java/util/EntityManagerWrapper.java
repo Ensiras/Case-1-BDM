@@ -3,10 +3,11 @@ package util;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
 
-public class DBUtil {
+public class EntityManagerWrapper {
 
-    // TODO: in aparte singleton klasse
     private static EntityManager instance;
+
+    private EntityManagerWrapper() {}
 
     public static EntityManager getEntityManager(String type) {
         if (instance != null) {
@@ -16,7 +17,7 @@ public class DBUtil {
         return instance;
     }
 
-    public static void closeEntityManager() {
+    public static void sluitEntityManager() {
         if (instance != null) {
             instance.close();
             instance = null;

@@ -3,9 +3,7 @@ package domain;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -15,7 +13,7 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @Inheritance(strategy = SINGLE_TABLE)
 public class Dienst extends AbstractArtikel {
 
-    @ManyToOne @Cascade(CascadeType.PERSIST)
+    @ManyToOne @JoinColumn(name = "categorie") /*@Cascade(CascadeType.PERSIST)*/
     private DienstCategorie dienstCategorie;
 
     public Dienst(Gebruiker aanbieder, String naam, BigDecimal prijs, String omschrijving, List<Bijlage> bijlagen, DienstCategorie dienstCategorie) {

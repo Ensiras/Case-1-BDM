@@ -10,16 +10,13 @@ import java.util.Set;
 
 import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static domain.Regelement.getRegelementVoet;
-import static util.DBUtil.getEntityManager;
+import static util.EntityManagerWrapper.getEntityManager;
 
 
-public class RegistrerenGebruikerController extends AbstractController<GebruikerDao, RegistrerenGebruikerView> {
-
-    public RegistrerenGebruikerController() {
-    }
+public class RegistrerenGebruikerController extends AbstractController<RegistrerenGebruikerView> {
 
     public RegistrerenGebruikerController(RegistrerenGebruikerView view) {
-        this.view = view;
+        super(view);
         view.toonBericht("Registeren nieuwe gebruiker");
     }
 

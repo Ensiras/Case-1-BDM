@@ -1,6 +1,5 @@
 package controller;
 
-import dao.GebruikerDao;
 import domain.Bezorgwijze;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,13 +25,13 @@ class RegistrerenGebruikerControllerTest {
     RegistrerenGebruikerView mockedView;
 
     @InjectMocks
-    RegistrerenGebruikerController regGebr = new RegistrerenGebruikerController();
+    RegistrerenGebruikerController controller = new RegistrerenGebruikerController(new RegistrerenGebruikerView());
 
     @Test
     void whenInputIsJShouldReturnTrue() {
         when(mockedView.vraagInput(anyString())).thenReturn("j");
 
-        boolean result = regGebr.vraagToestemming();
+        boolean result = controller.vraagToestemming();
 
         assertTrue(result);
     }
@@ -41,7 +40,7 @@ class RegistrerenGebruikerControllerTest {
     void whenInputIsNShouldReturnFalse() {
         when(mockedView.vraagInput(anyString())).thenReturn("n");
 
-        boolean result = regGebr.vraagToestemming();
+        boolean result = controller.vraagToestemming();
 
         assertFalse(result);
     }
@@ -52,9 +51,9 @@ class RegistrerenGebruikerControllerTest {
         String email2 = "invalidemail.noAtSymbol";
         String email3 = "invalidemail.dotbefore@com";
 
-        boolean noPeriod = regGebr.checkEmail(email1);
-        boolean noAtSymbol = regGebr.checkEmail(email2);
-        boolean periodBeforeAt = regGebr.checkEmail(email3);
+        boolean noPeriod = controller.checkEmail(email1);
+        boolean noAtSymbol = controller.checkEmail(email2);
+        boolean periodBeforeAt = controller.checkEmail(email3);
 
         assertFalse(noPeriod && noAtSymbol && periodBeforeAt);
     }
@@ -63,7 +62,7 @@ class RegistrerenGebruikerControllerTest {
     void whenValidEmailIsGivenReturnEmailString() {
         when(mockedView.vraagInput(anyString())).thenReturn("valid@email.com");
 
-        String email = regGebr.vraagEmail();
+        String email = controller.vraagEmail();
 
         assertThat(email).isEqualTo("valid@email.com").isNotNull().isInstanceOf(String.class);
     }
@@ -72,7 +71,7 @@ class RegistrerenGebruikerControllerTest {
     void whenVraagBezorgwijzenIsCalledShouldOnlyReturnedSupportedBezorgwijzen() {
         when(mockedView.vraagInput(anyString())).thenReturn("n", "j", "n", "j");
 
-        Set<Bezorgwijze> bezorgwijzen = regGebr.vraagBezorgwijzen();
+        Set<Bezorgwijze> bezorgwijzen = controller.vraagBezorgwijzen();
 
         assertThat(bezorgwijzen).containsOnly(AFHALEN_THUIS, VERSTUREN_REMBOURS);
     }
@@ -84,7 +83,7 @@ class RegistrerenGebruikerControllerTest {
         bezorgwijzen.add(AFHALEN_MAGAZIJN);
         bezorgwijzen.add(VERSTUREN_VOORBET);
 
-        boolean result = regGebr.checkBezorgwijzen(bezorgwijzen);
+        boolean result = controller.checkBezorgwijzen(bezorgwijzen);
 
         assertFalse(result);
     }
@@ -95,7 +94,7 @@ class RegistrerenGebruikerControllerTest {
         bezorgwijzen.add(AFHALEN_THUIS);
         bezorgwijzen.add(VERSTUREN_VOORBET);
 
-        boolean result = regGebr.checkBezorgwijzen(bezorgwijzen);
+        boolean result = controller.checkBezorgwijzen(bezorgwijzen);
 
         assertTrue(result);
     }
@@ -104,7 +103,7 @@ class RegistrerenGebruikerControllerTest {
     void whenValidAdresIsGivenShouldReturnAdresInStringArray() {
         when(mockedView.vraagInput(anyString())).thenReturn("Teststraat", "45", "4323TY");
 
-        String[] result = regGebr.vraagAdres();
+        String[] result = controller.vraagAdres();
 
         assertThat(result).containsExactly("Teststraat", "45", "4323TY");
     }
@@ -116,10 +115,10 @@ class RegistrerenGebruikerControllerTest {
         String[] adres3 = {"Pianoweg", "34A", "14444re"};
         String[] adres4 = {"", "34A", "14444re"};
 
-        boolean result = regGebr.checkAdres(adres1);
-        boolean result2 = regGebr.checkAdres(adres2);
-        boolean result3 = regGebr.checkAdres(adres3);
-        boolean result4 = regGebr.checkAdres(adres4);
+        boolean result = controller.checkAdres(adres1);
+        boolean result2 = controller.checkAdres(adres2);
+        boolean result3 = controller.checkAdres(adres3);
+        boolean result4 = controller.checkAdres(adres4);
 
         assertFalse(result);
         assertFalse(result2);
@@ -131,7 +130,7 @@ class RegistrerenGebruikerControllerTest {
     void whenPostcodeIsValidShouldReturnTrue() {
         String[] adres1 = {"Pianoweg", "34A", "1444xy"};
 
-        boolean result = regGebr.checkAdres(adres1);
+        boolean result = controller.checkAdres(adres1);
 
         assertTrue(result);
     }

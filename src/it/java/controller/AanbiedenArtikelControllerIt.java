@@ -11,7 +11,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import util.DBUtil;
 import views.AanbiedenArtikelView;
 
 import javax.persistence.EntityManager;
@@ -20,7 +19,7 @@ import static domain.ArtikelSoort.PRODUCT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static util.DBUtil.*;
+import static util.EntityManagerWrapper.*;
 
 @ExtendWith(MockitoExtension.class)
 class AanbiedenArtikelControllerIt {
@@ -35,7 +34,7 @@ class AanbiedenArtikelControllerIt {
 
     @BeforeEach
     void setUp() {
-        closeEntityManager();
+        sluitEntityManager();
         em = getEntityManager("h2");
     }
 

@@ -3,10 +3,9 @@ package controller;
 import dao.ArtikelDao;
 import dao.CategorieDao;
 import domain.*;
-import util.DBUtil;
+import util.EntityManagerWrapper;
 import util.NotImplementedException;
 import views.AanbiedenArtikelView;
-import views.Hoofdmenu;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,40 +15,54 @@ import java.util.Set;
 
 import static domain.ArtikelSoort.DIENST;
 import static domain.ArtikelSoort.PRODUCT;
-import static util.BijlageUtil.ERROR_MESSAGE;
-import static util.BijlageUtil.maakBijlage;
+import static util.BijlageUtil.*;
 import static util.GebruikerUtil.huidigeGebruiker;
 
-public class AanbiedenArtikelController extends AbstractController<ArtikelDao, AanbiedenArtikelView> {
+public class AanbiedenArtikelController extends AbstractController<AanbiedenArtikelView> {
 
     public AanbiedenArtikelController(AanbiedenArtikelView view) {
-        this.view = view;
-        this.dao = new ArtikelDao(DBUtil.getEntityManager("MySQL"));
+        super(view);
     }
 
-    public void aanbiedenArtikel() {
+    public boolean aanbiedenArtikel() {
+        // TODO: dit misschien wat netter maken of in aparte methode zetten
         ArtikelSoort artikelSoort = vraagArtikelSoort();
-
-        // TODO: zorgen dat aanbieden ook echt afgebroken wordt als deze check niet slaagt
         if (artikelSoort == PRODUCT) {
-            checkBezorgwijzen();
+            if(!checkBezorgwijzen()) {
+                return false;
+            }
         }
 
-        String naam = vraagInput("Geef een artikelnaam op: ");
+        String naam = vraagInput("Geef een artikelnaam op: "); // TODO: product of dienstnaam
         BigDecimal prijs = vraagPrijs();
         AbstractCategorie categorie = vraagCategorie(artikelSoort);
         String omschrijving = view.vraagInput("Geef een omschrijving van uw product (optioneel)");
         List<Bijlage> bijlagen = vraagBijlagen();
 
-        // TODO iets met een dao doen hier: of hier maken en dan aan methodes geven of in iedere methode apart maken
+        ArtikelDao dao = new ArtikelDao(EntityManagerWrapper.getEntityManager("MySQL"));
         if (artikelSoort == PRODUCT) {
-            maakProduct(naam, prijs, categorie, omschrijving, bijlagen);
+            maakProduct(naam, prijs, categorie, omschrijving, bijlagen, dao);
         } else {
-            maakDienst(naam, prijs, categorie, omschrijving, bijlagen);
+            maakDienst(naam, prijs, categorie, omschrijving, bijlagen, dao);
+        }
+
+        return true;
+    }
+
+    ArtikelSoort vraagArtikelSoort() {
+        // TODO: dit stukje evt. nog in een eigen methode zetten
+        view.toonBericht("Wilt u een product of dienst aanbieden?");
+        String[] opties = {"1", "2"};
+        String input = vraagInput(opties, "(1) Product (2) Dienst.");
+
+        if (input.equals("1")) {
+            return PRODUCT;
+        } else {
+            return DIENST;
         }
     }
 
-    private void checkBezorgwijzen() {
+    private boolean checkBezorgwijzen() {
         if (huidigeGebruiker.getBezorgwijzen().isEmpty()) {
             view.toonBericht("U kunt geen producten aanbieden als u geen bezorgwijzen ondersteunt.");
             String[] opties = {"1", "2"};
@@ -57,26 +70,35 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
 
             // TODO: zorgen dat de methode aanbieden product ook echt afloopt
             if (input.equals("1")) {
-                Hoofdmenu.toon();
+                return false;
             } else {
                 throw new NotImplementedException("Deze functie is nog niet geïmplementeerd!");
             }
         }
+        return true;
     }
 
-    private void maakDienst(String naam, BigDecimal prijs, AbstractCategorie categorie, String omschrijving, List<Bijlage> bijlagen) {
-        DienstCategorie dienstCat = (DienstCategorie) categorie;
-
-        dao.opslaan(new Dienst(huidigeGebruiker, naam, prijs, omschrijving, bijlagen, dienstCat));
-        view.toonBericht("Uw dienst is opgeslagen.");
+    BigDecimal vraagPrijs() {
+        BigDecimal prijs = null;
+        while (prijs == null) {
+            String prijsString = view.vraagInput("Geef een prijs op: ");
+            prijs = checkPrijsInput(prijsString);
+        }
+        return prijs;
     }
 
-    private void maakProduct(String naam, BigDecimal prijs, AbstractCategorie categorie, String omschrijving, List<Bijlage> bijlagen) {
-        ProductCategorie prodCat = (ProductCategorie) categorie;
-        Set<Bezorgwijze> bezorgwijzen = vraagBezorgwijzen(huidigeGebruiker);
+    AbstractCategorie vraagCategorie(ArtikelSoort soort) {
+        view.toonBericht("Kies de subcategorie van uw " + soort + ".");
 
-        dao.opslaan(new Product(huidigeGebruiker, naam, prijs, omschrijving, bijlagen, bezorgwijzen, prodCat));
-        view.toonBericht("Uw product is opgeslagen.");
+        CategorieDao catDao = new CategorieDao(EntityManagerWrapper.getEntityManager("MySQL"));
+        List<AbstractCategorie> categorieen = catDao.zoekAlles(soort);
+        String[] opties = bepaalOpties(categorieen);
+
+        view.toonLijst(categorieen);
+        String input = vraagInput(opties);
+
+        return categorieen.get(Integer.parseInt(input));
+
     }
 
     private List<Bijlage> vraagBijlagen() {
@@ -119,7 +141,7 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         while (bijlage == null) {
             bijlage = maakBijlage(input);
             if (bijlage == null) {
-                input = view.vraagInput(ERROR_MESSAGE + " Bijlage niet toegevoegd. Probeert u het nog eens" +
+                input = view.vraagInput(getErrorMessage() + " Bijlage niet toegevoegd. Probeert u het nog eens" +
                         " of (n) voeg geen bijlage toe en ga door met het aanbieden van uw product");
                 if (input.equals("n")) {
                     return null;
@@ -128,7 +150,6 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         }
         return bijlage;
     }
-
 
     Set<Bezorgwijze> vraagBezorgwijzen(Gebruiker gebruiker) {
         view.toonBericht("Welke bezorgwijzen wilt u ondersteunen voor uw product (j/n)?");
@@ -151,40 +172,24 @@ public class AanbiedenArtikelController extends AbstractController<ArtikelDao, A
         return bezorgWijzenProd;
     }
 
-    AbstractCategorie vraagCategorie(ArtikelSoort soort) {
-        view.toonBericht("Kies de subcategorie van uw " + soort + ".");
+    private void maakDienst(String naam, BigDecimal prijs, AbstractCategorie categorie,
+                            String omschrijving, List<Bijlage> bijlagen, ArtikelDao dao) {
 
-        CategorieDao catDao = new CategorieDao(DBUtil.getEntityManager("MySQL"));
-        List<AbstractCategorie> categorieen = catDao.zoekAlles(soort);
-        String[] opties = bepaalOpties(categorieen);
-
-        view.toonLijst(categorieen);
-        String input = vraagInput(opties);
-
-        return categorieen.get(Integer.parseInt(input));
-
+        DienstCategorie dienstCat = (DienstCategorie) categorie;
+        dao.opslaan(new Dienst(huidigeGebruiker, naam, prijs, omschrijving, bijlagen, dienstCat));
+        dao.sluitEntityManager();
+        view.toonBericht("Uw dienst is opgeslagen.");
     }
 
-    ArtikelSoort vraagArtikelSoort() {
-        // TODO: dit stukje evt. nog in een eigen methode zetten
-        view.toonBericht("Wilt u een product of dienst aanbieden?");
-        String[] opties = {"1", "2"};
-        String input = vraagInput(opties, "(1) Product (2) Dienst.");
+    private void maakProduct(String naam, BigDecimal prijs, AbstractCategorie categorie,
+                             String omschrijving, List<Bijlage> bijlagen, ArtikelDao dao) {
 
-        if (input.equals("1")) {
-            return PRODUCT;
-        } else {
-            return DIENST;
-        }
+        ProductCategorie prodCat = (ProductCategorie) categorie;
+        Set<Bezorgwijze> bezorgwijzen = vraagBezorgwijzen(huidigeGebruiker);
+        dao.opslaan(new Product(huidigeGebruiker, naam, prijs, omschrijving, bijlagen, bezorgwijzen, prodCat));
+        dao.sluitEntityManager();
+        view.toonBericht("Uw product is opgeslagen.");
     }
 
-    BigDecimal vraagPrijs() {
-        BigDecimal prijs = null;
-        while (prijs == null) {
-            String prijsString = view.vraagInput("Geef een prijs op: ");
-            prijs = checkPrijsInput(prijsString);
-        }
-        return prijs;
-    }
 
 }

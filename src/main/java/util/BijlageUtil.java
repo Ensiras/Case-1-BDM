@@ -14,8 +14,8 @@ import java.nio.file.Paths;
 // Utility klasse voor het maken van een nieuwe bijlage vanaf een opgegeven pad
 public class BijlageUtil {
 
-    static final int MAX_GROOTTE = 10485760;
-    public static String ERROR_MESSAGE;
+    static final long MAX_GROOTTE = 10_000_000L;
+    private static String ERROR_MESSAGE;
 
     // TODO: misschien wat refactoren zodat methode wat kleiner wordt
     public static Bijlage maakBijlage(String pad) {
@@ -91,4 +91,7 @@ public class BijlageUtil {
         return data;
     }
 
+    public static String getErrorMessage() {
+        return ERROR_MESSAGE;
+    }
 }

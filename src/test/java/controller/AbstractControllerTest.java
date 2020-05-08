@@ -1,6 +1,5 @@
 package controller;
 
-import dao.ArtikelDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,7 @@ class AbstractControllerTest {
     @Mock
     AanbiedenArtikelView mockedView;
 
-    AbstractController<ArtikelDao, AanbiedenArtikelView> controller;
+    AbstractController<AanbiedenArtikelView> controller;
 
     @BeforeEach
     void setUp() {

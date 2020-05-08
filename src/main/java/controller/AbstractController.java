@@ -13,14 +13,12 @@ import java.util.List;
 import static java.math.BigDecimal.ZERO;
 
 
-public abstract class AbstractController<T extends AbstractDao<?>, Y extends AbstractView> {
+public abstract class AbstractController<Y extends AbstractView> {
 
-    // TODO: Dao niet als veld, maar als lokale variabele. Alleen bij het opslaan.
-    protected T dao;
     protected Y view;
 
-    void stop() {
-        dao.sluitEntityManager();
+    public AbstractController(Y view) {
+        this.view = view;
     }
 
     boolean checkInput(String input, String[] opties) {
@@ -61,7 +59,7 @@ public abstract class AbstractController<T extends AbstractDao<?>, Y extends Abs
                 return null;
             }
         } catch (NumberFormatException e) {
-            System.err.println("De ingevoerde waarde kon niet geconverteerd worden, probeer het nog eens.");
+            view.toonBericht("De ingevoerde waarde kon niet geconverteerd worden, probeer het nog eens.");
             return null;
         }
     }

@@ -12,12 +12,10 @@ import static javax.persistence.InheritanceType.SINGLE_TABLE;
 @Inheritance(strategy = SINGLE_TABLE) // TODO: bekijken of andere strategieën wat beter werken, een veld blijft nu steeds leeg
 public class Product extends AbstractArtikel {
 
-    @ElementCollection
-    @Enumerated(EnumType.STRING)
-    @JoinTable(name = "product_bezorgwijzen")
+    @ElementCollection @Enumerated(EnumType.STRING) @JoinTable(name = "product_bezorgwijzen")
     private Set<Bezorgwijze> bezorgwijzen = new LinkedHashSet<>();;
 
-    @ManyToOne
+    @ManyToOne @JoinColumn(name = "categorie")
     private ProductCategorie productCategorie;
 
     public Product() {

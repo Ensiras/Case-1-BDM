@@ -5,31 +5,29 @@ import org.hibernate.annotations.Cascade;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import static javax.persistence.DiscriminatorType.STRING;
 import static org.hibernate.annotations.CascadeType.PERSIST;
 
 @Entity
-@DiscriminatorColumn(name="soort", discriminatorType = STRING)
+@DiscriminatorColumn(name = "soort", discriminatorType = STRING)
 @Table(name = "artikel")
 public abstract class AbstractArtikel {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     private int id;
+    private String naam;
+    private BigDecimal prijs;
 
     @OneToOne
     private Gebruiker aanbieder;
-    private String naam;
-    private BigDecimal prijs;
 
     @Lob
     private String omschrijving;
 
-    @OneToMany(mappedBy = "artikel")
-    @Cascade(PERSIST)
+    @OneToMany(mappedBy = "artikel") @Cascade(PERSIST)
     private List<Bijlage> bijlagen = new ArrayList<>();
 
     public AbstractArtikel() {
@@ -42,7 +40,6 @@ public abstract class AbstractArtikel {
         this.omschrijving = omschrijving;
         addBijlagen(bijlagen);
     }
-
 
 
     public void addBijlagen(List<Bijlage> bijlagen) {
