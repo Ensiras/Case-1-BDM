@@ -25,15 +25,12 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
     }
 
     public boolean aanbiedenArtikel() {
-        // TODO: dit misschien wat netter maken of in aparte methode zetten
-        ArtikelSoort artikelSoort = vraagArtikelSoort();
-        if (artikelSoort == PRODUCT) {
-            if(!checkBezorgwijzen()) {
-                return false;
-            }
+        ArtikelSoort artikelSoort;
+        if((artikelSoort = vraagArtikelSoort()) == null) {
+            return false; // Afbreken aanbieden product als gebruiker geen bezorgwijzen ondersteunt
         }
 
-        String naam = vraagInput("Geef een artikelnaam op: "); // TODO: product of dienstnaam
+        String naam = vraagInput("Geef de naam van uw " + artikelSoort + " op: ");
         BigDecimal prijs = vraagPrijs();
         AbstractCategorie categorie = vraagCategorie(artikelSoort);
         String omschrijving = view.vraagInput("Geef een omschrijving van uw product (optioneel)");
@@ -50,12 +47,14 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
     }
 
     ArtikelSoort vraagArtikelSoort() {
-        // TODO: dit stukje evt. nog in een eigen methode zetten
         view.toonBericht("Wilt u een product of dienst aanbieden?");
         String[] opties = {"1", "2"};
         String input = vraagInput(opties, "(1) Product (2) Dienst.");
 
         if (input.equals("1")) {
+            if(!checkBezorgwijzen()) {
+                    return null;
+                }
             return PRODUCT;
         } else {
             return DIENST;
@@ -68,7 +67,6 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
             String[] opties = {"1", "2"};
             String input = vraagInput(opties, "U kunt (1) terug naar het hoofdmenu of (2) uw bezorgwijzen aanpassen (niet geïmplementeerd)");
 
-            // TODO: zorgen dat de methode aanbieden product ook echt afloopt
             if (input.equals("1")) {
                 return false;
             } else {
@@ -101,18 +99,19 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
 
     }
 
-    private List<Bijlage> vraagBijlagen() {
+    List<Bijlage> vraagBijlagen() {
         List<Bijlage> bijlagen = new ArrayList<>();
         String input = view.vraagInput("Wilt u bijlagen toevoegen aan uw product (j/n)?");
 
         if (input.equals("n")) {
             return null;
         } else {
-            return toevoegenBijlagen(bijlagen);
+            return toevoegenBijlagen();
         }
     }
 
-    private List<Bijlage> toevoegenBijlagen(List<Bijlage> bijlagen) {
+    List<Bijlage> toevoegenBijlagen() {
+        List<Bijlage> bijlagen = new ArrayList<>();
         while (bijlagen.size() < 3) {
             Bijlage bijlage = toevoegenBijlage();
 
@@ -124,7 +123,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
                 String input = view.vraagInput("Bijlage toegevoegd. U heeft " + bijlagen.size() + " bijlage(n) toegevoegd aan uw artikel." +
                         " Wilt u nog een bijlage toevoegen (j/n)?");
                 if (input.equals("n")) {
-                    return bijlagen; // Als gebruiker geen bijlagen meer wilt toevoegen, dan
+                    return bijlagen;
                 }
             }
         }

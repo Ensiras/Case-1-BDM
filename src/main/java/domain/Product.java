@@ -9,7 +9,7 @@ import java.util.Set;
 import static javax.persistence.InheritanceType.SINGLE_TABLE;
 
 @Entity
-@Inheritance(strategy = SINGLE_TABLE) // TODO: bekijken of andere strategieën wat beter werken, een veld blijft nu steeds leeg
+@Inheritance(strategy = SINGLE_TABLE)
 public class Product extends AbstractArtikel {
 
     @ElementCollection @Enumerated(EnumType.STRING) @JoinTable(name = "product_bezorgwijzen")

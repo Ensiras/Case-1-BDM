@@ -15,6 +15,8 @@ import views.AanbiedenArtikelView;
 
 import javax.persistence.EntityManager;
 
+import java.util.List;
+
 import static domain.ArtikelSoort.PRODUCT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -49,7 +51,7 @@ class AanbiedenArtikelControllerIt {
         catDao.opslaan(pc2);
         catDao.opslaan(dc1);
 
-        when(mockedView.vraagInput()).thenReturn("1");
+        when(mockedView.vraagInput(anyString())).thenReturn("1");
 
         AbstractCategorie result = controller.vraagCategorie(PRODUCT);
 
@@ -66,5 +68,15 @@ class AanbiedenArtikelControllerIt {
         Bijlage bijlage = controller.toevoegenBijlage();
 
         assertThat(bijlage).isInstanceOf(Bijlage.class).isNotNull();
+    }
+
+    @Test
+    void whenMaxAmountOfBijlagenIsAddedReturnBijlagen() {
+        int maxAmount = 3;
+        when(mockedView.vraagInput(anyString())).thenReturn("C:\\Users\\Thomas\\IdeaProjects\\BDM\\src\\it\\resources\\testFiles\\dekameel.png");
+
+        List<Bijlage> result = controller.toevoegenBijlagen();
+
+        assertThat(result.size()).isEqualTo(maxAmount);
     }
 }

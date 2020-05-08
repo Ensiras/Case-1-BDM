@@ -7,10 +7,8 @@ import javax.persistence.EntityManager;
 
 public class ArtikelDao extends AbstractDao<AbstractArtikel> {
 
-
     public ArtikelDao(EntityManager em) {
         super(em);
     }
-
 
 }

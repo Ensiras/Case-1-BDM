@@ -72,16 +72,6 @@ public abstract class AbstractController<Y extends AbstractView> {
         return opties;
     }
 
-    String vraagInput(String[] opties) {
-        boolean valideInput = false;
-        String input = "";
-        while (!valideInput) {
-            input = view.vraagInput();
-            valideInput = checkInput(input, opties);
-        }
-        return input;
-    }
-
     String vraagInput(String[] opties, String bericht) {
         boolean valideInput = false;
         String input = "";
@@ -90,6 +80,10 @@ public abstract class AbstractController<Y extends AbstractView> {
             valideInput = checkInput(input, opties);
         }
         return input;
+    }
+
+    String vraagInput(String[] opties) {
+        return vraagInput(opties, "");
     }
 
     String vraagInput(String bericht) {

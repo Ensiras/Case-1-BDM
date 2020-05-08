@@ -18,7 +18,6 @@ public abstract class AbstractDao<T> {
         em.getTransaction().commit();
     }
 
-    // TODO: manier vinden om implementatie hetzelfde te hebben (dus niet abstract) maar return type wel variabel
     public T zoek(int id, Class<T> classType) {
         return em.find(classType, id);
     }

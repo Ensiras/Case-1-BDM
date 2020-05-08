@@ -10,7 +10,7 @@ import static javax.persistence.DiscriminatorType.*;
 public abstract class AbstractCategorie {
 
     @Id
-    private String naam; // Kan evt. ook de primary key zijn (moet toch uniek zijn).
+    private String naam;
     @Lob
     private String omschrijving;
 
@@ -20,10 +20,6 @@ public abstract class AbstractCategorie {
     }
 
     public AbstractCategorie() {
-    }
-
-    public String getNaam() {
-        return naam;
     }
 
     @Override

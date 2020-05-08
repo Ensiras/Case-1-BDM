@@ -2,6 +2,7 @@ package controller;
 
 import domain.ArtikelSoort;
 import domain.Bezorgwijze;
+import domain.Bijlage;
 import domain.Gebruiker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import views.AanbiedenArtikelView;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 import static domain.ArtikelSoort.DIENST;
@@ -75,4 +77,14 @@ class AanbiedenArtikelControllerTest {
 
         assertThat(result).isNotNull().isEqualTo(DIENST);
     }
+
+    @Test
+    void whenInputIsNShouldReturnNull() {
+        when(mockedView.vraagInput(anyString())).thenReturn("n");
+
+        List<Bijlage> result = controller.vraagBijlagen();
+
+        assertThat(result).isNull();
+    }
+
 }

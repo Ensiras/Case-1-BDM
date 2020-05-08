@@ -2,7 +2,6 @@ package domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

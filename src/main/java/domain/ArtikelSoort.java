@@ -1,5 +1,10 @@
 package domain;
 
 public enum ArtikelSoort {
-    PRODUCT, DIENST
+    PRODUCT, DIENST;
+
+    @Override
+    public String toString() {
+        return name().toLowerCase();
+    }
 }

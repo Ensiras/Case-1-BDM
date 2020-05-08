@@ -19,6 +19,6 @@ public class RegistrerenGebruikerView extends AbstractView {
     }
 
     public void toonRegelement() {
-        Regelement.toon(true);
+        Regelement.toon();
     }
 }

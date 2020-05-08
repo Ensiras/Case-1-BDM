@@ -18,12 +18,14 @@ public abstract class AbstractView {
     }
 
     public String vraagInput(String bericht) {
-        System.out.println(bericht);
+        if (!bericht.isEmpty()) {
+            System.out.println(bericht);
+        }
         return scanner.nextLine().trim().toLowerCase();
     }
 
     public String vraagInput() {
-        return scanner.nextLine().trim().toLowerCase();
+        return vraagInput("");
     }
 
     public void toonLijst(List<?> lijst) {

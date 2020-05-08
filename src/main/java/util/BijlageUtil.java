@@ -17,11 +17,10 @@ public class BijlageUtil {
     static final long MAX_GROOTTE = 10_000_000L;
     private static String ERROR_MESSAGE;
 
-    // TODO: misschien wat refactoren zodat methode wat kleiner wordt
     public static Bijlage maakBijlage(String pad) {
-        String bestandsnaam = "";
-        BijlageType type = null;
-        byte[] data = null;
+        String bestandsnaam;
+        BijlageType type;
+        byte[] data;
 
         File fileInput = new File(pad);
         if (!fileInput.exists() || fileInput.isDirectory()) {
@@ -30,12 +29,10 @@ public class BijlageUtil {
         }
 
         try {
-            type = setType(pad); // check en set het type
-            if (type == null) {
+            if ((type = setType(pad)) == null) {
                 return null;
             }
-
-            if (!checkGrootte(fileInput)) { // als bestand te groot is dan...
+            if (!checkGrootte(fileInput)) {
                 return null;
             }
 
@@ -47,7 +44,6 @@ public class BijlageUtil {
                 System.err.println(e.getMessage());
                 return null;
             }
-
         } catch (IOException e) {
             ERROR_MESSAGE = "Bestand kon niet gelezen worden.";
             System.err.println(e.getMessage());

@@ -10,6 +10,7 @@ import views.AanbiedenArtikelView;
 import java.math.BigDecimal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -77,7 +78,7 @@ class AbstractControllerTest {
 
     @Test
     void whenValidInputIsGivenShouldReturnInput() {
-        when(mockedView.vraagInput()).thenReturn("1");
+        when(mockedView.vraagInput(anyString())).thenReturn("1");
 
         String[] opties = {"1", "2"};
 
