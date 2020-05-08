@@ -17,9 +17,9 @@ public class Hoofdmenu extends AbstractView {
 
     public void toon() {
         System.out.println("Welkom bij BDM!");
+        Scanner scanner = new Scanner(System.in);
 
         while(true) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println("Maak een keuze");
             System.out.println("1) Registreren");
             System.out.println("2) Artikel aanbieden");

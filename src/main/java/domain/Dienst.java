@@ -13,8 +13,8 @@ public class Dienst extends AbstractArtikel {
     @ManyToOne @JoinColumn(name = "categorie") /*@Cascade(CascadeType.PERSIST)*/
     private DienstCategorie dienstCategorie;
 
-    public Dienst(Gebruiker aanbieder, String naam, BigDecimal prijs, String omschrijving, List<Bijlage> bijlagen, DienstCategorie dienstCategorie) {
-        super(aanbieder, naam, prijs, omschrijving, bijlagen);
+    public Dienst(Gebruiker aanbieder, String naam, BigDecimal prijs, DienstCategorie dienstCategorie) {
+        super(aanbieder, naam, prijs);
         this.dienstCategorie = dienstCategorie;
     }
 

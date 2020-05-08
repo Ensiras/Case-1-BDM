@@ -15,7 +15,8 @@ import java.util.Set;
 
 import static domain.ArtikelSoort.DIENST;
 import static domain.ArtikelSoort.PRODUCT;
-import static util.BijlageUtil.*;
+import static util.BijlageUtil.getErrorMessage;
+import static util.BijlageUtil.maakBijlage;
 import static util.GebruikerUtil.huidigeGebruiker;
 
 public class AanbiedenArtikelController extends AbstractController<AanbiedenArtikelView> {
@@ -25,34 +26,34 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
     }
 
     public boolean aanbiedenArtikel() {
-        ArtikelSoort artikelSoort;
-        if((artikelSoort = vraagArtikelSoort()) == null) {
-            return false; // Afbreken aanbieden product als gebruiker geen bezorgwijzen ondersteunt
+        AbstractArtikel artikel = vraagVeldenVerplicht();
+        if (artikel == null) {
+            return false;
+        }
+        vraagVeldenOptioneel(artikel);
+        return opslaanArtikel(artikel);
+    }
+
+    AbstractArtikel vraagVeldenVerplicht() {
+        ArtikelSoort artikelSoort = vraagArtikelSoort();
+        if (artikelSoort == null) {
+            return null; // Afbreken aanbieden product als gebruiker geen bezorgwijzen ondersteunt
         }
 
         String naam = vraagInputNietLeeg("Geef de naam van uw " + artikelSoort + " op: ");
         BigDecimal prijs = vraagPrijs();
         AbstractCategorie categorie = vraagCategorie(artikelSoort);
-        String omschrijving = view.vraagInput("Geef een omschrijving van uw product (optioneel)");
-        List<Bijlage> bijlagen = vraagBijlagen();
 
-        ArtikelDao dao = new ArtikelDao(EntityManagerWrapper.getEntityManager("MySQL"));
-        if (artikelSoort == PRODUCT) {
-            maakProduct(naam, prijs, categorie, omschrijving, bijlagen, dao);
-        } else {
-            maakDienst(naam, prijs, categorie, omschrijving, bijlagen, dao);
-        }
-
-        return true;
+        return maakArtikel(artikelSoort, naam, prijs, categorie);
     }
 
     ArtikelSoort vraagArtikelSoort() {
         view.toonBericht("Wilt u een product of dienst aanbieden?");
         String input = vraagInput("(1) Product (2) Dienst.");
         if (input.equals("1")) {
-            if(!checkBezorgwijzen()) {
-                    return null;
-                }
+            if (!checkBezorgwijzen()) {
+                return null;
+            }
             return PRODUCT;
         } else {
             return DIENST;
@@ -96,8 +97,46 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
 
     }
 
+    private AbstractArtikel maakArtikel(ArtikelSoort artikelSoort, String naam, BigDecimal prijs, AbstractCategorie categorie) {
+        if (artikelSoort == PRODUCT) {
+            Set<Bezorgwijze> bezorgwijzen = vraagBezorgwijzen(huidigeGebruiker);
+            return new Product(huidigeGebruiker, naam, prijs, bezorgwijzen, (ProductCategorie) categorie);
+        } else {
+            return new Dienst(huidigeGebruiker, naam, prijs, (DienstCategorie) categorie);
+        }
+    }
+
+    Set<Bezorgwijze> vraagBezorgwijzen(Gebruiker gebruiker) {
+        view.toonBericht("Welke bezorgwijzen wilt u ondersteunen voor uw product?");
+        Set<Bezorgwijze> bezorgWijzenGebr = gebruiker.getBezorgwijzen();
+        Set<Bezorgwijze> bezorgWijzenProd = new LinkedHashSet<>();
+
+        while (bezorgWijzenProd.isEmpty()) {
+            for (Bezorgwijze bezorgwijze : bezorgWijzenGebr) {
+                String input = vraagInput(bezorgwijze.getTypePrintbaar() +
+                        ": (1) Ondesteunen, (2) Niet ondersteunen.");
+                if (input.equals("1")) {
+                    bezorgWijzenProd.add(bezorgwijze);
+                }
+            }
+            if (bezorgWijzenProd.isEmpty()) {
+                view.toonBericht("U moet minimaal een bezorgwijze ondersteunen voor dit product.");
+            }
+        }
+
+        return bezorgWijzenProd;
+    }
+
+    private void vraagVeldenOptioneel(AbstractArtikel artikel) {
+        String omschrijving = view.vraagInput("Geef een omschrijving van uw product (optioneel)");
+        artikel.setOmschrijving(omschrijving);
+
+        List<Bijlage> bijlagen = vraagBijlagen();
+        artikel.addBijlagen(bijlagen);
+
+    }
+
     List<Bijlage> vraagBijlagen() {
-        List<Bijlage> bijlagen = new ArrayList<>();
         String input = vraagInput("Wilt u bijlagen toevoegen aan uw product? (1) Ja, (2) Nee");
         if (input.equals("2")) {
             return null;
@@ -132,7 +171,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
         String input = vraagInputNietLeeg("Voer het volledige pad naar het bestand dat u wilt toevoegen in. " +
                 "Maximale grootte: 10MB");
 
-        // Zolang bijlage null is, blijf vragen tenzij gebruiker 'n' invoert.
+        // Zolang bijlage null is, blijf vragen tenzij gebruiker '1' invoert.
         while (bijlage == null) {
             bijlage = maakBijlage(input);
             if (bijlage == null) {
@@ -146,45 +185,12 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
         return bijlage;
     }
 
-    Set<Bezorgwijze> vraagBezorgwijzen(Gebruiker gebruiker) {
-        view.toonBericht("Welke bezorgwijzen wilt u ondersteunen voor uw product?");
-        Set<Bezorgwijze> bezorgWijzenGebr = gebruiker.getBezorgwijzen();
-        Set<Bezorgwijze> bezorgWijzenProd = new LinkedHashSet<>();
-
-        while (bezorgWijzenProd.isEmpty()) {
-            for (Bezorgwijze bezorgwijze : bezorgWijzenGebr) {
-                String input = vraagInput(bezorgwijze.getTypePrintbaar() +
-                        ": (1) Ondesteunen, (2) Niet ondersteunen.");
-                if (input.equals("1")) {
-                    bezorgWijzenProd.add(bezorgwijze);
-                }
-            }
-            if (bezorgWijzenProd.isEmpty()) {
-                view.toonBericht("U moet minimaal een bezorgwijze ondersteunen voor dit product.");
-            }
-        }
-
-        return bezorgWijzenProd;
-    }
-
-    private void maakDienst(String naam, BigDecimal prijs, AbstractCategorie categorie,
-                            String omschrijving, List<Bijlage> bijlagen, ArtikelDao dao) {
-
-        DienstCategorie dienstCat = (DienstCategorie) categorie;
-        dao.opslaan(new Dienst(huidigeGebruiker, naam, prijs, omschrijving, bijlagen, dienstCat));
+    private boolean opslaanArtikel(AbstractArtikel artikel) {
+        ArtikelDao dao = new ArtikelDao(EntityManagerWrapper.getEntityManager("MySQL"));
+        dao.opslaan(artikel);
         dao.sluitEntityManager();
-        view.toonBericht("Uw dienst is opgeslagen.");
+        view.toonBericht("Uw artikel is met success aangemaakt!");
+        return true;
     }
-
-    private void maakProduct(String naam, BigDecimal prijs, AbstractCategorie categorie,
-                             String omschrijving, List<Bijlage> bijlagen, ArtikelDao dao) {
-
-        ProductCategorie prodCat = (ProductCategorie) categorie;
-        Set<Bezorgwijze> bezorgwijzen = vraagBezorgwijzen(huidigeGebruiker);
-        dao.opslaan(new Product(huidigeGebruiker, naam, prijs, omschrijving, bijlagen, bezorgwijzen, prodCat));
-        dao.sluitEntityManager();
-        view.toonBericht("Uw product is opgeslagen.");
-    }
-
 
 }

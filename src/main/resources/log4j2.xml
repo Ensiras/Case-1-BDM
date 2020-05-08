@@ -23,7 +23,7 @@
 <!--        Note: name has to be package which is going to use this logger -->
         <Logger name="org.hibernate" level="INFO"/>
         <Root level="debug">
-            <AppenderRef ref="console" level="info"/>
+            <AppenderRef ref="console" level="warn"/>
         </Root>
     </Loggers>
 </Configuration>

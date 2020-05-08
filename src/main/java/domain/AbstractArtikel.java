@@ -38,12 +38,10 @@ public abstract class AbstractArtikel {
     public AbstractArtikel() {
     }
 
-    public AbstractArtikel(Gebruiker aanbieder, String naam, BigDecimal prijs, String omschrijving, List<Bijlage> bijlagen) {
+    public AbstractArtikel(Gebruiker aanbieder, String naam, BigDecimal prijs) {
         this.aanbieder = aanbieder;
         this.naam = naam;
         this.prijs = prijs;
-        this.omschrijving = omschrijving;
-        addBijlagen(bijlagen);
     }
 
 
@@ -54,5 +52,9 @@ public abstract class AbstractArtikel {
                 bijlage.setArtikel(this);
             }
         }
+    }
+
+    public void setOmschrijving(String omschrijving) {
+        this.omschrijving = omschrijving;
     }
 }
