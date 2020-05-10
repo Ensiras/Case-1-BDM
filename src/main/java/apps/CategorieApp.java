@@ -12,18 +12,33 @@ public class CategorieApp {
     public static void main(String[] args) {
         EntityManager em = Persistence.createEntityManagerFactory("MySQL").createEntityManager();
         AbstractCategorie categorie1 = new ProductCategorie(
-                "Sport",
-                "Alles wat met sport te maken heeft.");
+                "Postkoetswielen",
+                "Postkoetswielen in alle soorten en maten.");
         AbstractCategorie categorie2 = new ProductCategorie(
-                "Hobby",
-                "Spullen voor allerlei hobby's.");
-        AbstractCategorie categorie3 = new DienstCategorie(
-                "Kunst",
-                "Schilder, tekenaar of beeldhouwer nodig? Kijk hier!");
+                "Badkamertegels",
+                "Tegels voor in de badkamer.");
+        AbstractCategorie categorie3 = new ProductCategorie(
+                "Ballenbakbenodigdheden",
+                "Alles voor in en rond de ballenbak.");
+        AbstractCategorie categorie4 = new ProductCategorie(
+                "Overige prullen",
+                "Alles wat niet binnen de overige categorieën valt");
+
+        AbstractCategorie categorie5 = new DienstCategorie(
+                "Iets vaags met computers",
+                "Ja hij doet iets met IT, misschien weet hij het.");
+        AbstractCategorie categorie6 = new DienstCategorie(
+                "Matig uitgevoerd onderhoud rond het huis",
+                "Alles betreft onderhoud rond het huis, echt vakmanschap niet toegestaan.");
+
         em.getTransaction().begin();
         em.persist(categorie1);
         em.persist(categorie2);
         em.persist(categorie3);
+        em.persist(categorie4);
+        em.persist(categorie5);
+        em.persist(categorie6);
+
         em.getTransaction().commit();
     }
 }

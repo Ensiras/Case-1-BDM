@@ -1,17 +1,11 @@
 package controller;
 
-import dao.AbstractDao;
-
-
 import views.AbstractView;
 
 import java.math.BigDecimal;
-
 import java.util.List;
 
-
 import static java.math.BigDecimal.ZERO;
-
 
 public abstract class AbstractController<Y extends AbstractView> {
 
@@ -40,6 +34,16 @@ public abstract class AbstractController<Y extends AbstractView> {
         return vraagInput("", opties);
     }
 
+    boolean checkInput(String input, String[] opties) {
+        for (String optie : opties) {
+            if (optie.equals(input.toLowerCase())) {
+                return true;
+            }
+        }
+        view.toonBericht("Input: " + input + " werd niet herkend.");
+        return false;
+    }
+
     String vraagInputNietLeeg(String bericht) {
         boolean valideInput = false;
         String input = "";
@@ -50,16 +54,6 @@ public abstract class AbstractController<Y extends AbstractView> {
             valideInput = checkInputNietLeeg(input);
         }
         return input;
-    }
-
-    boolean checkInput(String input, String[] opties) {
-        for (String optie : opties) {
-            if (optie.equals(input.toLowerCase())) {
-                return true;
-            }
-        }
-        view.toonBericht("Input: " + input + " werd niet herkend.");
-        return false;
     }
 
     boolean checkInputNietLeeg(String input) {

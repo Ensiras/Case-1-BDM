@@ -12,6 +12,11 @@ public enum Bezorgwijze {
         this.typePrintbaar = typePrintbaar;
     }
 
+    @Override
+    public String toString() {
+        return typePrintbaar;
+    }
+
     public String getTypePrintbaar() {
         return typePrintbaar;
     }

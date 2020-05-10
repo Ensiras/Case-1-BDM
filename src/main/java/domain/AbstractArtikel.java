@@ -1,6 +1,7 @@
 package domain;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.validator.constraints.Currency;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
