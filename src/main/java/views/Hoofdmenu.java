@@ -23,7 +23,7 @@ public class Hoofdmenu extends AbstractView {
             System.out.println("Maak een keuze");
             System.out.println("1) Registreren");
             System.out.println("2) Artikel aanbieden");
-            System.out.println("3) Ik wil weg");
+            System.out.println("3) Stoppen");
 
             int keuze = Integer.parseInt(scanner.nextLine());
             switch (keuze) {

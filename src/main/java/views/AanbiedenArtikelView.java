@@ -13,7 +13,7 @@ public class AanbiedenArtikelView extends AbstractView {
 
     @Override
     public void toon() {
-        setHuidigeGebruikerById(2); // Methode om ingelogde gebruiker te simuleren
+        setHuidigeGebruikerById(1); // Methode om ingelogde gebruiker te simuleren
         toonBericht("Nieuw artikel aanbieden als gebruiker: " + huidigeGebruiker.getEmail());
         new AanbiedenArtikelController(this).aanbiedenArtikel();
     }

@@ -21,7 +21,7 @@ public class CategorieApp {
                 "Ballenbakbenodigdheden",
                 "Alles voor in en rond de ballenbak.");
         AbstractCategorie categorie4 = new ProductCategorie(
-                "Overige prullen",
+                "Spullen die ik nog ergens op zolder vond",
                 "Alles wat niet binnen de overige categorieën valt");
 
         AbstractCategorie categorie5 = new DienstCategorie(
