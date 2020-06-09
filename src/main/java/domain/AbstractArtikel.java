@@ -58,4 +58,29 @@ public abstract class AbstractArtikel {
     public void setOmschrijving(String omschrijving) {
         this.omschrijving = omschrijving;
     }
+
+    // Getters needed for JAXB
+    public int getId() {
+        return id;
+    }
+
+    public String getNaam() {
+        return naam;
+    }
+
+    public BigDecimal getPrijs() {
+        return prijs;
+    }
+
+    public Gebruiker getAanbieder() {
+        return aanbieder;
+    }
+
+    public String getOmschrijving() {
+        return omschrijving;
+    }
+
+    public List<Bijlage> getBijlagen() {
+        return bijlagen;
+    }
 }

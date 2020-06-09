@@ -15,6 +15,7 @@ public class RegistrerenGebruikerView extends AbstractView {
     }
 
     public void registreerGebruiker() {
+        // Dit eigenlijk in het hoofdmenu zetten
         new RegistrerenGebruikerController(this).startRegistratie();
     }
 

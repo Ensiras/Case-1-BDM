@@ -66,8 +66,8 @@ public class RegistrerenGebruikerController extends AbstractController<Registrer
         view.toonBericht("Ondersteunt u de volgende bezorgwijzen (j/n)?");
 
         for (Bezorgwijze b : Bezorgwijze.values()) {
-            String input = vraagInput(b + ": (1) Ondesteunen, (2) Niet ondersteunen.");
-            if (input.equals("1")) {
+            String input = vraagInput(b + ": (1) Ondersteunen, (2) Niet ondersteunen.");
+            if ("1".equals(input)) {
                 bezorgwijzen.add(b);
             }
         }
