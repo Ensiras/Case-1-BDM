@@ -1,6 +1,14 @@
 package util.TEMP;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class TEMPGebruikerWrapper {
+    @Id
+    @GeneratedValue
+    private int id;
     private String email;
     private boolean bezorgAfhalenThuis;
     private boolean bezorgAfhalenMagazijn;
@@ -13,6 +21,10 @@ public class TEMPGebruikerWrapper {
     private boolean akkoordVoorwaarden;
 
     public TEMPGebruikerWrapper() {
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getEmail() {

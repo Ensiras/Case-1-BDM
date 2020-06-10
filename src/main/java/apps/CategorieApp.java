@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 public class CategorieApp {
 
     public static void main(String[] args) {
-        EntityManager em = Persistence.createEntityManagerFactory("MySQL").createEntityManager();
+//        EntityManager em = Persistence.createEntityManagerFactory("MySQL").createEntityManager();
         AbstractCategorie categorie1 = new ProductCategorie(
                 "Postkoetswielen",
                 "Postkoetswielen in alle soorten en maten.");
@@ -31,7 +31,7 @@ public class CategorieApp {
                 "Matig uitgevoerd onderhoud rond het huis",
                 "Alles betreft onderhoud rond het huis, echt vakmanschap niet toegestaan.");
 
-        em.getTransaction().begin();
+        /*em.getTransaction().begin();
         em.persist(categorie1);
         em.persist(categorie2);
         em.persist(categorie3);
@@ -39,6 +39,6 @@ public class CategorieApp {
         em.persist(categorie5);
         em.persist(categorie6);
 
-        em.getTransaction().commit();
+        em.getTransaction().commit();*/
     }
 }

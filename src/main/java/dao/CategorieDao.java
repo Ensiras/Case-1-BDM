@@ -11,8 +11,8 @@ import static domain.ArtikelSoort.PRODUCT;
 
 public class CategorieDao extends AbstractDao<AbstractCategorie> {
 
-    public CategorieDao(EntityManager em) {
-        super(em);
+    public CategorieDao() {
+        super();
     }
 
     @SuppressWarnings("unchecked")

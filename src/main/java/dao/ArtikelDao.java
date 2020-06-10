@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ArtikelDao extends AbstractDao<AbstractArtikel> {
 
-    public ArtikelDao(EntityManager em) {
-        super(em);
+    public ArtikelDao() {
+        super();
     }
 
     public AbstractArtikel getById(int id) {

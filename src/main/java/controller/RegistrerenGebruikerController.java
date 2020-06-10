@@ -116,7 +116,7 @@ public class RegistrerenGebruikerController extends AbstractController<Registrer
 
     public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
         Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
-        GebruikerDao dao = new GebruikerDao(getEntityManager("MySQL"));
+        GebruikerDao dao = new GebruikerDao();
         dao.opslaan(gebruiker);
         dao.sluitEntityManager();
         return gebruiker;

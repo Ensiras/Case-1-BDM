@@ -5,7 +5,19 @@
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
 
-    <persistence-unit name="MySQL">
+    <persistence-unit name="MySQL" transaction-type="JTA">
+        <jta-data-source>jdbc/mySQL</jta-data-source>
+        <properties>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
+            <property name="javax.persistence.schema-generation.database.action" value="create"/>
+        </properties>
+    </persistence-unit>
+
+
+<!--    Old non-JEE style -->
+    <!--<persistence-unit name="MySQL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
@@ -15,8 +27,8 @@
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
-            <!--<property name="hibernate.connection.autocommit" value="false"/>-->
+            &lt;!&ndash;<property name="hibernate.connection.autocommit" value="false"/>&ndash;&gt;
         </properties>
-    </persistence-unit>
+    </persistence-unit>-->
 
 </persistence>

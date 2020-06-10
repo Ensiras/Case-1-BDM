@@ -86,7 +86,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
     AbstractCategorie vraagCategorie(ArtikelSoort soort) {
         view.toonBericht("Kies de subcategorie van uw " + soort + ".");
 
-        CategorieDao catDao = new CategorieDao(EntityManagerWrapper.getEntityManager("MySQL"));
+        CategorieDao catDao = new CategorieDao();
         List<AbstractCategorie> categorieen = catDao.zoekAlles(soort);
         String[] opties = bepaalOpties(categorieen);
 
@@ -185,7 +185,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
     }
 
     private boolean opslaanArtikel(AbstractArtikel artikel) {
-        ArtikelDao dao = new ArtikelDao(EntityManagerWrapper.getEntityManager("MySQL"));
+        ArtikelDao dao = new ArtikelDao();
         dao.opslaan(artikel);
         dao.sluitEntityManager();
         view.toonBericht("Uw artikel is met success aangemaakt!");
