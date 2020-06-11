@@ -13,7 +13,7 @@ public class GebruikerUtil {
     // van een nieuw artikel.
     public static void setHuidigeGebruikerById(int id) {
         GebruikerDao gebDao = new GebruikerDao();
-        huidigeGebruiker = gebDao.zoek(1, Gebruiker.class);
+        huidigeGebruiker = gebDao.find(1, Gebruiker.class);
 //        gebDao.sluitEntityManager();
     }
 

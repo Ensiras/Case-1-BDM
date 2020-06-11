@@ -18,9 +18,11 @@ public abstract class AbstractDao<T> {
         em.persist(toInsert);
     }
 
-    public T zoek(int id, Class<T> classType) {
+    public T find(int id, Class<T> classType) {
         return em.find(classType, id);
     }
+
+
 
     public void sluitEntityManager() {
         EntityManagerWrapper.sluitEntityManager();

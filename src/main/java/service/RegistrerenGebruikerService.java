@@ -13,9 +13,6 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class RegistrerenGebruikerService {
 
-    @PersistenceContext
-    EntityManager em;
-
     @Inject
     GebruikerInputMapper mapper;
 

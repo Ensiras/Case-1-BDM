@@ -3,7 +3,6 @@ package dao;
 import domain.AbstractCategorie;
 import domain.ArtikelSoort;
 
-import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.List;
 
