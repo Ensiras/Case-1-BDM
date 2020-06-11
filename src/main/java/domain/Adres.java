@@ -1,12 +1,20 @@
 package domain;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Adres {
+    @Column(name = "straat")
     private String straat;
+
+    @Column(name = "huisnummer")
     private String huisnummer;
+
+    @Column(name = "postcode")
     private String postcode;
+
+    @Column(name = "stad")
     private String stad;
 
     public Adres() {

@@ -10,7 +10,6 @@ import java.util.Set;
 
 import static domain.Bezorgwijze.AFHALEN_THUIS;
 import static domain.Regelement.getRegelementVoet;
-import static util.EntityManagerWrapper.getEntityManager;
 
 
 public class RegistrerenGebruikerController extends AbstractController<RegistrerenGebruikerView> {
@@ -117,7 +116,7 @@ public class RegistrerenGebruikerController extends AbstractController<Registrer
     public Gebruiker registreerGebruiker(String email, Set<Bezorgwijze> bezorgwijzen, String[] adres, boolean toestemming) {
         Gebruiker gebruiker = new Gebruiker(email, bezorgwijzen, adres, toestemming);
         GebruikerDao dao = new GebruikerDao();
-        dao.opslaan(gebruiker);
+        dao.persist(gebruiker);
         dao.sluitEntityManager();
         return gebruiker;
     }

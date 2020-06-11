@@ -34,7 +34,6 @@ class GebruikerInputMapperTest {
         gebruikerIn.setHuisnummer(huisnummer);
         gebruikerIn.setPostcode(postcode);
         gebruikerIn.setStad(stad);
-        gebruikerIn.setStraat(straat);
         gebruikerIn.setAkkoordVoorwaarden(true);
 
         Gebruiker gebruikerUit = mapper.mapGebruikerInputToGebruiker(gebruikerIn);
@@ -43,10 +42,10 @@ class GebruikerInputMapperTest {
             assertThat(gebruikerUit.getId()).isEqualTo(0);
             assertThat(gebruikerUit.getEmail()).isEqualTo(email);
             assertThat(gebruikerUit.getBezorgwijzen()).containsOnly(AFHALEN_THUIS, VERSTUREN_VOORBET);
-            assertThat(gebruikerUit.getAdres().getStraat()).isEqualTo(straat);
-            assertThat(gebruikerUit.getAdres().getHuisnummer()).isEqualTo(huisnummer);
-            assertThat(gebruikerUit.getAdres().getPostcode()).isEqualTo(postcode);
-            assertThat(gebruikerUit.getAdres().getStad()).isEqualTo(stad);
+            assertThat(gebruikerUit.getStraat()).isEqualTo(straat);
+            assertThat(gebruikerUit.getHuisnummer()).isEqualTo(huisnummer);
+            assertThat(gebruikerUit.getPostcode()).isEqualTo(postcode);
+            assertThat(gebruikerUit.getStad()).isEqualTo(stad);
             assertThat(gebruikerUit.isAkkoordVoorwaarden()).isTrue();
         });
     }
@@ -61,10 +60,10 @@ class GebruikerInputMapperTest {
         Gebruiker gebruikerUit = mapper.mapGebruikerInputToGebruiker(gebruikerIn);
 
         assertAll( () -> {
-            assertThat(gebruikerUit.getAdres().getStraat()).isNull();
-            assertThat(gebruikerUit.getAdres().getHuisnummer()).isNull();
-            assertThat(gebruikerUit.getAdres().getPostcode()).isNull();
-            assertThat(gebruikerUit.getAdres().getStad()).isNull();
+            assertThat(gebruikerUit.getStraat()).isNull();
+            assertThat(gebruikerUit.getHuisnummer()).isNull();
+            assertThat(gebruikerUit.getPostcode()).isNull();
+            assertThat(gebruikerUit.getStad()).isNull();
         });
     }
 

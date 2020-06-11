@@ -13,7 +13,7 @@
   <jpa defaultPersistenceProvider="org.hibernate.jpa.HibernatePersistenceProvider" />
   <dataSource id="DefaultDataSource" jndiName="jdbc/mySQL" type="javax.sql.XADataSource">
     <jdbcDriver javax.sql.XADataSource="com.mysql.cj.jdbc.MysqlXADataSource" libraryRef="MySQLLib" />
-    <properties databaseName="car"
+    <properties databaseName="bdmtest"
                 user="admin" password="testtest"
                 portNumber="3306" serverName="localhost" useSSL="false" />
   </dataSource>

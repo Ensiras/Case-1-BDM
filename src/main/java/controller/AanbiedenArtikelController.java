@@ -3,7 +3,6 @@ package controller;
 import dao.ArtikelDao;
 import dao.CategorieDao;
 import domain.*;
-import util.EntityManagerWrapper;
 import util.NotImplementedException;
 import views.AanbiedenArtikelView;
 
@@ -186,7 +185,7 @@ public class AanbiedenArtikelController extends AbstractController<AanbiedenArti
 
     private boolean opslaanArtikel(AbstractArtikel artikel) {
         ArtikelDao dao = new ArtikelDao();
-        dao.opslaan(artikel);
+        dao.persist(artikel);
         dao.sluitEntityManager();
         view.toonBericht("Uw artikel is met success aangemaakt!");
         return true;

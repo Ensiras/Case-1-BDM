@@ -30,9 +30,7 @@ public class GebruikersResource {
     @Produces(MediaType.APPLICATION_JSON)
     public GebruikerInput registrerenGebruiker(GebruikerInput gebruikerIn) {
         System.out.println("Gebruiker ontvangen in POST endpoint.");
-//        Gebruiker gebruikerUit = service.registreerGebruiker();
-//        boolean b = service.checkEmail(gebruikerin);
-//        System.out.println(b);
+        service.registreerGebruiker(gebruikerIn);
         return gebruikerIn;
     }
 }

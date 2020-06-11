@@ -14,10 +14,8 @@ public abstract class AbstractDao<T> {
 
     }
 
-    public void opslaan(T toInsert) {
-        em.getTransaction().begin();
+    public void persist(T toInsert) {
         em.persist(toInsert);
-        em.getTransaction().commit();
     }
 
     public T zoek(int id, Class<T> classType) {

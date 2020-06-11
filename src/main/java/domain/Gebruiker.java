@@ -17,11 +17,13 @@ public class Gebruiker {
 
     @Email
     private String email;
-/*    private String straat;
+    private String straat;
     private String huisnummer;
-    private String postcode;*/
-    @Embedded
-    private Adres adres;
+    private String postcode;
+    private String stad;
+
+/*    @Embedded
+    private Adres adres;*/
     private boolean akkoordVoorwaarden;
 
     @ElementCollection(targetClass = Bezorgwijze.class, fetch = EAGER)
@@ -46,9 +48,9 @@ public class Gebruiker {
     }
 
     // Getters and setters needed for mapping.
-    public Adres getAdres() {
+/*    public Adres getAdres() {
         return adres;
-    }
+    }*/
 
     public String getEmail() {
         return email;
@@ -71,7 +73,10 @@ public class Gebruiker {
     }
 
     public void setAdres(Adres adres) {
-        this.adres = adres;
+        this.straat = adres.getStraat();
+        this.huisnummer = adres.getHuisnummer();
+        this.postcode = adres.getPostcode();
+        this.stad = adres.getStad();
     }
 
     public void setAkkoordVoorwaarden(boolean akkoordVoorwaarden) {
@@ -84,6 +89,38 @@ public class Gebruiker {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getStraat() {
+        return straat;
+    }
+
+    public void setStraat(String straat) {
+        this.straat = straat;
+    }
+
+    public String getHuisnummer() {
+        return huisnummer;
+    }
+
+    public void setHuisnummer(String huisnummer) {
+        this.huisnummer = huisnummer;
+    }
+
+    public String getPostcode() {
+        return postcode;
+    }
+
+    public void setPostcode(String postcode) {
+        this.postcode = postcode;
+    }
+
+    public String getStad() {
+        return stad;
+    }
+
+    public void setStad(String stad) {
+        this.stad = stad;
     }
 }
 
