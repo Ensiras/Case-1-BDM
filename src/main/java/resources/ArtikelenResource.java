@@ -1,26 +1,30 @@
 package resources;
 
-import javax.ws.rs.GET;
+import service.ArtikelService;
+
+import javax.ejb.Stateless;
+import javax.inject.Inject;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+
+import static javax.ws.rs.core.MediaType.*;
 
 @Path("artikelen")
-//@Produces(MediaType.APPLICATION_JSON)
+@Produces(APPLICATION_JSON)
+@Stateless
 public class ArtikelenResource {
 
-    @GET
-    public String getTest() {
+    @Inject
+    ArtikelService service;
 
-
-        return "Het werkt!";
+    @POST
+    @Path("nieuw")
+    public ArtikelInput aanbiedenArtikel(ArtikelInput artikelInput) {
+        System.out.println("POST endpoint bereikt!");
+        System.out.println(artikelInput.getNaam());
+        service.aanbiedenArtikel(artikelInput);
+        return artikelInput;
     }
 
-/*    @GET
-    @Path("{id}")
-    public AbstractArtikel getById(@PathParam("id") int id) {
-        ArtikelDao dao = new ArtikelDao(EntityManagerWrapper.getEntityManager("MySQL"));
-        return dao.getById(id);
-    }*/
 }

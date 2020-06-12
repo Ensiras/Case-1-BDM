@@ -1,7 +1,7 @@
 package resources;
 
 
-import service.RegistrerenGebruikerService;
+import service.GebruikerService;
 
 import javax.ejb.Stateless;
 
@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 public class GebruikersResource {
 
     @Inject
-    RegistrerenGebruikerService service;
+    GebruikerService service;
 
     @GET
     public String testGet() {

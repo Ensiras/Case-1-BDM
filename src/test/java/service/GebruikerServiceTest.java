@@ -14,7 +14,7 @@ import util.GebruikerInputMapper;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class RegistrerenGebruikerServiceTest {
+class GebruikerServiceTest {
 
     @Mock
     GebruikerDao dao;
@@ -23,7 +23,7 @@ class RegistrerenGebruikerServiceTest {
     GebruikerInputMapper mapper;
 
     @InjectMocks
-    RegistrerenGebruikerService service = new RegistrerenGebruikerService();
+    GebruikerService service = new GebruikerService();
 
     @Test
     void whenRegisterenGebruikerIsCalledShouldCallMapperAndDaoMethods() {

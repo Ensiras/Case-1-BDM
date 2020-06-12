@@ -11,32 +11,27 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import resources.GebruikerInput;
 import util.GebruikerInputMapper;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
 import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(Arquillian.class)
-public class RegistrerenGebruikerServiceIT {
+public class GebruikerServiceIT {
 
     @Inject
-    RegistrerenGebruikerService service;
+    GebruikerService service;
 
     @Deployment
     public static Archive<?> createDeployment() {
         WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClass(RegistrerenGebruikerService.class)
+                .addClass(GebruikerService.class)
                 .addClass(GebruikerInput.class)
                 .addClass(Gebruiker.class)
                 .addClass(Adres.class)

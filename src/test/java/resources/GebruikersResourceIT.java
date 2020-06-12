@@ -15,7 +15,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import service.RegistrerenGebruikerService;
+import service.GebruikerService;
 import util.GebruikerInputMapper;
 
 import javax.inject.Inject;
@@ -42,7 +42,7 @@ public class GebruikersResourceIT {
     public static Archive<?> createDeployment() {
         WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClass(App.class)
-                .addClass(RegistrerenGebruikerService.class)
+                .addClass(GebruikerService.class)
                 .addPackage(GebruikerInput.class.getPackage())
                 .addPackage(Gebruiker.class.getPackage())
                 .addClass(GebruikerInputMapper.class)

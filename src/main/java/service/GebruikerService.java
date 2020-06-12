@@ -7,11 +7,9 @@ import util.GebruikerInputMapper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 @Stateless
-public class RegistrerenGebruikerService {
+public class GebruikerService {
 
     @Inject
     GebruikerInputMapper mapper;
@@ -32,6 +30,10 @@ public class RegistrerenGebruikerService {
         Gebruiker gebruiker = mapper.mapGebruikerInputToGebruiker(gebruikerIn);
         dao.persist(gebruiker);
         return gebruiker;
+    }
+
+    public Gebruiker zoek(int id) {
+        return dao.find(id, Gebruiker.class);
     }
 
 }

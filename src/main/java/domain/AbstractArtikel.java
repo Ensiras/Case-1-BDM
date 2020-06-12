@@ -83,4 +83,26 @@ public abstract class AbstractArtikel {
     public List<Bijlage> getBijlagen() {
         return bijlagen;
     }
+
+    // Setters needed for mapping
+    // If anything goes wrong with DB-stuff check if this setter was necessary.
+    /*public void setId(int id) {
+        this.id = id;
+    }*/
+
+    public void setNaam(String naam) {
+        this.naam = naam;
+    }
+
+    public void setPrijs(BigDecimal prijs) {
+        this.prijs = prijs;
+    }
+
+    public void setAanbieder(Gebruiker aanbieder) {
+        this.aanbieder = aanbieder;
+    }
+
+    public void setBijlagen(List<Bijlage> bijlagen) {
+        this.bijlagen = bijlagen;
+    }
 }

@@ -13,6 +13,7 @@ public class Gebruiker {
 
     @Id
     @GeneratedValue
+//    @Column(name="id", unique = true, nullable = false, columnDefinition = "int") possible workaround for unable to apply constraints
     private int id;
 
     @Email
@@ -22,8 +23,6 @@ public class Gebruiker {
     private String postcode;
     private String stad;
 
-/*    @Embedded
-    private Adres adres;*/
     private boolean akkoordVoorwaarden;
 
     @ElementCollection(targetClass = Bezorgwijze.class, fetch = EAGER)
@@ -121,6 +120,22 @@ public class Gebruiker {
 
     public void setStad(String stad) {
         this.stad = stad;
+    }
+
+    // To string just for testing purposes
+    // TODO: get rid of this later
+    @Override
+    public String toString() {
+        return "Gebruiker{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", straat='" + straat + '\'' +
+                ", huisnummer='" + huisnummer + '\'' +
+                ", postcode='" + postcode + '\'' +
+                ", stad='" + stad + '\'' +
+                ", akkoordVoorwaarden=" + akkoordVoorwaarden +
+                ", bezorgwijzen=" + bezorgwijzen +
+                '}';
     }
 }
 

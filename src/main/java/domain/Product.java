@@ -29,5 +29,20 @@ public class Product extends AbstractArtikel {
 
     }
 
+    public void setBezorgwijzen(Set<Bezorgwijze> bezorgwijzen) {
+        this.bezorgwijzen = bezorgwijzen;
+    }
+
+    public void setProductCategorie(ProductCategorie productCategorie) {
+        this.productCategorie = productCategorie;
+    }
+
+    public Set<Bezorgwijze> getBezorgwijzen() {
+        return bezorgwijzen;
+    }
+
+    public ProductCategorie getProductCategorie() {
+        return productCategorie;
+    }
 }
 
