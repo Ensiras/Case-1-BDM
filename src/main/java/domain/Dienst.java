@@ -20,4 +20,12 @@ public class Dienst extends AbstractArtikel {
 
     public Dienst() {
     }
+
+    public void setDienstCategorie(DienstCategorie dienstCategorie) {
+        this.dienstCategorie = dienstCategorie;
+    }
+
+    public DienstCategorie getDienstCategorie() {
+        return dienstCategorie;
+    }
 }

@@ -1,9 +1,6 @@
 package util;
 
-import domain.AbstractArtikel;
-import domain.Bezorgwijze;
-import domain.Product;
-import domain.ProductCategorie;
+import domain.*;
 import resources.ArtikelInput;
 import service.GebruikerService;
 
@@ -26,22 +23,34 @@ public class ArtikelInputMapper {
     public <T extends AbstractArtikel> T mapArtikelInputToArtikelEntity(ArtikelInput artikelInput) {
         if (artikelInput.getSoort().equals("Product")) { // Should probably check for null first
             return (T) mapArtikelInputToProductEntity(artikelInput);
-        };
-        return null;
+        } else {
+            return (T) mapArtikelInputToDienstEntity(artikelInput);
+        }
     }
 
-    public Product mapArtikelInputToProductEntity(ArtikelInput artikelInput) {
+    Dienst mapArtikelInputToDienstEntity(ArtikelInput artikelInput) {
+        Dienst dienstUit = new Dienst();
+        dienstUit.setNaam(artikelInput.getNaam());
+        dienstUit.setPrijs(BigDecimal.valueOf(artikelInput.getPrijs()));
+        dienstUit.setAanbieder(service.zoek(artikelInput.getId()));
+        dienstUit.setDienstCategorie(mapCategorieInputToDienstCategorieEntity(artikelInput));
+        dienstUit.setOmschrijving(artikelInput.getOmschrijving());
+        return dienstUit;
+    }
+
+    Product mapArtikelInputToProductEntity(ArtikelInput artikelInput) {
         Product productUit = new Product();
         productUit.setNaam(artikelInput.getNaam());
         productUit.setPrijs(BigDecimal.valueOf(artikelInput.getPrijs()));
-        productUit.setAanbieder(service.zoek(1)); // TODO: implement that actual user from frontend is 'found'
+        productUit.setAanbieder(service.zoek(artikelInput.getId()));
         productUit.setBezorgwijzen(mapBezorgwijzen(artikelInput));
         productUit.setProductCategorie(mapCategorieInputToCategorieEntity(artikelInput));
+        productUit.setOmschrijving(artikelInput.getOmschrijving());
 //        product.setBijlagen(artikelInput.getBijlagen()); TODO: implement bijlagen
         return productUit;
     }
 
-    public static Set<Bezorgwijze> mapBezorgwijzen(ArtikelInput artikelInput) {
+    static Set<Bezorgwijze> mapBezorgwijzen(ArtikelInput artikelInput) {
         Set<Bezorgwijze> bezorgwijzen = new LinkedHashSet<>();
 
         if (artikelInput.isBezorgAfhalenMagazijn()) {
@@ -60,8 +69,14 @@ public class ArtikelInputMapper {
         return bezorgwijzen;
     }
 
+    // TODO: misschien toch laten zoeken naar bestaande categorieën.
     private ProductCategorie mapCategorieInputToCategorieEntity(ArtikelInput artikelInput) {
         String categorieNaam = artikelInput.getCategorie();
         return new ProductCategorie(categorieNaam, "testomschrijving");
+    }
+
+    private DienstCategorie mapCategorieInputToDienstCategorieEntity(ArtikelInput artikelInput) {
+        String categorieNaam = artikelInput.getCategorie();
+        return new DienstCategorie(categorieNaam, "testomschrijving");
     }
 }
