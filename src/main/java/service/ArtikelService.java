@@ -19,10 +19,9 @@ public class ArtikelService {
     ArtikelInputMapper mapper;
 
     public AbstractArtikel aanbiedenArtikel(ArtikelInput artikelInput) {
-        AbstractArtikel artikelInput1 = mapper.mapArtikelInputToArtikelEntity(artikelInput);
+        AbstractArtikel artikelEntity = mapper.mapArtikelInputToArtikelEntity(artikelInput);
         System.out.println("Did this work? " + artikelInput.getNaam());
-        /*Product product = mapper.mapArtikelInputToArtikelEntity(artikelInput);
-        dao.persist(product);*/
-        return null;
+        dao.persist(artikelEntity);
+        return artikelEntity;
     }
 }

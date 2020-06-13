@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-// Class representing Gebruiker data from backend.
+// Class representing Gebruiker data from frontend.
 public class GebruikerInput {
     private int id;
     private String email;
