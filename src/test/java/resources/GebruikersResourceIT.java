@@ -3,6 +3,8 @@ package resources;
 import apps.App;
 import dao.AbstractDao;
 import dao.GebruikerDao;
+import domain.Adres;
+import domain.Bezorgwijze;
 import domain.Gebruiker;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -26,6 +28,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
+import static javax.ws.rs.client.ClientBuilder.*;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -78,7 +81,7 @@ public class GebruikersResourceIT {
 
     @Test
     public void testEndpointShouldReturnHetWerkt() {
-        String message = ClientBuilder.newClient().target(deploymentURL + "gebruikers").request(TEXT_PLAIN).get(String.class);
+        String message = newClient().target(deploymentURL + "gebruikers").request(TEXT_PLAIN).get(String.class);
         assertThat(message).isEqualTo("Het werkt");
     }
 
@@ -102,7 +105,7 @@ public class GebruikersResourceIT {
         gebruikerIn.setStad(stad);
         gebruikerIn.setAkkoordVoorwaarden(true);
 
-        GebruikerInput result = ClientBuilder.newClient()
+        GebruikerInput result = newClient()
                 .target(deploymentURL + "gebruikers/nieuw")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(gebruikerIn), GebruikerInput.class);

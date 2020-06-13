@@ -63,7 +63,8 @@ public class ArtikelServiceIT {
     public void whenArtikelInputIsGivenShouldBeMappedToArtikelEntityAndPersisted() {
         ArtikelInput artikelIn = new ArtikelInput();
         artikelIn.setGebruikerId(1);
-        artikelIn.setNaam("Product");
+        artikelIn.setNaam("Een boek");
+        artikelIn.setSoort("Product");
         artikelIn.setPrijs(34.34);
         artikelIn.setCategorie("Overige");
         artikelIn.setOmschrijving("Een omschrijving");

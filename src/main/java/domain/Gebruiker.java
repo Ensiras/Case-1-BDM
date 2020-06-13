@@ -47,9 +47,6 @@ public class Gebruiker {
     }
 
     // Getters and setters needed for mapping.
-/*    public Adres getAdres() {
-        return adres;
-    }*/
 
     public String getEmail() {
         return email;
@@ -137,5 +134,6 @@ public class Gebruiker {
                 ", bezorgwijzen=" + bezorgwijzen +
                 '}';
     }
+
 }
 

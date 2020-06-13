@@ -27,7 +27,7 @@ public abstract class AbstractArtikel {
     @NotNull
     private BigDecimal prijs;
 
-    @OneToOne
+    @OneToOne @Cascade(PERSIST) //FIXME: @Cascade should only be temporary because no Gebruikers exist when persisting artikel
     private Gebruiker aanbieder;
 
     @Lob
