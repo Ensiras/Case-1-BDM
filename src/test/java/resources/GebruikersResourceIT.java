@@ -45,11 +45,14 @@ public class GebruikersResourceIT {
     public static Archive<?> createDeployment() {
         WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClass(App.class)
+                .addClass(GebruikersResource.class)
                 .addClass(GebruikerService.class)
-                .addPackage(GebruikerInput.class.getPackage())
-                .addPackage(Gebruiker.class.getPackage())
-                .addClass(GebruikerInputMapper.class)
+                .addClass(GebruikerInput.class)
+                .addClass(Gebruiker.class)
+                .addClass(Adres.class)
                 .addPackage(AbstractDao.class.getPackage())
+                .addClass(GebruikerInputMapper.class)
+                .addClass(Bezorgwijze.class)
                 .addAsResource("persistence-test.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsLibraries(assertJ()) // create files of assertJ and hibernate libs and add to war
