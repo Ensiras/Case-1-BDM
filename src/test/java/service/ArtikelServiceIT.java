@@ -13,7 +13,9 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import resources.ArtikelInput;
+import resources.GebruikerInput;
 import util.ArtikelInputMapper;
+import util.GebruikerInputMapper;
 
 import javax.inject.Inject;
 import java.io.File;
@@ -31,9 +33,11 @@ public class ArtikelServiceIT {
         WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClass(App.class)
                 .addClass(ArtikelService.class)
+                .addClass(GebruikerService.class)
                 .addPackage(ArtikelInput.class.getPackage())
                 .addPackage(AbstractArtikel.class.getPackage())
                 .addClass(ArtikelInputMapper.class)
+                .addClass(GebruikerInputMapper.class)
                 .addPackage(AbstractDao.class.getPackage())
                 .addAsResource("persistence-test.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
