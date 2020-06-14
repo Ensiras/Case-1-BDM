@@ -9,7 +9,7 @@ import static javax.persistence.DiscriminatorType.*;
 @Table(name = "categorie")
 public abstract class AbstractCategorie {
 
-    @Id
+    @Id @Column(name = "naam", nullable = false, unique = true, columnDefinition = "VARCHAR(64)")
     private String naam;
     @Lob
     private String omschrijving;

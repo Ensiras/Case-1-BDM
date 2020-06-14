@@ -21,7 +21,6 @@ import service.GebruikerService;
 import util.GebruikerInputMapper;
 
 import javax.inject.Inject;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import java.io.File;

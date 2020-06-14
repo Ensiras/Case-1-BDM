@@ -12,10 +12,13 @@ import javax.inject.Inject;
 public class GebruikerService {
 
     @Inject
-    GebruikerInputMapper mapper;
+    GebruikerInputMapper gebruikerMapper;
 
     @Inject
     GebruikerDao dao;
+
+    public GebruikerService() {
+    }
 
     // TODO: als tijd over checken of email al bekend is.
 /*    public boolean checkEmail(GebruikerInput gebruiker) {
@@ -27,7 +30,7 @@ public class GebruikerService {
     }*/
 
     public Gebruiker registreerGebruiker(GebruikerInput gebruikerIn) {
-        Gebruiker gebruiker = mapper.mapGebruikerInputToGebruiker(gebruikerIn);
+        Gebruiker gebruiker = gebruikerMapper.mapGebruikerInputToGebruiker(gebruikerIn);
         dao.persist(gebruiker);
         return gebruiker;
     }

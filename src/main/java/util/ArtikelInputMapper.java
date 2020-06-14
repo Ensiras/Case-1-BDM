@@ -19,8 +19,11 @@ public class ArtikelInputMapper {
 
     /*FIXME: hier gaat iets fout bij het testen, dan zijn er 'unsatisfied dependencies' --> weld kan niet kiezen wat te injecteren (denk ik)..
     *  Als ik deze service weg haal, dan is er geen probleem meer. */
-    /*@Inject
-    GebruikerService gebruikerService;*/
+    @Inject
+    GebruikerService gebruikerService;
+
+    public ArtikelInputMapper() {
+    }
 
     @SuppressWarnings("unchecked")
     public <T extends AbstractArtikel> T mapArtikelInputToArtikelEntity(ArtikelInput artikelInput) {

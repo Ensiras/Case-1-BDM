@@ -3,15 +3,12 @@ package util;
 import domain.Bezorgwijze;
 import resources.ArtikelInput;
 import resources.GebruikerInput;
-import resources.Mappable;
 
 import javax.ejb.Stateless;
-import javax.inject.Singleton;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 import static domain.Bezorgwijze.*;
-import static domain.Bezorgwijze.VERSTUREN_REMBOURS;
 
 @Stateless
 public class BezorgwijzenMapper {

@@ -2,7 +2,6 @@ package service;
 
 import dao.ArtikelDao;
 import domain.AbstractArtikel;
-import domain.Product;
 import resources.ArtikelInput;
 import util.ArtikelInputMapper;
 
@@ -16,10 +15,13 @@ public class ArtikelService {
     ArtikelDao dao;
 
     @Inject
-    ArtikelInputMapper mapper;
+    ArtikelInputMapper artikelMapper;
+
+    public ArtikelService() {
+    }
 
     public AbstractArtikel aanbiedenArtikel(ArtikelInput artikelInput) {
-        AbstractArtikel artikelEntity = mapper.mapArtikelInputToArtikelEntity(artikelInput);
+        AbstractArtikel artikelEntity = artikelMapper.mapArtikelInputToArtikelEntity(artikelInput);
         System.out.println("Did this work? " + artikelInput.getNaam());
         dao.persist(artikelEntity);
         return artikelEntity;
