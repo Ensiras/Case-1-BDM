@@ -27,6 +27,8 @@ public abstract class AbstractArtikel {
     @NotNull
     private BigDecimal prijs;
 
+    private String categorie;
+
     @OneToOne @Cascade(PERSIST) //FIXME: @Cascade should only be temporary because no Gebruikers exist when persisting artikel
     private Gebruiker aanbieder;
 
@@ -90,6 +92,10 @@ public abstract class AbstractArtikel {
         this.id = id;
     }*/
 
+    public void setCategorie(String categorie) {
+        this.categorie = categorie;
+    }
+
     public void setNaam(String naam) {
         this.naam = naam;
     }
@@ -104,5 +110,9 @@ public abstract class AbstractArtikel {
 
     public void setBijlagen(List<Bijlage> bijlagen) {
         this.bijlagen = bijlagen;
+    }
+
+    public String getCategorie() {
+        return categorie;
     }
 }

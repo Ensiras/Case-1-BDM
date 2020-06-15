@@ -40,7 +40,7 @@ public class ArtikelInputMapper {
         Gebruiker gebruiker = gebruikerService.zoek(artikelInput.getGebruikerId()); // TODO: als er geen gebruiker wordt gevonden --> probleem
         System.out.println(gebruiker);
         dienstUit.setAanbieder(gebruiker);
-        dienstUit.setDienstCategorie(mapCategorieInputToDienstCategorieEntity(artikelInput));
+        dienstUit.setCategorie(artikelInput.getCategorie());
         dienstUit.setOmschrijving(artikelInput.getOmschrijving());
         return dienstUit;
     }
@@ -54,7 +54,7 @@ public class ArtikelInputMapper {
         System.out.println(gebruiker);
         productUit.setAanbieder(gebruiker);
         productUit.setBezorgwijzen(mapBezorgwijzen(artikelInput));
-        productUit.setProductCategorie(mapCategorieInputToCategorieEntity(artikelInput));
+       productUit.setCategorie(artikelInput.getCategorie());
         productUit.setOmschrijving(artikelInput.getOmschrijving());
 //        product.setBijlagen(artikelInput.getBijlagen()); TODO: implement bijlagen
         return productUit;
@@ -79,7 +79,7 @@ public class ArtikelInputMapper {
         return bezorgwijzen;
     }
 
-    // TODO: misschien toch laten zoeken naar bestaande categorieën.
+    /*// TODO: misschien toch laten zoeken naar bestaande categorieën.
     private ProductCategorie mapCategorieInputToCategorieEntity(ArtikelInput artikelInput) {
         String categorieNaam = artikelInput.getCategorie();
         return new ProductCategorie(categorieNaam, "testomschrijving");
@@ -88,5 +88,5 @@ public class ArtikelInputMapper {
     private DienstCategorie mapCategorieInputToDienstCategorieEntity(ArtikelInput artikelInput) {
         String categorieNaam = artikelInput.getCategorie();
         return new DienstCategorie(categorieNaam, "testomschrijving");
-    }
+    }*/
 }

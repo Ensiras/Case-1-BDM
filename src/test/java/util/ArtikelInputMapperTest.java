@@ -45,7 +45,7 @@ class ArtikelInputMapperTest {
         assertAll(() -> {
             assertThat(product.getNaam()).isEqualTo("Product");
             assertThat(product.getPrijs()).isEqualTo(BigDecimal.valueOf(34.34));
-            assertThat(product.getProductCategorie()).isInstanceOf(ProductCategorie.class);
+            assertThat(product.getCategorie()).isEqualTo("Overige");
             assertThat(product.getAanbieder()).isNotNull().isInstanceOf(Gebruiker.class);
             assertThat(product.getOmschrijving()).isEqualTo("Een omschrijving");
         });
@@ -68,7 +68,7 @@ class ArtikelInputMapperTest {
             assertThat(dienst.getAanbieder()).isNotNull().isInstanceOf(Gebruiker.class);;
             assertThat(dienst.getNaam()).isEqualTo("Dienst");
             assertThat(dienst.getPrijs()).isEqualTo(BigDecimal.valueOf(34.34));
-            assertThat(dienst.getDienstCategorie()).isInstanceOf(DienstCategorie.class);
+            assertThat(dienst.getCategorie()).isEqualTo("Overige");
             assertThat(dienst.getOmschrijving()).isEqualTo("Een omschrijving");
         });
     }

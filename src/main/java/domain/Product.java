@@ -16,10 +16,12 @@ import static org.hibernate.annotations.CascadeType.*;
 public class Product extends AbstractArtikel {
 
     @ElementCollection @Enumerated(EnumType.STRING) @JoinTable(name = "product_bezorgwijzen")
-    private Set<Bezorgwijze> bezorgwijzen = new LinkedHashSet<>();;
+    private Set<Bezorgwijze> bezorgwijzen = new LinkedHashSet<>();
 
-    @ManyToOne @JoinColumn(name = "categorie") /*@Cascade(PERSIST)*/ //@Cascade needed because no categorieën exist yet when persisting
-    private ProductCategorie productCategorie;
+
+    // TODO: dit definitief weghalen als categorieprobleem opgelost is
+    /*@ManyToOne @JoinColumn(name = "categorie") *//*@Cascade(PERSIST)*//* //@Cascade needed because no categorieën exist yet when persisting
+    private ProductCategorie productCategorie;*/
 
     public Product() {
     }
@@ -28,7 +30,6 @@ public class Product extends AbstractArtikel {
                    Set<Bezorgwijze> bezorgwijzen, ProductCategorie productCategorie) {
         super(aanbieder, naam, prijs);
         this.bezorgwijzen = bezorgwijzen;
-        this.productCategorie = productCategorie;
 
     }
 
@@ -36,16 +37,11 @@ public class Product extends AbstractArtikel {
         this.bezorgwijzen = bezorgwijzen;
     }
 
-    public void setProductCategorie(ProductCategorie productCategorie) {
-        this.productCategorie = productCategorie;
-    }
 
     public Set<Bezorgwijze> getBezorgwijzen() {
         return bezorgwijzen;
     }
 
-    public ProductCategorie getProductCategorie() {
-        return productCategorie;
-    }
+
 }
 
