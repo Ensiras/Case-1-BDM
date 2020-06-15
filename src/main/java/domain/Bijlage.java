@@ -19,8 +19,7 @@ public class Bijlage {
     private int id;
     private String bestandsNaam;
 
-    @Enumerated(STRING)
-    private BijlageType type;
+    private String type;
 
     @ManyToOne
     private AbstractArtikel artikel;
@@ -32,7 +31,7 @@ public class Bijlage {
     public Bijlage() {
     }
 
-    public Bijlage(String bestandsNaam, BijlageType type, byte[] data) {
+    public Bijlage(String bestandsNaam, String type, byte[] data) {
         this.bestandsNaam = bestandsNaam;
         this.type = type;
         this.data = data;
@@ -42,4 +41,15 @@ public class Bijlage {
         this.artikel = artikel;
     }
 
+    public void setBestandsNaam(String bestandsNaam) {
+        this.bestandsNaam = bestandsNaam;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
+    }
 }

@@ -49,7 +49,7 @@ public class BijlageUtil {
             System.err.println(e.getMessage());
             return null;
         }
-        return new Bijlage(bestandsnaam, type, data);
+        return new Bijlage(bestandsnaam, "obsolete", data);
     }
 
     static BijlageType setType(String pad) throws IOException {

@@ -18,7 +18,7 @@ public class Product extends AbstractArtikel {
     @ElementCollection @Enumerated(EnumType.STRING) @JoinTable(name = "product_bezorgwijzen")
     private Set<Bezorgwijze> bezorgwijzen = new LinkedHashSet<>();;
 
-    @ManyToOne @JoinColumn(name = "categorie") @Cascade(PERSIST) //@Cascade needed because no categorieën exist yet when persisting
+    @ManyToOne @JoinColumn(name = "categorie")/* @Cascade(PERSIST)*/ //@Cascade needed because no categorieën exist yet when persisting
     private ProductCategorie productCategorie;
 
     public Product() {

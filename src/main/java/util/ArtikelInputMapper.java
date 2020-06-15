@@ -17,8 +17,6 @@ import static domain.Bezorgwijze.VERSTUREN_REMBOURS;
 @Stateless
 public class ArtikelInputMapper {
 
-    /*FIXME: hier gaat iets fout bij het testen, dan zijn er 'unsatisfied dependencies' --> weld kan niet kiezen wat te injecteren (denk ik)..
-    *  Als ik deze service weg haal, dan is er geen probleem meer. */
     @Inject
     GebruikerService gebruikerService;
 
@@ -38,8 +36,10 @@ public class ArtikelInputMapper {
         Dienst dienstUit = new Dienst();
         dienstUit.setNaam(artikelInput.getNaam());
         dienstUit.setPrijs(BigDecimal.valueOf(artikelInput.getPrijs()));
-        dienstUit.setAanbieder(new Gebruiker());
-//        dienstUit.setAanbieder(gebruikerService.zoek(artikelInput.getId())); FIXME: implementeren zoeken naar juiste gebruiker
+
+        Gebruiker gebruiker = gebruikerService.zoek(artikelInput.getGebruikerId()); // TODO: als er geen gebruiker wordt gevonden --> probleem
+        System.out.println(gebruiker);
+        dienstUit.setAanbieder(gebruiker);
         dienstUit.setDienstCategorie(mapCategorieInputToDienstCategorieEntity(artikelInput));
         dienstUit.setOmschrijving(artikelInput.getOmschrijving());
         return dienstUit;
@@ -49,8 +49,10 @@ public class ArtikelInputMapper {
         Product productUit = new Product();
         productUit.setNaam(artikelInput.getNaam());
         productUit.setPrijs(BigDecimal.valueOf(artikelInput.getPrijs()));
-        productUit.setAanbieder(new Gebruiker());
-//        productUit.setAanbieder(gebruikerService.zoek(artikelInput.getId())); FIXME: implementeren zoeken naar juiste gebruiker
+
+        Gebruiker gebruiker = gebruikerService.zoek(artikelInput.getGebruikerId());
+        System.out.println(gebruiker);
+        productUit.setAanbieder(gebruiker);
         productUit.setBezorgwijzen(mapBezorgwijzen(artikelInput));
         productUit.setProductCategorie(mapCategorieInputToCategorieEntity(artikelInput));
         productUit.setOmschrijving(artikelInput.getOmschrijving());

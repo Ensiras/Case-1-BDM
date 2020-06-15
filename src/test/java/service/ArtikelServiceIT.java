@@ -2,7 +2,9 @@ package service;
 
 import apps.App;
 import dao.AbstractDao;
+import dao.GebruikerDao;
 import domain.AbstractArtikel;
+import domain.Gebruiker;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
@@ -10,6 +12,7 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import resources.ArtikelInput;
@@ -27,6 +30,9 @@ public class ArtikelServiceIT {
 
     @Inject
     ArtikelService service;
+
+    @Inject
+    GebruikerDao dao;
 
     @Deployment
     public static Archive<?> createDeployment() {

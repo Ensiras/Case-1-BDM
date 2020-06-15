@@ -15,4 +15,6 @@ public class ProductCategorie extends AbstractCategorie {
 
     public ProductCategorie() {
     }
+
+
 }

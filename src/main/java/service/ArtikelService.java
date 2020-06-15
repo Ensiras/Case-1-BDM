@@ -22,7 +22,6 @@ public class ArtikelService {
 
     public AbstractArtikel aanbiedenArtikel(ArtikelInput artikelInput) {
         AbstractArtikel artikelEntity = artikelMapper.mapArtikelInputToArtikelEntity(artikelInput);
-        System.out.println("Did this work? " + artikelInput.getNaam());
         dao.persist(artikelEntity);
         return artikelEntity;
     }

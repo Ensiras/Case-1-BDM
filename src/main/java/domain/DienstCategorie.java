@@ -15,4 +15,6 @@ public class DienstCategorie extends AbstractCategorie {
 
     public DienstCategorie() {
     }
+
+
 }

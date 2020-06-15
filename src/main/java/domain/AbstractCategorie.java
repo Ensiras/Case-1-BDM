@@ -9,8 +9,11 @@ import static javax.persistence.DiscriminatorType.*;
 @Table(name = "categorie")
 public abstract class AbstractCategorie {
 
-    @Id @Column(name = "naam", nullable = false, unique = true, columnDefinition = "VARCHAR(64)")
+    @Id @GeneratedValue
+    private int id;
+
     private String naam;
+
     @Lob
     private String omschrijving;
 
@@ -42,4 +45,5 @@ public abstract class AbstractCategorie {
     public void setOmschrijving(String omschrijving) {
         this.omschrijving = omschrijving;
     }
+
 }

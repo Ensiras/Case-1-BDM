@@ -2,9 +2,11 @@ package dao;
 
 import domain.Gebruiker;
 
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+@Stateless
 public class GebruikerDao extends AbstractDao<Gebruiker>{
 
     public GebruikerDao() {

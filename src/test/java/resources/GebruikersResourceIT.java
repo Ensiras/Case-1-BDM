@@ -76,11 +76,6 @@ public class GebruikersResourceIT {
                 .withTransitivity().asFile();
     }
 
-    @Before
-    public void setUp() throws Exception {
-        System.out.println(deploymentURL + "gebruikers/nieuw" + "---------------------------------------------------------------------------------------------------------------------------------------------------");
-    }
-
     @Test
     public void testEndpointShouldReturnHetWerkt() {
         String message = newClient().target(deploymentURL + "gebruikers").request(TEXT_PLAIN).get(String.class);
