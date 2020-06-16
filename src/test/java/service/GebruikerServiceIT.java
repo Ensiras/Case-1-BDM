@@ -1,27 +1,18 @@
 package service;
 
-import dao.AbstractDao;
-import domain.Adres;
-import domain.Bezorgwijze;
 import domain.Gebruiker;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import resources.GebruikerInput;
 import testUtil.ArquillianBase;
-import util.GebruikerInputMapper;
 
 import javax.inject.Inject;
-import java.io.File;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 @RunWith(Arquillian.class)
 public class GebruikerServiceIT {

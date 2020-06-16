@@ -4,6 +4,7 @@ import dao.GebruikerDao;
 import domain.Gebruiker;
 import resources.GebruikerInput;
 import util.GebruikerInputMapper;
+import util.InputMapper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -12,7 +13,7 @@ import javax.inject.Inject;
 public class GebruikerService {
 
     @Inject
-    GebruikerInputMapper gebruikerMapper;
+    InputMapper<GebruikerInput, Gebruiker> gebruikerMapper;
 
     @Inject
     GebruikerDao dao;
@@ -20,17 +21,8 @@ public class GebruikerService {
     public GebruikerService() {
     }
 
-    // TODO: als tijd over checken of email al bekend is.
-/*    public boolean checkEmail(GebruikerInput gebruiker) {
-        TypedQuery<GebruikerInput> query = em.createQuery("SELECT g FROM GebruikerInput g WHERE g.email = :email", GebruikerInput.class);
-        query.setParameter("email", gebruiker.getEmail());
-        List<GebruikerInput> resultList = query.getResultList();
-        System.out.println(resultList.size());
-        return true;
-    }*/
-
     public Gebruiker registreerGebruiker(GebruikerInput gebruikerIn) {
-        Gebruiker gebruiker = gebruikerMapper.mapGebruikerInputToGebruiker(gebruikerIn);
+        Gebruiker gebruiker = gebruikerMapper.mapFromInputToEntity(gebruikerIn);
         dao.persist(gebruiker);
         return gebruiker;
     }

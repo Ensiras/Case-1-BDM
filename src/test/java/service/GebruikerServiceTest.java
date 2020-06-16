@@ -30,13 +30,13 @@ class GebruikerServiceTest {
         GebruikerInput gebruikerInput = new GebruikerInput();
         Gebruiker gebruiker = new Gebruiker();
 
-        when(mapper.mapGebruikerInputToGebruiker(gebruikerInput)).thenReturn(gebruiker);
+        when(mapper.mapFromInputToEntity(gebruikerInput)).thenReturn(gebruiker);
         doNothing().when(dao).persist(gebruiker);
         InOrder order = inOrder(mapper, dao);
 
         service.registreerGebruiker(gebruikerInput);
 
-        order.verify(mapper).mapGebruikerInputToGebruiker(gebruikerInput);
+        order.verify(mapper).mapFromInputToEntity(gebruikerInput);
         order.verify(dao).persist(gebruiker);
 
     }

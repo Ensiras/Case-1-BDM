@@ -20,7 +20,6 @@ public class BezorgwijzenMapper {
                 artikelInput.isBezorgVersturenVooruit(), artikelInput.isBezorgVersturenRembours());
     }
 
-
     public Set<Bezorgwijze> mapBezorgwijzen(GebruikerInput gebruikerIn) {
         return getBezorgwijzen(
                 gebruikerIn.isBezorgAfhalenMagazijn(), gebruikerIn.isBezorgAfhalenThuis(),
