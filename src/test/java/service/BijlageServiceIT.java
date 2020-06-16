@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @RunWith(Arquillian.class)
 public class BijlageServiceIT {
