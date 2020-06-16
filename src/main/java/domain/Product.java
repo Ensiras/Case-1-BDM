@@ -30,7 +30,11 @@ public class Product extends AbstractArtikel {
                    Set<Bezorgwijze> bezorgwijzen) {
         super(aanbieder, naam, prijs);
         this.bezorgwijzen = bezorgwijzen;
+    }
 
+    public Product(String naam, Gebruiker aanbieder, BigDecimal prijs,
+                   String categorie, String omschrijving) {
+        super(naam, aanbieder, prijs, categorie, omschrijving);
     }
 
     public void setBezorgwijzen(Set<Bezorgwijze> bezorgwijzen) {

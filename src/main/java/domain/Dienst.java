@@ -24,4 +24,7 @@ public class Dienst extends AbstractArtikel {
     public Dienst() {
     }
 
+    public Dienst(String naam, Gebruiker aanbieder, BigDecimal prijs, String categorie, String omschrijving) {
+        super(naam, aanbieder, prijs, categorie, omschrijving);
+    }
 }

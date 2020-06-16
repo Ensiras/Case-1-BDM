@@ -13,11 +13,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import resources.ArtikelInput;
-import resources.BijlageInput;
 import testUtil.ArquillianBase;
 import util.ArtikelInputMapper;
-import util.BijlageMapper;
-import util.Mapper;
 
 import javax.inject.Inject;
 import java.io.File;

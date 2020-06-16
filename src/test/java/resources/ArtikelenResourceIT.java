@@ -43,11 +43,6 @@ public class ArtikelenResourceIT {
     public static Archive<?> createDeployment() {
         WebArchive webArchive = ArquillianBase.createDeploymentBase();
         webArchive.addClass(App.class);
-        webArchive.addPackage(Bijlage.class.getPackage()); // domain
-        webArchive.addPackage(BijlageDao.class.getPackage()); // dao
-        webArchive.addPackage(ArtikelInput.class.getPackage()); // resources
-        webArchive.addPackage(ArtikelInputMapper.class.getPackage()); // util
-        webArchive.addPackage(BijlageService.class.getPackage()); // service
         webArchive.addAsResource("files/ImageSmall.jpg");
         System.out.println(webArchive.toString(true));
         return webArchive;

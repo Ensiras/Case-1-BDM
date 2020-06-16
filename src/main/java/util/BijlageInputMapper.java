@@ -13,12 +13,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Stateless
-public class BijlageMapper implements Mapper<BijlageInput, Bijlage>{
+public class BijlageInputMapper implements InputMapper<BijlageInput, Bijlage> {
 
     @Inject
     ArtikelService artikelService;
 
-    public BijlageMapper() {
+    public BijlageInputMapper() {
     }
 
     @Override

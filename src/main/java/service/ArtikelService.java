@@ -5,6 +5,7 @@ import domain.AbstractArtikel;
 import domain.Gebruiker;
 import resources.ArtikelInput;
 import util.ArtikelInputMapper;
+import util.InputMapper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -16,13 +17,13 @@ public class ArtikelService {
     ArtikelDao dao;
 
     @Inject
-    ArtikelInputMapper artikelMapper;
+    InputMapper<ArtikelInput, AbstractArtikel> artikelMapper;
 
     public ArtikelService() {
     }
 
     public AbstractArtikel aanbiedenArtikel(ArtikelInput artikelInput) {
-        AbstractArtikel artikelEntity = artikelMapper.mapArtikelInputToArtikelEntity(artikelInput);
+        AbstractArtikel artikelEntity = artikelMapper.mapFromInputToEntity(artikelInput);
         dao.persist(artikelEntity);
         return artikelEntity;
     }

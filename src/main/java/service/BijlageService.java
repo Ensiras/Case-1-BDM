@@ -3,8 +3,7 @@ package service;
 import dao.BijlageDao;
 import domain.Bijlage;
 import resources.BijlageInput;
-import util.BijlageMapper;
-import util.Mapper;
+import util.InputMapper;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -18,14 +17,14 @@ public class BijlageService {
     private BijlageDao dao;
 
     @Inject
-    private Mapper<BijlageInput, Bijlage> mapper;
+    private InputMapper<BijlageInput, Bijlage> inputMapper;
 
     public BijlageService() {
     }
 
     public Bijlage verwerkNieuweBijlage(File dataIn, String bijlageNaam, String bijlageType, String artikelId) {
         BijlageInput bijlageInput = new BijlageInput(bijlageNaam, bijlageType, artikelId, dataIn);
-        Bijlage bijlage = mapper.mapFromInputToEntity(bijlageInput);
+        Bijlage bijlage = inputMapper.mapFromInputToEntity(bijlageInput);
         dao.persist(bijlage);
         return bijlage;
     }

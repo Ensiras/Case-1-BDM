@@ -1,6 +1,9 @@
 package util;
 
-import domain.*;
+import domain.AbstractArtikel;
+import domain.Dienst;
+import domain.Gebruiker;
+import domain.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,9 +13,11 @@ import resources.ArtikelInput;
 import service.GebruikerService;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -22,28 +27,31 @@ class ArtikelInputMapperTest {
     @Mock
     GebruikerService service;
 
+    @Mock
+    BezorgwijzenMapper bezorgwijzenMapper;
+
     @InjectMocks
     ArtikelInputMapper mapper = new ArtikelInputMapper();
+
 
     @Test
     void whenGivenArtikelInputOfSoortProductShouldReturnProductEntityWithMappedValues() {
         when(service.zoek(anyInt())).thenReturn(new Gebruiker());
+        when(bezorgwijzenMapper.mapBezorgwijzen(any(ArtikelInput.class))).thenReturn(new HashSet<>());
 
         ArtikelInput artikelIn = new ArtikelInput();
         artikelIn.setGebruikerId(1);
-        artikelIn.setNaam("Product");
+        artikelIn.setNaam("Een product");
+        artikelIn.setSoort("Product");
         artikelIn.setPrijs(34.34);
         artikelIn.setCategorie("Overige");
         artikelIn.setOmschrijving("Een omschrijving");
-        artikelIn.setBezorgAfhalenMagazijn(true);
-        artikelIn.setBezorgAfhalenThuis(true);
-        artikelIn.setBezorgVersturenVooruit(false);
-        artikelIn.setBezorgVersturenRembours(false);
 
-        Product product = mapper.mapArtikelInputToProductEntity(artikelIn);
+        AbstractArtikel product = mapper.mapFromInputToEntity(artikelIn);
 
         assertAll(() -> {
-            assertThat(product.getNaam()).isEqualTo("Product");
+            assertThat(product.getNaam()).isEqualTo("Een product");
+            assertThat(product).isInstanceOf(Product.class);
             assertThat(product.getPrijs()).isEqualTo(BigDecimal.valueOf(34.34));
             assertThat(product.getCategorie()).isEqualTo("Overige");
             assertThat(product.getAanbieder()).isNotNull().isInstanceOf(Gebruiker.class);
@@ -57,16 +65,18 @@ class ArtikelInputMapperTest {
 
         ArtikelInput artikelIn = new ArtikelInput();
         artikelIn.setGebruikerId(1);
-        artikelIn.setNaam("Dienst");
+        artikelIn.setNaam("Een dienst");
+        artikelIn.setSoort("Dienst");
         artikelIn.setPrijs(34.34);
         artikelIn.setCategorie("Overige");
         artikelIn.setOmschrijving("Een omschrijving");
 
-        Dienst dienst = mapper.mapArtikelInputToDienstEntity(artikelIn);
+        AbstractArtikel dienst = mapper.mapFromInputToEntity(artikelIn);
 
         assertAll(() -> {
-            assertThat(dienst.getAanbieder()).isNotNull().isInstanceOf(Gebruiker.class);;
-            assertThat(dienst.getNaam()).isEqualTo("Dienst");
+            assertThat(dienst.getAanbieder()).isNotNull().isInstanceOf(Gebruiker.class);
+            assertThat(dienst.getNaam()).isEqualTo("Een dienst");
+            assertThat(dienst).isInstanceOf(Dienst.class);
             assertThat(dienst.getPrijs()).isEqualTo(BigDecimal.valueOf(34.34));
             assertThat(dienst.getCategorie()).isEqualTo("Overige");
             assertThat(dienst.getOmschrijving()).isEqualTo("Een omschrijving");
@@ -76,6 +86,7 @@ class ArtikelInputMapperTest {
     @Test
     void whenGivenArtikelInputShouldReturnEntityOfCorrectSoort() {
         when(service.zoek(anyInt())).thenReturn(new Gebruiker());
+        when(bezorgwijzenMapper.mapBezorgwijzen(any(ArtikelInput.class))).thenReturn(new HashSet<>());
 
         ArtikelInput productIn = new ArtikelInput();
         productIn.setSoort("Product");
@@ -85,8 +96,8 @@ class ArtikelInputMapperTest {
         dienstIn.setSoort("Dienst");
         dienstIn.setPrijs(34.23);
 
-        Product product = mapper.mapArtikelInputToArtikelEntity(productIn);
-        Dienst dienst = mapper.mapArtikelInputToArtikelEntity(dienstIn);
+        AbstractArtikel product = mapper.mapFromInputToEntity(productIn);
+        AbstractArtikel dienst = mapper.mapFromInputToEntity(dienstIn);
 
         assertThat(product).isInstanceOf(Product.class);
         assertThat(dienst).isInstanceOf(Dienst.class);

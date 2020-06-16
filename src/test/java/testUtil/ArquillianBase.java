@@ -2,13 +2,16 @@ package testUtil;
 
 import apps.App;
 import dao.AbstractDao;
+import dao.BijlageDao;
 import domain.AbstractArtikel;
+import domain.Bijlage;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import resources.ArtikelInput;
 import service.ArtikelService;
+import service.BijlageService;
 import service.GebruikerService;
 import util.ArtikelInputMapper;
 import util.GebruikerInputMapper;
@@ -24,7 +27,12 @@ public class ArquillianBase {
                 .addAsResource("persistence-test.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsLibraries(assertJ()) // create files of assertJ and hibernate libs and add to war
-                .addAsLibraries(hibernate());
+                .addAsLibraries(hibernate())
+                .addPackage(Bijlage.class.getPackage()) // domain
+                .addPackage(BijlageDao.class.getPackage()) // dao
+                .addPackage(ArtikelInput.class.getPackage()) // resources
+                .addPackage(ArtikelInputMapper.class.getPackage()) // util
+                .addPackage(BijlageService.class.getPackage()); // service;
 //        System.out.println(webArchive.toString(true));
         return webArchive;
     }
@@ -44,7 +52,6 @@ public class ArquillianBase {
                 .resolve("org.hibernate:hibernate-entitymanager")
                 .withTransitivity().asFile();
     }
-
 
 
 }

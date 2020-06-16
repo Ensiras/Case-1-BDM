@@ -44,9 +44,6 @@ public class ArtikelenResource {
             @QueryParam("bijlagetype") String bijlageType,
             @QueryParam("artikelid") String artikelId,
             File data) {
-
-        System.out.println("Bijlage POST endpoint bereikt!");
-        System.out.println("Artikel id is: " + artikelId);
         Bijlage bijlage = bijlageService.verwerkNieuweBijlage(data, bijlageNaam, bijlageType, artikelId);
         return "Bijlage met artikelID: " + artikelId +
                 ", naam: " + bijlageNaam + " en van het type: " + bijlageType + ", succesvol verwerkt.";

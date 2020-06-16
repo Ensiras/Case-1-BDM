@@ -50,6 +50,15 @@ public abstract class AbstractArtikel {
         this.prijs = prijs;
     }
 
+    public AbstractArtikel(String naam, Gebruiker aanbieder, BigDecimal prijs,
+                           String categorie, String omschrijving) {
+        this.naam = naam;
+        this.aanbieder = aanbieder;
+        this.prijs = prijs;
+        this.categorie = categorie;
+        this.omschrijving = omschrijving;
+    }
+
 
     public void addBijlagen(List<Bijlage> bijlagen) {
         if (!(bijlagen == null)) {

@@ -15,38 +15,32 @@ public class BezorgwijzenMapper {
 
 
     public Set<Bezorgwijze> mapBezorgwijzen(ArtikelInput artikelInput) {
-        Set<Bezorgwijze> bezorgwijzen = new LinkedHashSet<>();
-
-        if (artikelInput.isBezorgAfhalenMagazijn()) {
-            bezorgwijzen.add(AFHALEN_MAGAZIJN);
-        }
-        if (artikelInput.isBezorgAfhalenThuis()) {
-            bezorgwijzen.add(AFHALEN_THUIS);
-        }
-        if (artikelInput.isBezorgVersturenVooruit()) {
-            bezorgwijzen.add(VERSTUREN_VOORBET);
-        }
-        if (artikelInput.isBezorgVersturenRembours()) {
-            bezorgwijzen.add(VERSTUREN_REMBOURS);
-        }
-
-        return bezorgwijzen;
+        return getBezorgwijzen(
+                artikelInput.isBezorgAfhalenMagazijn(), artikelInput.isBezorgAfhalenThuis(),
+                artikelInput.isBezorgVersturenVooruit(), artikelInput.isBezorgVersturenRembours());
     }
 
 
     public Set<Bezorgwijze> mapBezorgwijzen(GebruikerInput gebruikerIn) {
+        return getBezorgwijzen(
+                gebruikerIn.isBezorgAfhalenMagazijn(), gebruikerIn.isBezorgAfhalenThuis(),
+                gebruikerIn.isBezorgVersturenVooruit(), gebruikerIn.isBezorgVersturenRembours());
+    }
+
+    Set<Bezorgwijze> getBezorgwijzen(boolean bezorgAfhalenMagazijn, boolean bezorgAfhalenThuis,
+                                     boolean bezorgVersturenVooruit, boolean bezorgVersturenRembours) {
         Set<Bezorgwijze> bezorgwijzen = new LinkedHashSet<>();
 
-        if (gebruikerIn.isBezorgAfhalenMagazijn()) {
+        if (bezorgAfhalenMagazijn) {
             bezorgwijzen.add(AFHALEN_MAGAZIJN);
         }
-        if (gebruikerIn.isBezorgAfhalenThuis()) {
+        if (bezorgAfhalenThuis) {
             bezorgwijzen.add(AFHALEN_THUIS);
         }
-        if (gebruikerIn.isBezorgVersturenVooruit()) {
+        if (bezorgVersturenVooruit) {
             bezorgwijzen.add(VERSTUREN_VOORBET);
         }
-        if (gebruikerIn.isBezorgVersturenRembours()) {
+        if (bezorgVersturenRembours) {
             bezorgwijzen.add(VERSTUREN_REMBOURS);
         }
 
