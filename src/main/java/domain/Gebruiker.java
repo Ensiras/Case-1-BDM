@@ -13,7 +13,7 @@ public class Gebruiker {
 
     @Id
     @GeneratedValue
-//    @Column(name="id", unique = true, nullable = false, columnDefinition = "int") possible workaround for unable to apply constraints
+
     private int id;
 
     @Email
@@ -68,13 +68,6 @@ public class Gebruiker {
         this.email = email;
     }
 
-    public void setAdres(Adres adres) {
-        this.straat = adres.getStraat();
-        this.huisnummer = adres.getHuisnummer();
-        this.postcode = adres.getPostcode();
-        this.stad = adres.getStad();
-    }
-
     public void setAkkoordVoorwaarden(boolean akkoordVoorwaarden) {
         this.akkoordVoorwaarden = akkoordVoorwaarden;
     }
@@ -117,22 +110,6 @@ public class Gebruiker {
 
     public void setStad(String stad) {
         this.stad = stad;
-    }
-
-    // To string just for testing purposes
-    // TODO: get rid of this later
-    @Override
-    public String toString() {
-        return "Gebruiker{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", straat='" + straat + '\'' +
-                ", huisnummer='" + huisnummer + '\'' +
-                ", postcode='" + postcode + '\'' +
-                ", stad='" + stad + '\'' +
-                ", akkoordVoorwaarden=" + akkoordVoorwaarden +
-                ", bezorgwijzen=" + bezorgwijzen +
-                '}';
     }
 
 }

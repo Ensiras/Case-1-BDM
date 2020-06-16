@@ -154,7 +154,7 @@
 
     </dependencies>
 
-    <!--    Maven configuration for unittests -->
+    <!--    Maven configuration for integration tests -->
     <build>
         <finalName>${project.artifactId}</finalName>
         <plugins>

@@ -18,11 +18,6 @@ public class Product extends AbstractArtikel {
     @ElementCollection @Enumerated(EnumType.STRING) @JoinTable(name = "product_bezorgwijzen")
     private Set<Bezorgwijze> bezorgwijzen = new LinkedHashSet<>();
 
-
-    // TODO: dit definitief weghalen als categorieprobleem opgelost is
-    /*@ManyToOne @JoinColumn(name = "categorie") *//*@Cascade(PERSIST)*//* //@Cascade needed because no categorieën exist yet when persisting
-    private ProductCategorie productCategorie;*/
-
     public Product() {
     }
 

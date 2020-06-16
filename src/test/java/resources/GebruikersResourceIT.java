@@ -3,7 +3,6 @@ package resources;
 import apps.App;
 import dao.AbstractDao;
 import dao.GebruikerDao;
-import domain.Adres;
 import domain.Bezorgwijze;
 import domain.Gebruiker;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -14,7 +13,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import service.GebruikerService;
@@ -27,7 +25,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
-import static javax.ws.rs.client.ClientBuilder.*;
+import static javax.ws.rs.client.ClientBuilder.newClient;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,7 +46,6 @@ public class GebruikersResourceIT {
                 .addClass(GebruikerService.class)
                 .addClass(GebruikerInput.class)
                 .addPackage(Gebruiker.class.getPackage())
-                .addClass(Adres.class)
                 .addPackage(AbstractDao.class.getPackage())
                 .addClass(GebruikerInputMapper.class)
                 .addClass(Bezorgwijze.class)
