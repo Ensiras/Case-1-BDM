@@ -5,6 +5,8 @@ import dao.ArtikelDao;
 import dao.BijlageDao;
 import domain.AbstractArtikel;
 import domain.Bijlage;
+import domain.Gebruiker;
+import domain.Product;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -19,7 +21,11 @@ import util.ArtikelInputMapper;
 import javax.inject.Inject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.*;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.util.HashSet;
 
 import static javax.ws.rs.client.ClientBuilder.newClient;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +37,7 @@ public class ArtikelenResourceIT {
     private URL deploymentURL;
 
     @Inject
-    ArtikelDao dao;
+    ArtikelDao artikelDao;
 
     @Deployment
     public static Archive<?> createDeployment() {
@@ -63,10 +69,27 @@ public class ArtikelenResourceIT {
                 .target(deploymentURL + "artikelen/nieuw")
                 .request(MediaType.APPLICATION_JSON)
                 .post(Entity.json(artikelInput), ArtikelInput.class);
-        AbstractArtikel resultEntity = dao.find(1, AbstractArtikel.class);
+        AbstractArtikel resultEntity = artikelDao.find(1, AbstractArtikel.class);
 
         assertThat(resultEntity.getId()).isEqualTo(result.getId());
         assertThat(resultEntity.getNaam()).isEqualTo(artikelInput.getNaam());
+    }
 
+    @Test
+    public void whenPostNieuwBijlageIsCalledInputShouldBeMappedPersistedAndReturned() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream stream = classLoader.getResourceAsStream("files/ImageSmall.jpg");
+        artikelDao.persist(new Product(new Gebruiker(), "Testartikel", BigDecimal.valueOf(45.34), new HashSet<>()));
+
+        String result = newClient()
+                .target(deploymentURL + "artikelen/nieuw/bijlage")
+                .queryParam("bijlagenaam", "plaatje.jpg")
+                .queryParam("bijlagetype", "image/jpg").queryParam("artikelid", "1")
+                .request(MediaType.APPLICATION_JSON)
+                .post(Entity.text(stream), String.class);
+
+        assertThat(result).contains("1", "plaatje.jpg", "image/jpg");
+
+        stream.close();
     }
 }

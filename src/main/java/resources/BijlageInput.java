@@ -33,4 +33,20 @@ public class BijlageInput {
     public File getDataIn() {
         return dataIn;
     }
+
+    public void setBijlageNaam(String bijlageNaam) {
+        this.bijlageNaam = bijlageNaam;
+    }
+
+    public void setBijlageType(String bijlageType) {
+        this.bijlageType = bijlageType;
+    }
+
+    public void setArtikelId(String artikelId) {
+        this.artikelId = artikelId;
+    }
+
+    public void setDataIn(File dataIn) {
+        this.dataIn = dataIn;
+    }
 }

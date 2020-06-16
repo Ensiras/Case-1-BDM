@@ -1,6 +1,7 @@
 package resources;
 
 import domain.AbstractArtikel;
+import domain.Bijlage;
 import service.ArtikelService;
 import service.BijlageService;
 
@@ -46,8 +47,9 @@ public class ArtikelenResource {
 
         System.out.println("Bijlage POST endpoint bereikt!");
         System.out.println("Artikel id is: " + artikelId);
-        bijlageService.verwerkNieuweBijlage(data, bijlageNaam, bijlageType, artikelId);
-        return "Het is gelukt!";
+        Bijlage bijlage = bijlageService.verwerkNieuweBijlage(data, bijlageNaam, bijlageType, artikelId);
+        return "Bijlage met artikelID: " + artikelId +
+                ", naam: " + bijlageNaam + " en van het type: " + bijlageType + ", succesvol verwerkt.";
     }
 
 }

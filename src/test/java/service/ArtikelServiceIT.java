@@ -46,39 +46,10 @@ public class ArtikelServiceIT {
         webArchive.addClass(ArtikelInputMapper.class);
         webArchive.addClass(GebruikerInputMapper.class);
         webArchive.addPackage(AbstractDao.class.getPackage());
-
-        /*WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClass(App.class)
-                .addClass(ArtikelService.class)
-                .addClass(GebruikerService.class)
-                .addPackage(ArtikelInput.class.getPackage())
-                .addPackage(AbstractArtikel.class.getPackage())
-                .addClass(ArtikelInputMapper.class)
-                .addClass(GebruikerInputMapper.class)
-                .addPackage(AbstractDao.class.getPackage())
-                .addAsResource("persistence-test.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsLibraries(assertJ()) // create files of assertJ and hibernate libs and add to war
-                .addAsLibraries(hibernate());*/
         System.out.println(webArchive.toString(true));
         return webArchive;
     }
 
-    // Needed to provide hibernate & assertJ functionality to war
-    private static File[] assertJ() {
-        return Maven.resolver()
-                .loadPomFromFile("pom.xml")
-                .resolve("org.assertj:assertj-core")
-                .withTransitivity()
-                .asFile();
-    }
-
-    private static File[] hibernate() {
-        return Maven.resolver()
-                .loadPomFromFile("pom.xml")
-                .resolve("org.hibernate:hibernate-entitymanager")
-                .withTransitivity().asFile();
-    }
 
     @Test
     public void whenArtikelInputIsGivenShouldBeMappedToArtikelEntityAndPersisted() {
