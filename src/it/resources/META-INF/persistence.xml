@@ -8,8 +8,6 @@
     <persistence-unit name="h2">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>domain.Gebruiker</class>
-        <class>domain.ProductCategorie</class>
-        <class>domain.DienstCategorie</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>

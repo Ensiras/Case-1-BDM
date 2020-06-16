@@ -52,7 +52,7 @@ class ArtikelInputMapperTest {
     }
 
     @Test
-    void whenGivenArtikelInputOfSoortDienstShouldReturnDiensEntityWithMappedValues() {
+    void whenGivenArtikelInputOfSoortDienstShouldReturnDienstEntityWithMappedValues() {
         when(service.zoek(anyInt())).thenReturn(new Gebruiker());
 
         ArtikelInput artikelIn = new ArtikelInput();
