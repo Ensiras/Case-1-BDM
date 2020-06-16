@@ -52,4 +52,24 @@ public class Bijlage {
     public void setData(byte[] data) {
         this.data = data;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getBestandsNaam() {
+        return bestandsNaam;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public AbstractArtikel getArtikel() {
+        return artikel;
+    }
+
+    public byte[] getData() {
+        return data;
+    }
 }

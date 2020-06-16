@@ -66,19 +66,4 @@ public class ArtikelDaoFind {
                 .resolve("org.hibernate:hibernate-entitymanager")
                 .withTransitivity().asFile();
     }
-
-    // Now solved
-    @Test
-    public void whenGettingArtikelFromDBCausesError() {
-        ProductCategorie categorie = new ProductCategorie("Muziek", "een omschrijving");
-        catDao.persist(categorie);
-        Product product = new Product(
-                new Gebruiker(),
-                "Test",
-                BigDecimal.valueOf(33),
-                new HashSet<>(),
-                categorie);
-        dao.persist(product);
-        AbstractArtikel abstractArtikel = dao.find(1, AbstractArtikel.class);
-    }
 }

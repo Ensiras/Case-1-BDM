@@ -1,6 +1,8 @@
 package util;
 
-public interface Mapper<I, E> {
-    abstract E mapFromInputToEntity(I toMap);
+import javax.ejb.Local;
+
+public interface Mapper<T, E> {
+    abstract E mapFromInputToEntity(T toMap);
 
 }

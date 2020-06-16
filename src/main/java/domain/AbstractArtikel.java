@@ -1,6 +1,7 @@
 package domain;
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.validator.constraints.Currency;
 
 import javax.persistence.*;
@@ -8,8 +9,10 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static javax.persistence.DiscriminatorType.STRING;
+import static javax.persistence.FetchType.*;
 import static org.hibernate.annotations.CascadeType.PERSIST;
 
 @Entity
@@ -35,7 +38,7 @@ public abstract class AbstractArtikel {
     @Lob
     private String omschrijving;
 
-    @OneToMany(mappedBy = "artikel") @Cascade(PERSIST)
+    @OneToMany(mappedBy = "artikel", fetch = EAGER) @Cascade(PERSIST)
     private List<Bijlage> bijlagen = new ArrayList<>();
 
     public AbstractArtikel() {
@@ -114,5 +117,18 @@ public abstract class AbstractArtikel {
 
     public String getCategorie() {
         return categorie;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractArtikel that = (AbstractArtikel) o;
+        return id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -47,7 +47,7 @@ public class GebruikersResourceIT {
                 .addClass(GebruikersResource.class)
                 .addClass(GebruikerService.class)
                 .addClass(GebruikerInput.class)
-                .addClass(Gebruiker.class)
+                .addPackage(Gebruiker.class.getPackage())
                 .addClass(Adres.class)
                 .addPackage(AbstractDao.class.getPackage())
                 .addClass(GebruikerInputMapper.class)

@@ -2,6 +2,7 @@ package service;
 
 import dao.ArtikelDao;
 import domain.AbstractArtikel;
+import domain.Gebruiker;
 import resources.ArtikelInput;
 import util.ArtikelInputMapper;
 
@@ -24,5 +25,9 @@ public class ArtikelService {
         AbstractArtikel artikelEntity = artikelMapper.mapArtikelInputToArtikelEntity(artikelInput);
         dao.persist(artikelEntity);
         return artikelEntity;
+    }
+
+    public AbstractArtikel zoek(int id) {
+        return dao.find(id, AbstractArtikel.class);
     }
 }

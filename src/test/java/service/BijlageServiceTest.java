@@ -28,4 +28,5 @@ class BijlageServiceTest {
         Bijlage bijlage = service.verwerkNieuweBijlage(file, "testimage.png", "image/png", "1");
         verify(dao).persist(any());
     }
+
 }

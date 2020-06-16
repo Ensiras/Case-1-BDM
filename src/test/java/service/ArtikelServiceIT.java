@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import resources.ArtikelInput;
 import resources.GebruikerInput;
+import testUtil.ArquillianBase;
 import util.ArtikelInputMapper;
 import util.GebruikerInputMapper;
 
@@ -36,7 +37,17 @@ public class ArtikelServiceIT {
 
     @Deployment
     public static Archive<?> createDeployment() {
-        WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
+        WebArchive webArchive = ArquillianBase.createDeploymentBase();
+        webArchive.addClass(App.class);
+        webArchive.addClass(ArtikelService.class);
+        webArchive.addClass(GebruikerService.class);
+        webArchive.addPackage(ArtikelInput.class.getPackage());
+        webArchive.addPackage(AbstractArtikel.class.getPackage());
+        webArchive.addClass(ArtikelInputMapper.class);
+        webArchive.addClass(GebruikerInputMapper.class);
+        webArchive.addPackage(AbstractDao.class.getPackage());
+
+        /*WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
                 .addClass(App.class)
                 .addClass(ArtikelService.class)
                 .addClass(GebruikerService.class)
@@ -48,7 +59,7 @@ public class ArtikelServiceIT {
                 .addAsResource("persistence-test.xml", "META-INF/persistence.xml")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addAsLibraries(assertJ()) // create files of assertJ and hibernate libs and add to war
-                .addAsLibraries(hibernate());
+                .addAsLibraries(hibernate());*/
         System.out.println(webArchive.toString(true));
         return webArchive;
     }

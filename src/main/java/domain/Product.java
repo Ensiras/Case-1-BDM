@@ -27,7 +27,7 @@ public class Product extends AbstractArtikel {
     }
 
     public Product(Gebruiker aanbieder, String naam, BigDecimal prijs,
-                   Set<Bezorgwijze> bezorgwijzen, ProductCategorie productCategorie) {
+                   Set<Bezorgwijze> bezorgwijzen) {
         super(aanbieder, naam, prijs);
         this.bezorgwijzen = bezorgwijzen;
 
