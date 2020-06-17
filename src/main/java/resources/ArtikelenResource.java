@@ -30,10 +30,8 @@ public class ArtikelenResource {
     @POST
     @Path("nieuw")
     public ArtikelInput aanbiedenArtikel(ArtikelInput artikelInput) {
-        System.out.println("POST endpoint bereikt!");
-        System.out.println(artikelInput.getNaam());
         AbstractArtikel artikelEntity = artikelService.aanbiedenArtikel(artikelInput);
-        artikelInput.setId(artikelEntity.getId()); // TODO: dit stukje code verplaatsen naar service
+        artikelInput.setId(artikelEntity.getId());
         return artikelInput;
     }
 

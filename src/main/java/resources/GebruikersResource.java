@@ -21,11 +21,6 @@ public class GebruikersResource {
     @Inject
     GebruikerService service;
 
-    @GET
-    public String testGet() {
-        return "Het werkt";
-    }
-
     @POST
     @Path("nieuw")
     @Produces(MediaType.APPLICATION_JSON)

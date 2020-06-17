@@ -16,6 +16,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import service.GebruikerService;
+import testUtil.ArquillianBase;
 import util.GebruikerInputMapper;
 
 import javax.inject.Inject;
@@ -40,19 +41,8 @@ public class GebruikersResourceIT {
 
     @Deployment
     public static Archive<?> createDeployment() {
-        WebArchive webArchive = ShrinkWrap.create(WebArchive.class, "test.war")
-                .addClass(App.class)
-                .addClass(GebruikersResource.class)
-                .addClass(GebruikerService.class)
-                .addClass(GebruikerInput.class)
-                .addPackage(Gebruiker.class.getPackage())
-                .addPackage(AbstractDao.class.getPackage())
-                .addClass(GebruikerInputMapper.class)
-                .addClass(Bezorgwijze.class)
-                .addAsResource("persistence-test.xml", "META-INF/persistence.xml")
-                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
-                .addAsLibraries(assertJ()) // create files of assertJ and hibernate libs and add to war
-                .addAsLibraries(hibernate());
+        WebArchive webArchive = ArquillianBase.createDeploymentBase();
+        webArchive.addClass(App.class);
         System.out.println(webArchive.toString(true));
         return webArchive;
     }

@@ -2,9 +2,7 @@ package resources;
 
 import apps.App;
 import dao.ArtikelDao;
-import dao.BijlageDao;
 import domain.AbstractArtikel;
-import domain.Bijlage;
 import domain.Gebruiker;
 import domain.Product;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -14,15 +12,13 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import service.BijlageService;
 import testUtil.ArquillianBase;
-import util.ArtikelInputMapper;
 
 import javax.inject.Inject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.util.HashSet;
