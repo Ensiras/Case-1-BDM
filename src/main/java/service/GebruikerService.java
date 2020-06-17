@@ -3,7 +3,6 @@ package service;
 import dao.GebruikerDao;
 import domain.Gebruiker;
 import resources.GebruikerInput;
-import util.GebruikerInputMapper;
 import util.InputMapper;
 
 import javax.ejb.Stateless;
